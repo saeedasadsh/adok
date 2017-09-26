@@ -1,6 +1,6 @@
 var server = require('http').createServer();;
 var io = require('socket.io')(server);
-server.listen(3001);
+
 
 console.log('server started');
 
@@ -19,4 +19,4 @@ io.on('connection', function (socket) {
         console.log('client disconnect,',data);
     });
 });
-
+server.listen(3001);
