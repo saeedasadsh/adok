@@ -44,7 +44,7 @@ console.log("server started");
 
 
                 var dt = JSON.parse(buffer);
-                console.log(dt);
+                //console.log(dt);
                 for (var i = 0; i < dt.length; i++) {
                     var id = dt[i].id;
                     if (id != -1) {
@@ -130,11 +130,6 @@ console.log("server started");
 var decoder = new StringDecoder('utf8');
 server.on('connection', function (socket) {
     console.log("Connected");
-    /*
-	sockets.push(socket);
-    socket.write(JSON.stringify({
-                        "notifText":"saeed"
-                    })+"\n"); */
 
     socket.on('data', function (data) {
         var dt = JSON.parse(data);
@@ -188,7 +183,7 @@ server.on('connection', function (socket) {
     });
 
     socket.on('disconnect', function (data) {
-        console.log("disconnected");
+        console.log("disconnected " + data);
         for (var i = 0; i < rooms.length; i++) {
             rooms[i].players.forEach(function (item, index, object) {
                 if (item.socket.address() == socket.address()) {
