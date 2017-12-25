@@ -169,6 +169,8 @@ server.on('connection', function (socket) {
                 }
             }
         }
+
+        socket.destroy();
     });
 
     socket.on('close', function (data) {
