@@ -137,7 +137,6 @@ server.on('connection', function (socket) {
                     })+"\n"); */
 
     socket.on('data', function (data) {
-        console.log(decoder.write(data));
         var dt = JSON.parse(data);
         if (dt.playerId > 0) {
             var playerId = dt.playerId;
@@ -145,12 +144,9 @@ server.on('connection', function (socket) {
             var phoneNo = dt.phoneNo;
 
             var userData = { playerId: playerId, phoneNo: phoneNo, socket: socket };
-            console.log(userData);
             for (var i = 0; i < rooms.length; i++) {
                 if (rooms.pkgNameAndroid != "") {
-                    console.log(rooms[i].pkgNameAndroid + " # " + pkgName);
                     if (rooms[i].pkgNameAndroid == pkgName) {
-                        console.log(rooms[i].players);
                         rooms[i].players.push(userData);
                     }
                 }
@@ -162,6 +158,7 @@ server.on('connection', function (socket) {
 
             }
         }
+
         /*
         var dataQSu = {
             var1: "something",
