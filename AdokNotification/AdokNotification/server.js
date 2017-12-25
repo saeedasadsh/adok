@@ -145,7 +145,7 @@ server.on('connection', function (socket) {
             var pkgName = dt.pkgName;
             var phoneNo = dt.phoneNo;
 
-            var userData = { playerId: playerId, phoneNo: phoneNo, socket: mysock };
+            var userData = { playerId: playerId, phoneNo: phoneNo, socket: socket };
             for (var i = 0; i < rooms.length; i++) {
                 if (rooms.pkgNameAndroid != "") {
                     if (rooms[i].pkgNameAndroid == pkgName) {
