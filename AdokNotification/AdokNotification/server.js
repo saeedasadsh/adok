@@ -113,11 +113,11 @@ console.log("server started");
                         , pkgNameAndroid: rooms[i].pkgNameAndroid, pkgNameIos: rooms[i].pkgNameIos, AdditionalData: rooms[i].AdditionalData, btns: rooms[i].btns
                     };
 
-                    console.log("Message for Send: " + noti);
-                    console.log("player In Room: " + rooms[i].players.length);
+                   // console.log("Message for Send: " + noti);
+                    //console.log("player In Room: " + rooms[i].players.length);
 
                     for (var j = 0; j < rooms[i].players.length; j++) {
-                        console.log(rooms[i].players[j].socket);
+                        //console.log(rooms[i].players[j].socket);
                         rooms[i].players[j].socket.write(JSON.stringify(noti));
                     }
                 }
@@ -137,6 +137,10 @@ server.on('connection', function (socket) {
     console.log("Connected");
     mysock = socket;
     socket.on('data', function (data) {
+
+
+        socket.write(data);
+
         var dt = JSON.parse(data);
         if (dt.playerId > 0) {
             var playerId = dt.playerId;
