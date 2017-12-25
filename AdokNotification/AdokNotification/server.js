@@ -154,7 +154,7 @@ server.on('connection', function (socket) {
                     //    , pkgNameAndroid: rooms[i].pkgNameAndroid, pkgNameIos: rooms[i].pkgNameIos, AdditionalData: rooms[i].AdditionalData, btns: rooms[i].btns
                     //};
                     //socket.write(JSON.stringify(noti));
-                    rooms[i].players.push(socket);
+                    rooms[i].players.push(socket+"\n");
                 }
             }
             else {
@@ -167,7 +167,7 @@ server.on('connection', function (socket) {
                     //};
 
                     //socket.write(JSON.stringify(noti));
-                    rooms[i].players.push(socket);
+                    rooms[i].players.push(socket + "\n");
                 }
             }
         }
