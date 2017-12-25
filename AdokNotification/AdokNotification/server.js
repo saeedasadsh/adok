@@ -97,16 +97,15 @@ console.log("server started");
 
                 var dat = h * 60 + m;
 
-                //rooms.forEach(function (item, index, object) {
-                //    console.log(item.timeStartSend + item.timeToLive + " # " + dat);
-                //    if (item.timeStartSend + item.timeToLive > dat) {
-                //        object.splice(index, 1);
-                //    }
+                rooms.forEach(function (item, index, object) {
+                    if (item.timeStartSend + item.timeToLive < dat) {
+                        object.splice(index, 1);
+                    }
 
-                //});
+                });
 
-                console.log("sending notification");
-                console.log(rooms.length);
+                console.log("sending notification to " + rooms.length + " apps");
+
                 for (var i = 0; i < rooms.length; i++) {
                     var noti = {
                         id: rooms[i].id, appId: rooms[i].appId, title: rooms[i].title, message: rooms[i].message, url: rooms[i].url, timeToLive: rooms[i].timeToLive
