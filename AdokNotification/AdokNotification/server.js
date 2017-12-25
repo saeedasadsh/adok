@@ -135,13 +135,16 @@ server.on('connection', function (socket) {
     console.log('CONNECTED: ' + socket.remoteAddress + ':' + socket.remotePort);
     socket.on('data', function (data) {
 
-       // socket.write(data);
+        socket.write(data);
         var dt = JSON.parse(data);
         var playerId = dt.playerId;
         var pkgName = dt.pkgName;
         var phoneNo = dt.phoneNo;
 
         for (var i = 0; i < rooms.length; i++) {
+
+            console.log(rooms[i].pkgNameAndroid + " "+ pkgName);
+
             if (rooms.pkgNameAndroid != "") {
                 if (rooms[i].pkgNameAndroid == pkgName) {
                     var noti = {
