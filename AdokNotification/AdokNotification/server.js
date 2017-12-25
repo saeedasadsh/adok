@@ -135,12 +135,10 @@ console.log("server started");
 var decoder = new StringDecoder('utf8');
 server.on('connection', function (socket) {
     console.log("Connected");
-    mysock = socket;
+    console.log('CONNECTED: ' + socket.remoteAddress + ':' + socket.remotePort);
     socket.on('data', function (data) {
 
-
         socket.write(data);
-
         var dt = JSON.parse(data);
         if (dt.playerId > 0) {
             var playerId = dt.playerId;
@@ -190,6 +188,10 @@ server.on('connection', function (socket) {
             res.on('end', function () {
                 });
                 */
+    });
+
+    socket.on('close', function (data) {
+        console.log('CLOSED: ' + socket.remoteAddress + ' ' + socket.remotePort);
     });
 
     socket.on('disconnect', function (data) {
