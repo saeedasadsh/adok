@@ -114,7 +114,7 @@ console.log("server started");
                     };
 
                     for (var j = 0; j < rooms[i].players.length; j++) {
-                        rooms[i].players[j].write(JSON.stringify(noti));
+                        rooms[i].players[j].write(JSON.stringify(noti + "\n"));
                     }
                 }
                 
@@ -154,7 +154,7 @@ server.on('connection', function (socket) {
                     //    , pkgNameAndroid: rooms[i].pkgNameAndroid, pkgNameIos: rooms[i].pkgNameIos, AdditionalData: rooms[i].AdditionalData, btns: rooms[i].btns
                     //};
                     //socket.write(JSON.stringify(noti));
-                    rooms[i].players.push(socket+"\n");
+                    rooms[i].players.push(socket);
                 }
             }
             else {
@@ -167,7 +167,7 @@ server.on('connection', function (socket) {
                     //};
 
                     //socket.write(JSON.stringify(noti));
-                    rooms[i].players.push(socket + "\n");
+                    rooms[i].players.push(socket);
                 }
             }
         }
