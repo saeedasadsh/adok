@@ -44,7 +44,7 @@ console.log("server started");
 
 
                 var dt = JSON.parse(buffer);
-                console.log(dt);
+                //console.log(dt);
                 for (var i = 0; i < dt.length; i++) {
                     var id = dt[i].id;
                     if (id != -1) {
@@ -77,18 +77,16 @@ console.log("server started");
 
                         var canAdd = 0;
                         if (id>0) {
-                            console.log(id);
                             for (var i = 0; i < rooms.length; i++) {
+                                console.log(rooms[i].id + " "+id);
                                 if (rooms[i].id == id) {
                                     canAdd = 1;
                                 }
                             }
                             console.log(canAdd);
-                            if (canAdd == 0) {
-                                
+                            if (canAdd == 0) {                            
                                 rooms.push(userData);
-                                console.log("rooms added");
-                                console.log(rooms.length);
+                                console.log("rooms added " + rooms.length);
                             }
                         }
                     }
@@ -100,13 +98,13 @@ console.log("server started");
 
                 var dat = h * 60 + m;
 
-                rooms.forEach(function (item, index, object) {
-                    console.log(item.timeStartSend + item.timeToLive + " # " + dat);
-                    if (item.timeStartSend + item.timeToLive > dat) {
-                        object.splice(index, 1);
-                    }
+                //rooms.forEach(function (item, index, object) {
+                //    console.log(item.timeStartSend + item.timeToLive + " # " + dat);
+                //    if (item.timeStartSend + item.timeToLive > dat) {
+                //        object.splice(index, 1);
+                //    }
 
-                });
+                //});
 
                 console.log("sending notification");
                 console.log(rooms.length);
