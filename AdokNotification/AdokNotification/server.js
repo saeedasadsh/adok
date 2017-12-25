@@ -113,11 +113,7 @@ console.log("server started");
                         , pkgNameAndroid: rooms[i].pkgNameAndroid, pkgNameIos: rooms[i].pkgNameIos, AdditionalData: rooms[i].AdditionalData, btns: rooms[i].btns
                     };
 
-                   // console.log("Message for Send: " + noti);
-                    //console.log("player In Room: " + rooms[i].players.length);
-
                     for (var j = 0; j < rooms[i].players.length; j++) {
-                        //console.log(rooms[i].players[j].socket);
                         rooms[i].players[j].socket.write(JSON.stringify(noti));
                     }
                 }
@@ -138,56 +134,37 @@ server.on('connection', function (socket) {
     console.log('CONNECTED: ' + socket.remoteAddress + ':' + socket.remotePort);
     socket.on('data', function (data) {
 
-        socket.write(data);
+       // socket.write(data);
         var dt = JSON.parse(data);
-        if (dt.playerId > 0) {
-            var playerId = dt.playerId;
-            var pkgName = dt.pkgName;
-            var phoneNo = dt.phoneNo;
+        var playerId = dt.playerId;
+        var pkgName = dt.pkgName;
+        var phoneNo = dt.phoneNo;
 
-            var userData = { playerId: playerId, phoneNo: phoneNo, socket: socket };
-            for (var i = 0; i < rooms.length; i++) {
-                if (rooms.pkgNameAndroid != "") {
-                    if (rooms[i].pkgNameAndroid == pkgName) {
-                        console.log("player added to room " + i);
-                        rooms[i].players.push(userData);
-                    }
+        for (var i = 0; i < rooms.length; i++) {
+            if (rooms.pkgNameAndroid != "") {
+                if (rooms[i].pkgNameAndroid == pkgName) {
+                    var noti = {
+                        id: rooms[i].id, appId: rooms[i].appId, title: rooms[i].title, message: rooms[i].message, url: rooms[i].url, timeToLive: rooms[i].timeToLive
+                        , dateStartSend: rooms[i].dateStartSend, timeStartSend: rooms[i].timeStartSend, sound: rooms[i].sound, smalIcon: rooms[i].smalIcon, largeIcon: rooms[i].largeIcon
+                        , bigPicture: rooms[i].bigPicture, ledColor: rooms[i].ledColor, accentColor: rooms[i].accentColor, gId: rooms[i].gId, priority: rooms[i].priority
+                        , pkgNameAndroid: rooms[i].pkgNameAndroid, pkgNameIos: rooms[i].pkgNameIos, AdditionalData: rooms[i].AdditionalData, btns: rooms[i].btns
+                    };
+                    socket.write(noti);
                 }
-                else {
-                    if (rooms[i].pkgNameIos == pkgName) {
-                        rooms[i].players.push(userData);
-                    }
-                }
-
             }
+            else {
+                if (rooms[i].pkgNameIos == pkgName) {
+                    var noti = {
+                        id: rooms[i].id, appId: rooms[i].appId, title: rooms[i].title, message: rooms[i].message, url: rooms[i].url, timeToLive: rooms[i].timeToLive
+                        , dateStartSend: rooms[i].dateStartSend, timeStartSend: rooms[i].timeStartSend, sound: rooms[i].sound, smalIcon: rooms[i].smalIcon, largeIcon: rooms[i].largeIcon
+                        , bigPicture: rooms[i].bigPicture, ledColor: rooms[i].ledColor, accentColor: rooms[i].accentColor, gId: rooms[i].gId, priority: rooms[i].priority
+                        , pkgNameAndroid: rooms[i].pkgNameAndroid, pkgNameIos: rooms[i].pkgNameIos, AdditionalData: rooms[i].AdditionalData, btns: rooms[i].btns
+                    };
+                    socket.write(noti);
+                }
+            }
+
         }
-
-        /*
-        var dataQSu = {
-            var1: "something",
-            var2: "something else"
-        };
-        var querystringu = require("querystring");
-        var qsu = querystringu.stringify(dataQSu);
-        var qslengthu = qsu.length;
-        var optionsu = {
-            hostname: "ashabrasaneh.ir",
-            port: 80,
-            path: "/GamesData/ADok/userHasApp.php",
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'Content-Length': qslengthu
-            }
-        };
-        var bufferu = "";
-        var requ = http.request(optionsu, function (res) {
-            res.on('data', function (chunk) {
-                buffer += chunk;
-            });
-            res.on('end', function () {
-                });
-                */
     });
 
     socket.on('close', function (data) {
