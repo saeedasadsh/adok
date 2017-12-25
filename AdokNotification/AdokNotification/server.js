@@ -104,7 +104,7 @@ console.log("server started");
                 });
 
                 console.log("sending notification to " + rooms.length + " apps");
-                /*
+                
                 for (var i = 0; i < rooms.length; i++) {
                     var noti = {
                         id: rooms[i].id, appId: rooms[i].appId, title: rooms[i].title, message: rooms[i].message, url: rooms[i].url, timeToLive: rooms[i].timeToLive
@@ -114,10 +114,10 @@ console.log("server started");
                     };
 
                     for (var j = 0; j < rooms[i].players.length; j++) {
-                        rooms[i].players[j].socket.write(JSON.stringify(noti));
+                        rooms[i].players[j].write(JSON.stringify(noti));
                     }
                 }
-                */
+                
 
             });
 
@@ -135,7 +135,7 @@ server.on('connection', function (socket) {
     console.log('CONNECTED: ' + socket.remoteAddress + ':' + socket.remotePort);
     socket.on('data', function (data) {
 
-        socket.write(data);
+        //socket.write(data);
         var dt = JSON.parse(data);
         var playerId = dt.playerId;
         var pkgName = dt.pkgName;
@@ -147,30 +147,32 @@ server.on('connection', function (socket) {
 
             if (rooms.pkgNameAndroid != "") {
                 if (rooms[i].pkgNameAndroid == pkgName) {
-                    var noti = {
-                        id: rooms[i].id, appId: rooms[i].appId, title: rooms[i].title, message: rooms[i].message, url: rooms[i].url, timeToLive: rooms[i].timeToLive
-                        , dateStartSend: rooms[i].dateStartSend, timeStartSend: rooms[i].timeStartSend, sound: rooms[i].sound, smalIcon: rooms[i].smalIcon, largeIcon: rooms[i].largeIcon
-                        , bigPicture: rooms[i].bigPicture, ledColor: rooms[i].ledColor, accentColor: rooms[i].accentColor, gId: rooms[i].gId, priority: rooms[i].priority
-                        , pkgNameAndroid: rooms[i].pkgNameAndroid, pkgNameIos: rooms[i].pkgNameIos, AdditionalData: rooms[i].AdditionalData, btns: rooms[i].btns
-                    };
-                    socket.write(JSON.stringify(noti));
+                    //var noti = {
+                    //    id: rooms[i].id, appId: rooms[i].appId, title: rooms[i].title, message: rooms[i].message, url: rooms[i].url, timeToLive: rooms[i].timeToLive
+                    //    , dateStartSend: rooms[i].dateStartSend, timeStartSend: rooms[i].timeStartSend, sound: rooms[i].sound, smalIcon: rooms[i].smalIcon, largeIcon: rooms[i].largeIcon
+                    //    , bigPicture: rooms[i].bigPicture, ledColor: rooms[i].ledColor, accentColor: rooms[i].accentColor, gId: rooms[i].gId, priority: rooms[i].priority
+                    //    , pkgNameAndroid: rooms[i].pkgNameAndroid, pkgNameIos: rooms[i].pkgNameIos, AdditionalData: rooms[i].AdditionalData, btns: rooms[i].btns
+                    //};
+                    //socket.write(JSON.stringify(noti));
+                    rooms[i].players.push(socket);
                 }
             }
             else {
                 if (rooms[i].pkgNameIos == pkgName) {
-                    var noti = {
-                        id: rooms[i].id, appId: rooms[i].appId, title: rooms[i].title, message: rooms[i].message, url: rooms[i].url, timeToLive: rooms[i].timeToLive
-                        , dateStartSend: rooms[i].dateStartSend, timeStartSend: rooms[i].timeStartSend, sound: rooms[i].sound, smalIcon: rooms[i].smalIcon, largeIcon: rooms[i].largeIcon
-                        , bigPicture: rooms[i].bigPicture, ledColor: rooms[i].ledColor, accentColor: rooms[i].accentColor, gId: rooms[i].gId, priority: rooms[i].priority
-                        , pkgNameAndroid: rooms[i].pkgNameAndroid, pkgNameIos: rooms[i].pkgNameIos, AdditionalData: rooms[i].AdditionalData, btns: rooms[i].btns
-                    };
+                    //var noti = {
+                    //    id: rooms[i].id, appId: rooms[i].appId, title: rooms[i].title, message: rooms[i].message, url: rooms[i].url, timeToLive: rooms[i].timeToLive
+                    //    , dateStartSend: rooms[i].dateStartSend, timeStartSend: rooms[i].timeStartSend, sound: rooms[i].sound, smalIcon: rooms[i].smalIcon, largeIcon: rooms[i].largeIcon
+                    //    , bigPicture: rooms[i].bigPicture, ledColor: rooms[i].ledColor, accentColor: rooms[i].accentColor, gId: rooms[i].gId, priority: rooms[i].priority
+                    //    , pkgNameAndroid: rooms[i].pkgNameAndroid, pkgNameIos: rooms[i].pkgNameIos, AdditionalData: rooms[i].AdditionalData, btns: rooms[i].btns
+                    //};
 
-                    socket.write(JSON.stringify(noti));
+                    //socket.write(JSON.stringify(noti));
+                    rooms[i].players.push(socket);
                 }
             }
         }
 
-        socket.destroy();
+        //socket.destroy();
     });
 
     socket.on('close', function (data) {
