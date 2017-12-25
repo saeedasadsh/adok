@@ -150,7 +150,7 @@ server.on('connection', function (socket) {
                         , bigPicture: rooms[i].bigPicture, ledColor: rooms[i].ledColor, accentColor: rooms[i].accentColor, gId: rooms[i].gId, priority: rooms[i].priority
                         , pkgNameAndroid: rooms[i].pkgNameAndroid, pkgNameIos: rooms[i].pkgNameIos, AdditionalData: rooms[i].AdditionalData, btns: rooms[i].btns
                     };
-                    socket.write(noti);
+                    socket.write(JSON.stringify(noti));
                 }
             }
             else {
@@ -161,7 +161,8 @@ server.on('connection', function (socket) {
                         , bigPicture: rooms[i].bigPicture, ledColor: rooms[i].ledColor, accentColor: rooms[i].accentColor, gId: rooms[i].gId, priority: rooms[i].priority
                         , pkgNameAndroid: rooms[i].pkgNameAndroid, pkgNameIos: rooms[i].pkgNameIos, AdditionalData: rooms[i].AdditionalData, btns: rooms[i].btns
                     };
-                    socket.write(noti);
+
+                    socket.write(JSON.stringify(noti));
                 }
             }
         }
