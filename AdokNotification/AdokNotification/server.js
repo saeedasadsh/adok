@@ -142,6 +142,7 @@ server.on('connection', function (socket) {
             for (var i = 0; i < rooms.length; i++) {
                 if (rooms.pkgNameAndroid != "") {
                     if (rooms[i].pkgNameAndroid == pkgName) {
+                        console.log("player added to room " + i);
                         rooms[i].players.push(userData);
                     }
                 }
