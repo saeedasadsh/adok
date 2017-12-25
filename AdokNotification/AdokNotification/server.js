@@ -112,7 +112,12 @@ console.log("server started");
                         , bigPicture: rooms[i].bigPicture, ledColor: rooms[i].ledColor, accentColor: rooms[i].accentColor, gId: rooms[i].gId, priority: rooms[i].priority
                         , pkgNameAndroid: rooms[i].pkgNameAndroid, pkgNameIos: rooms[i].pkgNameIos, AdditionalData: rooms[i].AdditionalData, btns: rooms[i].btns
                     };
+
+                    console.log("Message for Send: " + noti);
+                    console.log("player In Room: " + rooms[i].players.length);
+
                     for (var j = 0; j < rooms[i].players.length; j++) {
+                        console.log(rooms[i].players[j].socket);
                         rooms[i].players[j].socket.write(JSON.stringify(noti));
                     }
                 }
@@ -130,7 +135,7 @@ console.log("server started");
 var decoder = new StringDecoder('utf8');
 server.on('connection', function (socket) {
     console.log("Connected");
-
+    mysock = socket;
     socket.on('data', function (data) {
         var dt = JSON.parse(data);
         if (dt.playerId > 0) {
@@ -138,7 +143,7 @@ server.on('connection', function (socket) {
             var pkgName = dt.pkgName;
             var phoneNo = dt.phoneNo;
 
-            var userData = { playerId: playerId, phoneNo: phoneNo, socket: socket };
+            var userData = { playerId: playerId, phoneNo: phoneNo, socket: mysock };
             for (var i = 0; i < rooms.length; i++) {
                 if (rooms.pkgNameAndroid != "") {
                     if (rooms[i].pkgNameAndroid == pkgName) {
