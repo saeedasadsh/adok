@@ -76,13 +76,13 @@ console.log("server started");
                         };
 
                         var canAdd = 0;
-                        if (id>0) {
+                        if (id > 0) {
                             for (var i = 0; i < rooms.length; i++) {
                                 if (rooms[i].id == id) {
                                     canAdd = 1;
                                 }
                             }
-                            if (canAdd == 0) {                            
+                            if (canAdd == 0) {
                                 rooms.push(userData);
                                 console.log("rooms added- rooms count:" + rooms.length);
                             }
@@ -139,57 +139,55 @@ server.on('connection', function (socket) {
     socket.on('data', function (data) {
         console.log(decoder.write(data));
         var dt = JSON.parse(data);
-        for (var i = 0; i < dt.length; i++) {
-            if (dt[i].playerId>0) {
-                var playerId = dt[i].playerId;
-                var pkgName = dt[i].pkgName;
-                var phoneNo = dt[i].phoneNo;
+        if (dt.playerId > 0) {
+            var playerId = dt.playerId;
+            var pkgName = dt.pkgName;
+            var phoneNo = dt.phoneNo;
 
-                var userData = { playerId: playerId, phoneNo: phoneNo, socket: socket };
-                console.log(userData);
-                for (var i = 0; i < rooms.length; i++) {
-                    if (rooms[i].pkgNameAndroid != "") {
-                        console.log(rooms[i].pkgNameAndroid + " # " + pkgName);
-                        if (rooms[i].pkgNameAndroid == pkgName) {
-                            console.log(rooms[i].players);
-                            rooms[i].players.push(userData);
-                        }
+            var userData = { playerId: playerId, phoneNo: phoneNo, socket: socket };
+            console.log(userData);
+            for (var i = 0; i < rooms.length; i++) {
+                if (rooms.pkgNameAndroid != "") {
+                    console.log(rooms[i].pkgNameAndroid + " # " + pkgName);
+                    if (rooms[i].pkgNameAndroid == pkgName) {
+                        console.log(rooms[i].players);
+                        rooms[i].players.push(userData);
                     }
-                    else {
-                        if (rooms[i].pkgNameIos == pkgName) {
-                            rooms[i].players.push(userData);
-                        }
-                    }
-
                 }
+                else {
+                    if (rooms[i].pkgNameIos == pkgName) {
+                        rooms[i].players.push(userData);
+                    }
+                }
+
             }
-            /*
-            var dataQSu = {
-                var1: "something",
-                var2: "something else"
-            };
-            var querystringu = require("querystring");
-            var qsu = querystringu.stringify(dataQSu);
-            var qslengthu = qsu.length;
-            var optionsu = {
-                hostname: "ashabrasaneh.ir",
-                port: 80,
-                path: "/GamesData/ADok/userHasApp.php",
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'Content-Length': qslengthu
-                }
-            };
-            var bufferu = "";
-            var requ = http.request(optionsu, function (res) {
-                res.on('data', function (chunk) {
-                    buffer += chunk;
-                });
-                res.on('end', function () {
-                    });
-                    */
         }
+        /*
+        var dataQSu = {
+            var1: "something",
+            var2: "something else"
+        };
+        var querystringu = require("querystring");
+        var qsu = querystringu.stringify(dataQSu);
+        var qslengthu = qsu.length;
+        var optionsu = {
+            hostname: "ashabrasaneh.ir",
+            port: 80,
+            path: "/GamesData/ADok/userHasApp.php",
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Content-Length': qslengthu
+            }
+        };
+        var bufferu = "";
+        var requ = http.request(optionsu, function (res) {
+            res.on('data', function (chunk) {
+                buffer += chunk;
+            });
+            res.on('end', function () {
+                });
+                */
     });
 
     socket.on('disconnect', function (data) {
