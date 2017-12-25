@@ -76,7 +76,7 @@ console.log("server started");
                         };
 
                         var canAdd = 0;
-                        if (id) {
+                        if (id>0) {
                             console.log(id);
                             for (var i = 0; i < rooms.length; i++) {
                                 if (rooms[i].id == id) {
