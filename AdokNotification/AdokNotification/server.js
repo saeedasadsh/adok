@@ -82,7 +82,6 @@ console.log("server started");
                                     canAdd = 1;
                                 }
                             }
-                            console.log(canAdd);
                             if (canAdd == 0) {                            
                                 rooms.push(userData);
                                 console.log("rooms added- rooms count:" + rooms.length);
@@ -141,7 +140,7 @@ server.on('connection', function (socket) {
         console.log(decoder.write(data));
         var dt = JSON.parse(data);
         for (var i = 0; i < dt.length; i++) {
-            if (dt[i].playerId) {
+            if (dt[i].playerId>0) {
                 var playerId = dt[i].playerId;
                 var pkgName = dt[i].pkgName;
                 var phoneNo = dt[i].phoneNo;
