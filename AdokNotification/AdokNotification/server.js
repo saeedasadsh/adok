@@ -1,5 +1,4 @@
-
-var net = require("net");
+﻿var net = require("net");
 var http = require('http');
 var server = net.createServer();
 var StringDecoder = require('string_decoder').StringDecoder;
@@ -71,9 +70,9 @@ console.log("server started");
                         var players = [];
                         var userData = {
                             id: id, appId: appId, title: title, message: message, url: url, timeToLive: timeToLive
-                                           , dateStartSend: dateStartSend, timeStartSend: timeStartSend, sound: sound, smalIcon: smalIcon, largeIcon: largeIcon
-                                           , bigPicture: bigPicture, ledColor: ledColor, accentColor: accentColor, gId: gId, priority: priority
-                                           , pkgNameAndroid: pkgNameAndroid, pkgNameIos: pkgNameIos, AdditionalData: AdditionalData, btns: btns, players: players
+                            , dateStartSend: dateStartSend, timeStartSend: timeStartSend, sound: sound, smalIcon: smalIcon, largeIcon: largeIcon
+                            , bigPicture: bigPicture, ledColor: ledColor, accentColor: accentColor, gId: gId, priority: priority
+                            , pkgNameAndroid: pkgNameAndroid, pkgNameIos: pkgNameIos, AdditionalData: AdditionalData, btns: btns, players: players
                         };
 
                         var canAdd = 0;
@@ -111,9 +110,9 @@ console.log("server started");
                 for (var i = 0; i < rooms.length; i++) {
                     var noti = {
                         id: rooms[i].id, appId: rooms[i].appId, title: rooms[i].title, message: rooms[i].message, url: rooms[i].url, timeToLive: rooms[i].timeToLive
-                               , dateStartSend: rooms[i].dateStartSend, timeStartSend: rooms[i].timeStartSend, sound: rooms[i].sound, smalIcon: rooms[i].smalIcon, largeIcon: rooms[i].largeIcon
-                               , bigPicture: rooms[i].bigPicture, ledColor: rooms[i].ledColor, accentColor: rooms[i].accentColor, gId: rooms[i].gId, priority: rooms[i].priority
-                               , pkgNameAndroid: rooms[i].pkgNameAndroid, pkgNameIos: rooms[i].pkgNameIos, AdditionalData: rooms[i].AdditionalData, btns: rooms[i].btns
+                        , dateStartSend: rooms[i].dateStartSend, timeStartSend: rooms[i].timeStartSend, sound: rooms[i].sound, smalIcon: rooms[i].smalIcon, largeIcon: rooms[i].largeIcon
+                        , bigPicture: rooms[i].bigPicture, ledColor: rooms[i].ledColor, accentColor: rooms[i].accentColor, gId: rooms[i].gId, priority: rooms[i].priority
+                        , pkgNameAndroid: rooms[i].pkgNameAndroid, pkgNameIos: rooms[i].pkgNameIos, AdditionalData: rooms[i].AdditionalData, btns: rooms[i].btns
                     };
                     for (var j = 0; j < rooms[i].players.length; j++) {
                         rooms[i].players[j].socket.write(JSON.stringify(noti));
@@ -171,11 +170,9 @@ server.on('connection', function (socket) {
                 var1: "something",
                 var2: "something else"
             };
-
             var querystringu = require("querystring");
             var qsu = querystringu.stringify(dataQSu);
             var qslengthu = qsu.length;
-
             var optionsu = {
                 hostname: "ashabrasaneh.ir",
                 port: 80,
@@ -186,7 +183,6 @@ server.on('connection', function (socket) {
                     'Content-Length': qslengthu
                 }
             };
-
             var bufferu = "";
             var requ = http.request(optionsu, function (res) {
                 res.on('data', function (chunk) {
