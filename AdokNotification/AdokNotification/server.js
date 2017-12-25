@@ -44,7 +44,7 @@ console.log("server started");
 
 
                 var dt = JSON.parse(buffer);
-                //console.log(dt);
+                console.log(dt);
                 for (var i = 0; i < dt.length; i++) {
                     var id = dt[i].id;
                     if (id != -1) {
@@ -78,7 +78,6 @@ console.log("server started");
                         var canAdd = 0;
                         if (id>0) {
                             for (var i = 0; i < rooms.length; i++) {
-                                console.log(rooms[i].id + " "+id);
                                 if (rooms[i].id == id) {
                                     canAdd = 1;
                                 }
@@ -86,7 +85,7 @@ console.log("server started");
                             console.log(canAdd);
                             if (canAdd == 0) {                            
                                 rooms.push(userData);
-                                console.log("rooms added " + rooms.length);
+                                console.log("rooms added- rooms count:" + rooms.length);
                             }
                         }
                     }
