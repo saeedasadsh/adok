@@ -1,4 +1,4 @@
-﻿//var net = require("net");
+﻿var net = require("net");
 var http = require('http');
 var server = net.createServer();
 var StringDecoder = require('string_decoder').StringDecoder;
