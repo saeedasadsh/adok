@@ -85,6 +85,8 @@ console.log("server started");
                             }
                             console.log(canAdd);
                             if (canAdd == 0) {
+                                console.log("rooms added");
+                                console.log(rooms.length);
                                 rooms.push(userData);
                             }
                         }
