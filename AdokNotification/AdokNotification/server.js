@@ -104,7 +104,7 @@ console.log("server started");
                 });
 
                 console.log("sending notification to " + rooms.length + " apps");
-
+                /*
                 for (var i = 0; i < rooms.length; i++) {
                     var noti = {
                         id: rooms[i].id, appId: rooms[i].appId, title: rooms[i].title, message: rooms[i].message, url: rooms[i].url, timeToLive: rooms[i].timeToLive
@@ -117,6 +117,7 @@ console.log("server started");
                         rooms[i].players[j].socket.write(JSON.stringify(noti));
                     }
                 }
+                */
 
             });
 
@@ -163,7 +164,6 @@ server.on('connection', function (socket) {
                     socket.write(noti);
                 }
             }
-
         }
     });
 
