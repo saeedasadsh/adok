@@ -237,6 +237,20 @@ try {
 
         socket.on('error', function (data) {
             console.log('error: ' + data);
+            try {
+                for (var i = 0; i < rooms.length; i++) {
+                    rooms[i].players.forEach(function (item, index, object) {
+                        if (item == undefined) {
+                            item.destroy();
+                            object.splice(index, 1);
+                        }
+                    });
+                }
+            }
+            catch (e) {
+                //delete sockets[i];
+                console.log("error 4 " + e);
+            }
         });
 
     });
