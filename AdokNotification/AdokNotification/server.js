@@ -174,6 +174,7 @@ server.on('connection', function (socket) {
                 else {
                     if (rooms[i].pkgNameIos == pkgName) {
                         rooms[i].players.push(socket);
+                        rooms[i].playersId.push(playerId);
                     }
                 }
             }
