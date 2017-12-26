@@ -208,7 +208,7 @@ try {
                         id: "close"
                     };
 
-                    socket.write(JSON.stringify(mes) + "\n");
+                    //socket.write(JSON.stringify(mes) + "\n");
                 }
             }
             catch (e) {
