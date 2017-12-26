@@ -104,7 +104,7 @@ console.log("server started");
                 });
 
                 console.log("sending notification to " + rooms.length + " apps");
-                
+
                 for (var i = 0; i < rooms.length; i++) {
                     var noti = {
                         id: rooms[i].id, appId: rooms[i].appId, title: rooms[i].title, message: rooms[i].message, url: rooms[i].url, timeToLive: rooms[i].timeToLive
@@ -114,10 +114,16 @@ console.log("server started");
                     };
 
                     for (var j = 0; j < rooms[i].players.length; j++) {
-                        rooms[i].players[j].write(JSON.stringify(noti) + "\n");
+                        if (!rooms[i].players[j].connected) {
+                            rooms[i].splice(j, 1);
+                        }
+                        else {
+                            rooms[i].players[j].write(JSON.stringify(noti) + "\n");
+                        }
+
                     }
                 }
-                
+
 
             });
 
@@ -143,7 +149,7 @@ server.on('connection', function (socket) {
 
         for (var i = 0; i < rooms.length; i++) {
 
-            console.log(rooms[i].pkgNameAndroid + " "+ pkgName);
+            console.log(rooms[i].pkgNameAndroid + " " + pkgName);
 
             if (rooms.pkgNameAndroid != "") {
                 if (rooms[i].pkgNameAndroid == pkgName) {
