@@ -74,7 +74,7 @@ console.log("server started");
                                 id: id, appId: appId, title: title, message: message, url: url, timeToLive: timeToLive
                                 , dateStartSend: dateStartSend, timeStartSend: timeStartSend, sound: sound, smalIcon: smalIcon, largeIcon: largeIcon
                                 , bigPicture: bigPicture, ledColor: ledColor, accentColor: accentColor, gId: gId, priority: priority
-                                , pkgNameAndroid: pkgNameAndroid, pkgNameIos: pkgNameIos, AdditionalData: AdditionalData, btns: btns, players: players
+                                , pkgNameAndroid: pkgNameAndroid, pkgNameIos: pkgNameIos, AdditionalData: AdditionalData, btns: btns, players: players, playersId: playersId
                             };
 
                             var canAdd = 0;
