@@ -68,6 +68,8 @@ console.log("server started");
                             var AdditionalData = dt[i].AdditionalData;
                             var btns = dt[i].btns;
                             var players = [];
+                            var playersId = [];
+
                             var userData = {
                                 id: id, appId: appId, title: title, message: message, url: url, timeToLive: timeToLive
                                 , dateStartSend: dateStartSend, timeStartSend: timeStartSend, sound: sound, smalIcon: smalIcon, largeIcon: largeIcon
@@ -155,7 +157,18 @@ server.on('connection', function (socket) {
             for (var i = 0; i < rooms.length; i++) {
                 if (rooms.pkgNameAndroid != "") {
                     if (rooms[i].pkgNameAndroid == pkgName) {
-                        rooms[i].players.push(socket);
+                        var canadd = 0;
+                        for (var j = 0; j < rooms[i].playersId.length; j++) {
+                            if (rooms[i].playersId[j] == playerId) {
+                                canadd = 1;
+                            }
+                        }
+                        if (canadd == 1) {
+                            socket.destroy();
+                        }
+                        else {
+                            rooms[i].players.push(socket);
+                        }
                     }
                 }
                 else {
