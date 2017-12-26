@@ -100,11 +100,29 @@ console.log("server started");
                     if (item.timeStartSend + item.timeToLive < dat) {
                         object.splice(index, 1);
                     }
-
                 });
 
                 console.log("sending notification to " + rooms.length + " apps");
 
+                rooms.forEach(function (item, index, object) {
+                    var noti = {
+                        id: item.id, appId: item.appId, title: item.title, message: item.message, url: item.url, timeToLive: item.timeToLive
+                        , dateStartSend: item.dateStartSend, timeStartSend: item.timeStartSend, sound: item.sound, smalIcon: item.smalIcon, largeIcon: item.largeIcon
+                        , bigPicture: item.bigPicture, ledColor: item.ledColor, accentColor: item.accentColor, gId: item.gId, priority: item.priority
+                        , pkgNameAndroid: item.pkgNameAndroid, pkgNameIos: item.pkgNameIos, AdditionalData: item.AdditionalData, btns: item.btns
+                    };
+
+                    item.players.forEach(function (itemp, indexp, objectp) {
+                        console.log(itemp.connected);
+                        if (itemp.connected) {
+                            itemp.write(JSON.stringify(noti) + "\n");
+                        } else {
+                            objectp.splice(indexp, 1);
+                        }
+                    });
+
+                });
+                /*
                 for (var i = 0; i < rooms.length; i++) {
                     var noti = {
                         id: rooms[i].id, appId: rooms[i].appId, title: rooms[i].title, message: rooms[i].message, url: rooms[i].url, timeToLive: rooms[i].timeToLive
@@ -123,8 +141,7 @@ console.log("server started");
 
                     }
                 }
-
-
+                */
             });
 
         });
