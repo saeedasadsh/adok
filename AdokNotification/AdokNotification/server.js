@@ -1,6 +1,5 @@
 ﻿var net = require("net");
 var http = require('http');
-var tcpp = require('tcp-ping');
 
 var server = net.createServer();
 var StringDecoder = require('string_decoder').StringDecoder;
@@ -122,13 +121,8 @@ console.log("server started");
                             item.players.forEach(function (itemp, indexp, objectp) {
                                 try {
                                     if (itemp != undefined) {
-                                        tcpp.ping({ address: itemp.remoteAddress }, function (err, data) {
-                                            console.log(data);
-                                            itemp.write(JSON.stringify(noti) + "\n");
-                                        });
-
-                                        //console.log('noti to: ' + itemp.remoteAddress + ':' + itemp.remotePort);
-                                        //itemp.write(JSON.stringify(noti) + "\n");
+                                        console.log('noti to: ' + itemp.remoteAddress + ':' + itemp.remotePort);
+                                        itemp.write(JSON.stringify(noti) + "\n");
                                     }
                                 }
                                 catch (e) {
