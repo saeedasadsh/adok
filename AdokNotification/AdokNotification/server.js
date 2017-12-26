@@ -112,33 +112,19 @@ console.log("server started");
                         , pkgNameAndroid: item.pkgNameAndroid, pkgNameIos: item.pkgNameIos, AdditionalData: item.AdditionalData, btns: item.btns
                     };
 
+
                     item.players.forEach(function (itemp, indexp, objectp) {
-                        if (itemp != undefined) {
-                            itemp.write(JSON.stringify(noti) + "\n");
+                        try {
+                            if (itemp != undefined) {
+                                itemp.write(JSON.stringify(noti) + "\n");
+                            }
+                        }
+                        catch (e) {
+                            objectp.splice(indexp, 1);
                         }
                     });
 
                 });
-                /*
-                for (var i = 0; i < rooms.length; i++) {
-                    var noti = {
-                        id: rooms[i].id, appId: rooms[i].appId, title: rooms[i].title, message: rooms[i].message, url: rooms[i].url, timeToLive: rooms[i].timeToLive
-                        , dateStartSend: rooms[i].dateStartSend, timeStartSend: rooms[i].timeStartSend, sound: rooms[i].sound, smalIcon: rooms[i].smalIcon, largeIcon: rooms[i].largeIcon
-                        , bigPicture: rooms[i].bigPicture, ledColor: rooms[i].ledColor, accentColor: rooms[i].accentColor, gId: rooms[i].gId, priority: rooms[i].priority
-                        , pkgNameAndroid: rooms[i].pkgNameAndroid, pkgNameIos: rooms[i].pkgNameIos, AdditionalData: rooms[i].AdditionalData, btns: rooms[i].btns
-                    };
-
-                    for (var j = 0; j < rooms[i].players.length; j++) {
-                        if (!rooms[i].players[j].connected) {
-                            rooms[i].players.splice(j, 1);
-                        }
-                        else {
-                            rooms[i].players[j].write(JSON.stringify(noti) + "\n");
-                        }
-
-                    }
-                }
-                */
             });
 
         });
@@ -155,33 +141,43 @@ server.on('connection', function (socket) {
     console.log('CONNECTED: ' + socket.remoteAddress + ':' + socket.remotePort);
     socket.on('data', function (data) {
 
-        var dt = JSON.parse(data);
-        var playerId = dt.playerId;
-        var pkgName = dt.pkgName;
-        var phoneNo = dt.phoneNo;
+        try {
+            var dt = JSON.parse(data);
+            var playerId = dt.playerId;
+            var pkgName = dt.pkgName;
+            var phoneNo = dt.phoneNo;
 
-        for (var i = 0; i < rooms.length; i++) {
-            if (rooms.pkgNameAndroid != "") {
-                if (rooms[i].pkgNameAndroid == pkgName) {
-                    rooms[i].players.push(socket);
+            for (var i = 0; i < rooms.length; i++) {
+                if (rooms.pkgNameAndroid != "") {
+                    if (rooms[i].pkgNameAndroid == pkgName) {
+                        rooms[i].players.push(socket);
+                    }
+                }
+                else {
+                    if (rooms[i].pkgNameIos == pkgName) {
+                        rooms[i].players.push(socket);
+                    }
                 }
             }
-            else {
-                if (rooms[i].pkgNameIos == pkgName) {
-                    rooms[i].players.push(socket);
-                }
-            }
+        }
+        catch (e) {
+            //delete sockets[i];
         }
     });
 
     socket.on('close', function (data) {
         console.log('CLOSED: ' + socket.remoteAddress + ' ' + socket.remotePort);
-        for (var i = 0; i < rooms.length; i++) {
-            rooms[i].players.forEach(function (item, index, object) {
-                if (item.socket == undefined) {
-                    object.splice(index, 1);
-                }
-            });
+        try {
+            for (var i = 0; i < rooms.length; i++) {
+                rooms[i].players.forEach(function (item, index, object) {
+                    if (item.socket == undefined) {
+                        object.splice(index, 1);
+                    }
+                });
+            }
+        }
+        catch (e) {
+            //delete sockets[i];
         }
     });
 });
