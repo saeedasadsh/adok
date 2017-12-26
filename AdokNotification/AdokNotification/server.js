@@ -113,7 +113,7 @@ console.log("server started");
                     };
 
                     item.players.forEach(function (itemp, indexp, objectp) {
-                        console.log(itemp.connected);
+                        console.log(itemp);
                         if (itemp.connected) {
                             itemp.write(JSON.stringify(noti) + "\n");
                         } else {
@@ -158,16 +158,12 @@ server.on('connection', function (socket) {
     console.log('CONNECTED: ' + socket.remoteAddress + ':' + socket.remotePort);
     socket.on('data', function (data) {
 
-        //socket.write(data);
         var dt = JSON.parse(data);
         var playerId = dt.playerId;
         var pkgName = dt.pkgName;
         var phoneNo = dt.phoneNo;
 
         for (var i = 0; i < rooms.length; i++) {
-
-            console.log(rooms[i].pkgNameAndroid + " " + pkgName);
-
             if (rooms.pkgNameAndroid != "") {
                 if (rooms[i].pkgNameAndroid == pkgName) {
                     rooms[i].players.push(socket);
@@ -179,19 +175,13 @@ server.on('connection', function (socket) {
                 }
             }
         }
-
-        //socket.destroy();
     });
 
     socket.on('close', function (data) {
         console.log('CLOSED: ' + socket.remoteAddress + ' ' + socket.remotePort);
-    });
-
-    socket.on('disconnect', function (data) {
-        console.log("disconnected " + data);
         for (var i = 0; i < rooms.length; i++) {
             rooms[i].players.forEach(function (item, index, object) {
-                if (item.socket.address() == socket.address()) {
+                if (item.socket.remoteAddress == socket.remoteAddress && item.socket.remotePort == socket.remotePort) {
                     object.splice(index, 1);
                 }
             });
