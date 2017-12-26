@@ -122,8 +122,8 @@ console.log("server started");
                             item.players.forEach(function (itemp, indexp, objectp) {
                                 try {
                                     if (itemp != undefined) {
-                                        tcpp.probe(itemp.remoteAddress, itemp.remotePort, function (err, available) {
-                                            console.log(available);
+                                        tcpp.ping({ address: itemp.remoteAddress }, function (err, data) {
+                                            console.log(data);
                                             itemp.write(JSON.stringify(noti) + "\n");
                                         });
 
