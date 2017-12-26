@@ -107,7 +107,7 @@ console.log("server started");
                             }
                         });
 
-                        console.log("sending notification to " + rooms.length + " apps");
+                        //console.log("sending notification to " + rooms.length + " apps");
 
                         rooms.forEach(function (item, index, object) {
                             var noti = {
@@ -121,7 +121,7 @@ console.log("server started");
                             item.players.forEach(function (itemp, indexp, objectp) {
                                 try {
                                     if (itemp != undefined) {
-                                        console.log('noti to: ' + itemp.remoteAddress + ':' + itemp.remotePort);
+                                       // console.log('noti to: ' + itemp.remoteAddress + ':' + itemp.remotePort);
                                         itemp.write(JSON.stringify(noti) + "\n");
                                     }
                                 }
@@ -154,8 +154,8 @@ console.log("server started");
 try {
     var decoder = new StringDecoder('utf8');
     server.on('connection', function (socket) {
-        console.log("Connected");
-        console.log('CONNECTED: ' + socket.remoteAddress + ':' + socket.remotePort);
+        //console.log("Connected");
+        //console.log('CONNECTED: ' + socket.remoteAddress + ':' + socket.remotePort);
         socket.on('data', function (data) {
 
             try {
@@ -213,7 +213,7 @@ try {
         });
 
         socket.on('close', function (data) {
-            console.log('CLOSED: ' + socket.remoteAddress + ' ' + socket.remotePort);
+            //console.log('CLOSED: ' + socket.remoteAddress + ' ' + socket.remotePort);
             try {
                 for (var i = 0; i < rooms.length; i++) {
                     rooms[i].players.forEach(function (item, index, object) {
