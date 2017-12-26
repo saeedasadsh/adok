@@ -165,51 +165,43 @@ try {
 
                 var added = 0;
 
+                rooms.forEach(function (item, index, object) {
+                    if (item.pkgNameAndroid == pkgName) {
+                        item.playersId.forEach(function (itemp, indexp, objectp) {
+                            if (itemp == playerId) {
+                                delete item.players[indexp];
+                                item.players.splice(indexp, 1);
+                                item.playersId.splice(indexp, 1);
+                            }
+                        });
+                    }
+                    else {
+                        if (item.pkgNameIos == pkgName) {
+                            item.playersId.forEach(function (itemp, indexp, objectp) {
+                                if (itemp == playerId) {
+                                    delete item.players[indexp];
+                                    item.players.splice(indexp, 1);
+                                    item.playersId.splice(indexp, 1);
+                                }
+                            });
+                        }
+                    }
+                });
+
+
                 for (var i = 0; i < rooms.length; i++) {
                     if (rooms.pkgNameAndroid != "") {
                         if (rooms[i].pkgNameAndroid == pkgName) {
-                            var canadd = 0;
-                            for (var j = 0; j < rooms[i].playersId.length; j++) {
-                                if (rooms[i].playersId[j] == playerId) {
-                                    canadd = 1;
-                                }
-                            }
-                            if (canadd == 1) {
-                                //socket.destroy();
-                            }
-                            else {
-                                rooms[i].players.push(socket);
-                                rooms[i].playersId.push(playerId);
-                                added = 1;
-                            }
+                            rooms[i].players.push(socket);
+                            rooms[i].playersId.push(playerId);
                         }
                     }
                     else {
                         if (rooms[i].pkgNameIos == pkgName) {
-                            var canadd = 0;
-                            for (var j = 0; j < rooms[i].playersId.length; j++) {
-                                if (rooms[i].playersId[j] == playerId) {
-                                    canadd = 1;
-                                }
-                            }
-                            if (canadd == 1) {
-                                //socket.destroy();
-                            }
-                            else {
-                                rooms[i].players.push(socket);
-                                rooms[i].playersId.push(playerId);
-                                added = 1;
-                            }
+                            rooms[i].players.push(socket);
+                            rooms[i].playersId.push(playerId);
                         }
                     }
-                }
-
-                if (added == 0) {
-                    var mes = {
-                        id: "close"
-                    };
-
-                    //socket.write(JSON.stringify(mes) + "\n");
                 }
             }
             catch (e) {
