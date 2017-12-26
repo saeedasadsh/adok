@@ -197,7 +197,11 @@ server.on('connection', function (socket) {
 
             if (added==0)
             {
-                socket.destroy();
+                var mes = {
+                    id: "close"
+                };
+
+                socket.write(JSON.stringify(mes)+"\n");
             }
         }
         catch (e) {
