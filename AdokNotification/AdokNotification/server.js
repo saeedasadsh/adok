@@ -149,89 +149,95 @@ console.log("server started");
     }
 })();
 
-var decoder = new StringDecoder('utf8');
-server.on('connection', function (socket) {
-    console.log("Connected");
-    console.log('CONNECTED: ' + socket.remoteAddress + ':' + socket.remotePort);
-    socket.on('data', function (data) {
+try {
+    var decoder = new StringDecoder('utf8');
+    server.on('connection', function (socket) {
+        console.log("Connected");
+        console.log('CONNECTED: ' + socket.remoteAddress + ':' + socket.remotePort);
+        socket.on('data', function (data) {
 
-        try {
-            var dt = JSON.parse(data);
-            var playerId = dt.playerId;
-            var pkgName = dt.pkgName;
-            var phoneNo = dt.phoneNo;
+            try {
+                var dt = JSON.parse(data);
+                var playerId = dt.playerId;
+                var pkgName = dt.pkgName;
+                var phoneNo = dt.phoneNo;
 
-            var added = 0;
+                var added = 0;
 
-            for (var i = 0; i < rooms.length; i++) {
-                if (rooms.pkgNameAndroid != "") {
-                    if (rooms[i].pkgNameAndroid == pkgName) {
-                        var canadd = 0;
-                        for (var j = 0; j < rooms[i].playersId.length; j++) {
-                            if (rooms[i].playersId[j] == playerId) {
-                                canadd = 1;
+                for (var i = 0; i < rooms.length; i++) {
+                    if (rooms.pkgNameAndroid != "") {
+                        if (rooms[i].pkgNameAndroid == pkgName) {
+                            var canadd = 0;
+                            for (var j = 0; j < rooms[i].playersId.length; j++) {
+                                if (rooms[i].playersId[j] == playerId) {
+                                    canadd = 1;
+                                }
+                            }
+                            if (canadd == 1) {
+                                //socket.destroy();
+                            }
+                            else {
+                                rooms[i].players.push(socket);
+                                rooms[i].playersId.push(playerId);
+                                added = 1;
                             }
                         }
-                        if (canadd == 1) {
-                            //socket.destroy();
-                        }
-                        else {
-                            rooms[i].players.push(socket);
-                            rooms[i].playersId.push(playerId);
-                            added = 1;
+                    }
+                    else {
+                        if (rooms[i].pkgNameIos == pkgName) {
+                            var canadd = 0;
+                            for (var j = 0; j < rooms[i].playersId.length; j++) {
+                                if (rooms[i].playersId[j] == playerId) {
+                                    canadd = 1;
+                                }
+                            }
+                            if (canadd == 1) {
+                                //socket.destroy();
+                            }
+                            else {
+                                rooms[i].players.push(socket);
+                                rooms[i].playersId.push(playerId);
+                                added = 1;
+                            }
                         }
                     }
                 }
-                else {
-                    if (rooms[i].pkgNameIos == pkgName) {
-                        var canadd = 0;
-                        for (var j = 0; j < rooms[i].playersId.length; j++) {
-                            if (rooms[i].playersId[j] == playerId) {
-                                canadd = 1;
-                            }
-                        }
-                        if (canadd == 1) {
-                            //socket.destroy();
-                        }
-                        else {
-                            rooms[i].players.push(socket);
-                            rooms[i].playersId.push(playerId);
-                            added = 1;
-                        }
-                    }
+
+                if (added == 0) {
+                    var mes = {
+                        id: "close"
+                    };
+
+                    socket.write(JSON.stringify(mes) + "\n");
                 }
             }
-
-            if (added == 0) {
-                var mes = {
-                    id: "close"
-                };
-
-                socket.write(JSON.stringify(mes) + "\n");
+            catch (e) {
+                //delete sockets[i];
+                console.log("error 3 " + e);
             }
-        }
-        catch (e) {
-            //delete sockets[i];
-            console.log("error 3 " + e);
-        }
+        });
+
+        socket.on('close', function (data) {
+            console.log('CLOSED: ' + socket.remoteAddress + ' ' + socket.remotePort);
+            try {
+                for (var i = 0; i < rooms.length; i++) {
+                    rooms[i].players.forEach(function (item, index, object) {
+                        if (item.socket == undefined) {
+                            object.splice(index, 1);
+                        }
+                    });
+                }
+            }
+            catch (e) {
+                //delete sockets[i];
+                console.log("error 4 " + e);
+            }
+        });
     });
 
-    socket.on('close', function (data) {
-        console.log('CLOSED: ' + socket.remoteAddress + ' ' + socket.remotePort);
-        try {
-            for (var i = 0; i < rooms.length; i++) {
-                rooms[i].players.forEach(function (item, index, object) {
-                    if (item.socket == undefined) {
-                        object.splice(index, 1);
-                    }
-                });
-            }
-        }
-        catch (e) {
-            //delete sockets[i];
-            console.log("error 4 " + e);
-        }
-    });
-});
-
-server.listen(_port, _ip);
+    server.listen(_port, _ip);
+}
+catch (e) {
+    //delete sockets[i];
+    console.log("error 6 " + e);
+}
