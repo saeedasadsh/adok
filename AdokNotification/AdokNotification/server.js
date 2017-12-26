@@ -113,12 +113,7 @@ console.log("server started");
                     };
 
                     item.players.forEach(function (itemp, indexp, objectp) {
-                        console.log(itemp);
-                        if (itemp.connected) {
-                            itemp.write(JSON.stringify(noti) + "\n");
-                        } else {
-                            objectp.splice(indexp, 1);
-                        }
+                        itemp.write(JSON.stringify(noti) + "\n");
                     });
 
                 });
