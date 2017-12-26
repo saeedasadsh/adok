@@ -162,59 +162,53 @@ try {
                 var pkgName = dt.pkgName;
                 var phoneNo = dt.phoneNo;
 
-                if (playerId == "chCon" && pkgName == "chCon" && phoneNo == "chCon") {
-                    socket.write("hi\n");
+                var added = 0;
+
+                for (var i = 0; i < rooms.length; i++) {
+                    if (rooms.pkgNameAndroid != "") {
+                        if (rooms[i].pkgNameAndroid == pkgName) {
+                            var canadd = 0;
+                            for (var j = 0; j < rooms[i].playersId.length; j++) {
+                                if (rooms[i].playersId[j] == playerId) {
+                                    canadd = 1;
+                                }
+                            }
+                            if (canadd == 1) {
+                                //socket.destroy();
+                            }
+                            else {
+                                rooms[i].players.push(socket);
+                                rooms[i].playersId.push(playerId);
+                                added = 1;
+                            }
+                        }
+                    }
+                    else {
+                        if (rooms[i].pkgNameIos == pkgName) {
+                            var canadd = 0;
+                            for (var j = 0; j < rooms[i].playersId.length; j++) {
+                                if (rooms[i].playersId[j] == playerId) {
+                                    canadd = 1;
+                                }
+                            }
+                            if (canadd == 1) {
+                                //socket.destroy();
+                            }
+                            else {
+                                rooms[i].players.push(socket);
+                                rooms[i].playersId.push(playerId);
+                                added = 1;
+                            }
+                        }
+                    }
                 }
-                else {
 
-                    var added = 0;
+                if (added == 0) {
+                    var mes = {
+                        id: "close"
+                    };
 
-                    for (var i = 0; i < rooms.length; i++) {
-                        if (rooms.pkgNameAndroid != "") {
-                            if (rooms[i].pkgNameAndroid == pkgName) {
-                                var canadd = 0;
-                                for (var j = 0; j < rooms[i].playersId.length; j++) {
-                                    if (rooms[i].playersId[j] == playerId) {
-                                        canadd = 1;
-                                    }
-                                }
-                                if (canadd == 1) {
-                                    //socket.destroy();
-                                }
-                                else {
-                                    rooms[i].players.push(socket);
-                                    rooms[i].playersId.push(playerId);
-                                    added = 1;
-                                }
-                            }
-                        }
-                        else {
-                            if (rooms[i].pkgNameIos == pkgName) {
-                                var canadd = 0;
-                                for (var j = 0; j < rooms[i].playersId.length; j++) {
-                                    if (rooms[i].playersId[j] == playerId) {
-                                        canadd = 1;
-                                    }
-                                }
-                                if (canadd == 1) {
-                                    //socket.destroy();
-                                }
-                                else {
-                                    rooms[i].players.push(socket);
-                                    rooms[i].playersId.push(playerId);
-                                    added = 1;
-                                }
-                            }
-                        }
-                    }
-
-                    if (added == 0) {
-                        var mes = {
-                            id: "close"
-                        };
-
-                        //socket.write(JSON.stringify(mes) + "\n");
-                    }
+                    //socket.write(JSON.stringify(mes) + "\n");
                 }
             }
             catch (e) {
