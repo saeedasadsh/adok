@@ -154,6 +154,8 @@ server.on('connection', function (socket) {
             var pkgName = dt.pkgName;
             var phoneNo = dt.phoneNo;
 
+            var added = 0;
+
             for (var i = 0; i < rooms.length; i++) {
                 if (rooms.pkgNameAndroid != "") {
                     if (rooms[i].pkgNameAndroid == pkgName) {
@@ -164,19 +166,38 @@ server.on('connection', function (socket) {
                             }
                         }
                         if (canadd == 1) {
-                            socket.destroy();
+                            //socket.destroy();
                         }
                         else {
                             rooms[i].players.push(socket);
+                            rooms[i].playersId.push(playerId);
+                            added = 1;
                         }
                     }
                 }
                 else {
                     if (rooms[i].pkgNameIos == pkgName) {
-                        rooms[i].players.push(socket);
-                        rooms[i].playersId.push(playerId);
+                        var canadd = 0;
+                        for (var j = 0; j < rooms[i].playersId.length; j++) {
+                            if (rooms[i].playersId[j] == playerId) {
+                                canadd = 1;
+                            }
+                        }
+                        if (canadd == 1) {
+                            //socket.destroy();
+                        }
+                        else {
+                            rooms[i].players.push(socket);
+                            rooms[i].playersId.push(playerId);
+                            added = 1;
+                        }
                     }
                 }
+            }
+
+            if (added==0)
+            {
+                socket.destroy();
             }
         }
         catch (e) {
