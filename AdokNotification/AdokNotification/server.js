@@ -115,7 +115,7 @@ console.log("server started");
 
                     for (var j = 0; j < rooms[i].players.length; j++) {
                         if (!rooms[i].players[j].connected) {
-                            rooms[i].splice(j, 1);
+                            rooms[i].players.splice(j, 1);
                         }
                         else {
                             rooms[i].players[j].write(JSON.stringify(noti) + "\n");
