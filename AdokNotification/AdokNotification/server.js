@@ -113,7 +113,9 @@ console.log("server started");
                     };
 
                     item.players.forEach(function (itemp, indexp, objectp) {
-                        itemp.write(JSON.stringify(noti) + "\n");
+                        if (itemp != undefined) {
+                            itemp.write(JSON.stringify(noti) + "\n");
+                        }
                     });
 
                 });
@@ -176,7 +178,7 @@ server.on('connection', function (socket) {
         console.log('CLOSED: ' + socket.remoteAddress + ' ' + socket.remotePort);
         for (var i = 0; i < rooms.length; i++) {
             rooms[i].players.forEach(function (item, index, object) {
-                if (item.socket.remoteAddress == socket.remoteAddress && item.socket.remotePort == socket.remotePort) {
+                if (item.socket == undefined) {
                     object.splice(index, 1);
                 }
             });
