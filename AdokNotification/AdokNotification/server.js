@@ -234,6 +234,24 @@ try {
                 console.log("error 4 " + e);
             }
         });
+
+        socket.on('disconnect', function (data) {
+            console.log('disconnect: ' + socket.remoteAddress + ' ' + socket.remotePort);
+            try {
+                for (var i = 0; i < rooms.length; i++) {
+                    rooms[i].players.forEach(function (item, index, object) {
+                        if (item.socket == undefined) {
+                            object.splice(index, 1);
+                        }
+                    });
+                }
+            }
+            catch (e) {
+                //delete sockets[i];
+                console.log("error 4 " + e);
+            }
+        });
+
     });
 
     server.listen(_port, _ip);
