@@ -180,7 +180,7 @@ try {
                         if (item.pkgNameIos == pkgName) {
                             item.playersId.forEach(function (itemp, indexp, objectp) {
                                 if (itemp == playerId) {
-                                    delete item.players[indexp];
+                                    item.players.destroy();
                                     item.players.splice(indexp, 1);
                                     item.playersId.splice(indexp, 1);
                                 }
@@ -217,7 +217,8 @@ try {
             try {
                 for (var i = 0; i < rooms.length; i++) {
                     rooms[i].players.forEach(function (item, index, object) {
-                        if (item.socket == undefined) {
+                        if (item == undefined) {
+                            item.destroy();
                             object.splice(index, 1);
                         }
                     });
@@ -230,20 +231,12 @@ try {
         });
 
         socket.on('disconnect', function (data) {
-            console.log('disconnect: ' + socket.remoteAddress + ' ' + socket.remotePort);
-            try {
-                for (var i = 0; i < rooms.length; i++) {
-                    rooms[i].players.forEach(function (item, index, object) {
-                        if (item.socket == undefined) {
-                            object.splice(index, 1);
-                        }
-                    });
-                }
-            }
-            catch (e) {
-                //delete sockets[i];
-                console.log("error 4 " + e);
-            }
+            console.log('disconnect: ' + data);
+        });
+
+
+        socket.on('error', function (data) {
+            console.log('error: ' + data);
         });
 
     });
