@@ -51,6 +51,7 @@ console.log("server started");
                         //console.log(dt);
                         for (var i = 0; i < dt.length; i++) {
                             var id = dt[i].id;
+                            onsole.log(id);
                             if (id != -1) {
                                 var appId = dt[i].appId;
                                 var title = dt[i].title;
@@ -123,7 +124,7 @@ console.log("server started");
                             item.players.forEach(function (itemp, indexp, objectp) {
                                 try {
                                     if (itemp != undefined) {
-                                        console.log('noti to: ' + itemp.remoteAddress + ':' + itemp.remotePort);
+                                        //console.log('noti to: ' + itemp.remoteAddress + ':' + itemp.remotePort);
                                         itemp.write(JSON.stringify(noti) + "\n");
                                     }
                                 }
