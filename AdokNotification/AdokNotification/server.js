@@ -46,7 +46,7 @@ console.log("server started");
                 res.on('end', function () {
 
                     try {
-                        rooms = [];
+                        //rooms = [];
                         var dt = JSON.parse(buffer);
                         //console.log(dt);
                         for (var i = 0; i < dt.length; i++) {
@@ -102,6 +102,12 @@ console.log("server started");
                         var m = today.getMinutes();
 
                         var dat = h * 60 + m;
+
+                        rooms.forEach(function (item, index, object) {
+                            if (item.timeStartSend + item.timeToLive < dat) {
+                                object.splice(index, 1);
+                            }
+                        });
 
                         //console.log("sending notification to " + rooms.length + " apps");
 
