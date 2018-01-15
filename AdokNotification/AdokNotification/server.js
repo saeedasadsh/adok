@@ -51,7 +51,7 @@ console.log("server started");
                         //console.log(dt);
                         for (var i = 0; i < dt.length; i++) {
                             var id = dt[i].id;
-                            onsole.log(id);
+                            console.log(id);
                             if (id != -1) {
                                 var appId = dt[i].appId;
                                 var title = dt[i].title;
