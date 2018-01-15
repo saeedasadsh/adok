@@ -46,6 +46,7 @@ console.log("server started");
                 res.on('end', function () {
 
                     try {
+                        rooms = [];
                         var dt = JSON.parse(buffer);
                         //console.log(dt);
                         for (var i = 0; i < dt.length; i++) {
@@ -68,6 +69,7 @@ console.log("server started");
                                 var priority = dt[i].priority;
                                 var pkgNameAndroid = dt[i].pkgNameAndroid;
                                 var pkgNameIos = dt[i].pkgNameIos;
+                                var kind = dt[i].kind;
                                 var AdditionalData = dt[i].AdditionalData;
                                 var btns = dt[i].btns;
                                 var players = [];
@@ -77,7 +79,7 @@ console.log("server started");
                                     id: id, appId: appId, title: title, message: message, url: url, timeToLive: timeToLive
                                     , dateStartSend: dateStartSend, timeStartSend: timeStartSend, sound: sound, smalIcon: smalIcon, largeIcon: largeIcon
                                     , bigPicture: bigPicture, ledColor: ledColor, accentColor: accentColor, gId: gId, priority: priority
-                                    , pkgNameAndroid: pkgNameAndroid, pkgNameIos: pkgNameIos, AdditionalData: AdditionalData, btns: btns, players: players, playersId: playersId
+                                    , pkgNameAndroid: pkgNameAndroid, pkgNameIos: pkgNameIos,kind:kind,AdditionalData: AdditionalData, btns: btns, players: players, playersId: playersId
                                 };
 
                                 var canAdd = 0;
@@ -101,12 +103,6 @@ console.log("server started");
 
                         var dat = h * 60 + m;
 
-                        rooms.forEach(function (item, index, object) {
-                            if (item.timeStartSend + item.timeToLive < dat) {
-                                object.splice(index, 1);
-                            }
-                        });
-
                         //console.log("sending notification to " + rooms.length + " apps");
 
                         rooms.forEach(function (item, index, object) {
@@ -114,7 +110,7 @@ console.log("server started");
                                 id: item.id, appId: item.appId, title: item.title, message: item.message, url: item.url, timeToLive: item.timeToLive
                                 , dateStartSend: item.dateStartSend, timeStartSend: item.timeStartSend, sound: item.sound, smalIcon: item.smalIcon, largeIcon: item.largeIcon
                                 , bigPicture: item.bigPicture, ledColor: item.ledColor, accentColor: item.accentColor, gId: item.gId, priority: item.priority
-                                , pkgNameAndroid: item.pkgNameAndroid, pkgNameIos: item.pkgNameIos, AdditionalData: item.AdditionalData, btns: item.btns
+                                , pkgNameAndroid: item.pkgNameAndroid, pkgNameIos: item.pkgNameIos, kind: item.kind,AdditionalData: item.AdditionalData, btns: item.btns
                             };
 
 
