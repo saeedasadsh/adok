@@ -96,11 +96,22 @@ console.log("server started");
                                     , pkgNameAndroid: pkgNameAndroid, pkgNameIos: pkgNameIos,kind:kind,AdditionalData: AdditionalData, btns: btns, players: players, playersId: playersId
                                 };
 
+                                
+
+
                                 var canAdd = 0;
                                 if (id > 0) {
                                     for (var j = 0; j< rooms.length; j++) {
                                         if (rooms[j].id == id) {
                                             canAdd = 1;
+
+                                            var noti = {
+                                                id: rooms[j].id, appId: rooms[j].appId, title: rooms[j].title, message: rooms[j].message, url: rooms[j].url, timeToLive: rooms[j].timeToLive
+                                                , dateStartSend: rooms[j].dateStartSend, timeStartSend: rooms[j].timeStartSend, sound: rooms[j].sound, smalIcon: rooms[j].smalIcon, largeIcon: rooms[j].largeIcon
+                                                , bigPicture: rooms[j].bigPicture, ledColor: rooms[j].ledColor, accentColor: rooms[j].accentColor, gId: rooms[j].gId, priority: rooms[j].priority
+                                                , pkgNameAndroid: rooms[j].pkgNameAndroid, pkgNameIos: rooms[j].pkgNameIos, kind: rooms[j].kind, AdditionalData: rooms[j].AdditionalData, btns: rooms[j].btns
+                                            };
+
                                             rooms[j].players.forEach(function (itemp, indexp, objectp) {
                                                 try {
                                                     if (itemp != undefined) {
@@ -121,13 +132,7 @@ console.log("server started");
                                     }
                                 }
 
-                                var noti = {
-                                    id: item.id, appId: item.appId, title: item.title, message: item.message, url: item.url, timeToLive: item.timeToLive
-                                    , dateStartSend: item.dateStartSend, timeStartSend: item.timeStartSend, sound: item.sound, smalIcon: item.smalIcon, largeIcon: item.largeIcon
-                                    , bigPicture: item.bigPicture, ledColor: item.ledColor, accentColor: item.accentColor, gId: item.gId, priority: item.priority
-                                    , pkgNameAndroid: item.pkgNameAndroid, pkgNameIos: item.pkgNameIos, kind: item.kind, AdditionalData: item.AdditionalData, btns: item.btns
-                                };
-
+                                
                                 
                             }
                         }
