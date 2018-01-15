@@ -49,7 +49,7 @@ console.log("server started");
                         //rooms = [];
                         var dt = JSON.parse(buffer);
                         console.log(dt.length);
-                        for (var i = 0; i < dt.length; i++) {
+                        for (var i = 0; i <= dt.length; i++) {
                             var id = dt[i].id;
                             console.log(id);
                             if (id != -1) {
