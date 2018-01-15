@@ -51,7 +51,7 @@ console.log("server started");
                         console.log(dt.length);
                         for (var i = 0; i < dt.length; i++) {
                             var id = dt[i].id;
-                            //console.log(id);
+                            console.log(id);
                             if (id != -1) {
                                 var appId = dt[i].appId;
                                 var title = dt[i].title;
@@ -240,6 +240,7 @@ try {
 
         socket.on('error', function (data) {
             console.log('error: ' + data);
+            delete socket;
             try {
                 for (var i = 0; i < rooms.length; i++) {
                     rooms[i].players.forEach(function (item, index, object) {
