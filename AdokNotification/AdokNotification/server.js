@@ -85,8 +85,8 @@ console.log("server started");
 
                                 var canAdd = 0;
                                 if (id > 0) {
-                                    for (var i = 0; i < rooms.length; i++) {
-                                        if (rooms[i].id == id) {
+                                    for (var j = 0; j< rooms.length; j++) {
+                                        if (rooms[j].id == id) {
                                             canAdd = 1;
                                         }
                                     }
