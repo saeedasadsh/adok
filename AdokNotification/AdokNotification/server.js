@@ -46,6 +46,19 @@ console.log("server started");
                 res.on('end', function () {
 
                     try {
+
+                        var today = new Date();
+                        var h = today.getHours();
+                        var m = today.getMinutes();
+
+                        var dat = h * 60 + m;
+
+                        rooms.forEach(function (item, index, object) {
+                            if (item.timeStartSend + item.timeToLive < dat) {
+                                object.splice(index, 1);
+                            }
+                        });
+
                         //rooms = [];
                         var dt = JSON.parse(buffer);
                         //console.log(dt.length);
@@ -88,6 +101,18 @@ console.log("server started");
                                     for (var j = 0; j< rooms.length; j++) {
                                         if (rooms[j].id == id) {
                                             canAdd = 1;
+                                            rooms[j].players.forEach(function (itemp, indexp, objectp) {
+                                                try {
+                                                    if (itemp != undefined) {
+                                                        console.log('noti to: ' + itemp.remoteAddress + ':' + itemp.remotePort);
+                                                        itemp.write(JSON.stringify(noti) + "\n");
+                                                    }
+                                                }
+                                                catch (e) {
+                                                    console.log("error 1 " + e);
+                                                    objectp.splice(indexp, 1);
+                                                }
+                                            });
                                         }
                                     }
                                     if (canAdd == 0) {
@@ -95,23 +120,22 @@ console.log("server started");
                                         console.log("rooms added- rooms count:" + rooms.length);
                                     }
                                 }
+
+                                var noti = {
+                                    id: item.id, appId: item.appId, title: item.title, message: item.message, url: item.url, timeToLive: item.timeToLive
+                                    , dateStartSend: item.dateStartSend, timeStartSend: item.timeStartSend, sound: item.sound, smalIcon: item.smalIcon, largeIcon: item.largeIcon
+                                    , bigPicture: item.bigPicture, ledColor: item.ledColor, accentColor: item.accentColor, gId: item.gId, priority: item.priority
+                                    , pkgNameAndroid: item.pkgNameAndroid, pkgNameIos: item.pkgNameIos, kind: item.kind, AdditionalData: item.AdditionalData, btns: item.btns
+                                };
+
+                                
                             }
                         }
 
-                        var today = new Date();
-                        var h = today.getHours();
-                        var m = today.getMinutes();
-
-                        var dat = h * 60 + m;
-
-                        rooms.forEach(function (item, index, object) {
-                            if (item.timeStartSend + item.timeToLive < dat) {
-                                object.splice(index, 1);
-                            }
-                        });
+                        
 
                         //console.log("sending notification to " + rooms.length + " apps");
-
+                        /*
                         rooms.forEach(function (item, index, object) {
                             var noti = {
                                 id: item.id, appId: item.appId, title: item.title, message: item.message, url: item.url, timeToLive: item.timeToLive
@@ -133,8 +157,10 @@ console.log("server started");
                                     objectp.splice(indexp, 1);
                                 }
                             });
+                        
 
                         });
+                        */
                     }
                     catch (e) {
                         console.log("error 2 " + e);
