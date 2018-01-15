@@ -244,6 +244,7 @@ try {
             try {
                 for (var i = 0; i < rooms.length; i++) {
                     rooms[i].players.forEach(function (item, index, object) {
+                        console.log(item)
                         if (item == undefined) {
                             item.destroy();
                             object.splice(index, 1);
