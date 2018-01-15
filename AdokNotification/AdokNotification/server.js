@@ -124,7 +124,7 @@ console.log("server started");
                             item.players.forEach(function (itemp, indexp, objectp) {
                                 try {
                                     if (itemp != undefined) {
-                                        //console.log('noti to: ' + itemp.remoteAddress + ':' + itemp.remotePort);
+                                        console.log('noti to: ' + itemp.remoteAddress + ':' + itemp.remotePort);
                                         itemp.write(JSON.stringify(noti) + "\n");
                                     }
                                 }
