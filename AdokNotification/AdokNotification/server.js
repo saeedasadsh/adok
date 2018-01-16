@@ -8,7 +8,7 @@ var _ip = "94.130.122.236";
 var _port = 3010;
 
 var rooms = [];
-console.log("server started");
+//console.log("server started");
 
 
 (function () {
@@ -48,10 +48,10 @@ console.log("server started");
                     try {
                         //rooms = [];
                         var dt = JSON.parse(buffer);
-                        //console.log(dt.length);
+                        ////console.log(dt.length);
                         for (var i = 0; i < dt.length; i++) {
                             var id = dt[i].id;
-                           // console.log(id);
+                           // //console.log(id);
                             if (id != -1) {
                                 var appId = dt[i].appId;
                                 var title = dt[i].title;
@@ -92,7 +92,7 @@ console.log("server started");
                                     }
                                     if (canAdd == 0) {
                                         rooms.push(userData);
-                                        console.log("rooms added- rooms count:" + rooms.length);
+                                        //console.log("rooms added- rooms count:" + rooms.length);
                                     }
                                 }
                             }
@@ -110,7 +110,7 @@ console.log("server started");
                             }
                         });
 
-                        //console.log("sending notification to " + rooms.length + " apps");
+                        ////console.log("sending notification to " + rooms.length + " apps");
 
                         rooms.forEach(function (item, index, object) {
                             var noti = {
@@ -124,12 +124,12 @@ console.log("server started");
                             item.players.forEach(function (itemp, indexp, objectp) {
                                 try {
                                     if (itemp != undefined) {
-                                        //console.log('noti to: ' + itemp.remoteAddress + ':' + itemp.remotePort);
+                                        ////console.log('noti to: ' + itemp.remoteAddress + ':' + itemp.remotePort);
                                         itemp.write(JSON.stringify(noti) + "\n");
                                     }
                                 }
                                 catch (e) {
-                                    console.log("error 1 " + e);
+                                    //console.log("error 1 " + e);
                                     objectp.splice(indexp, 1);
                                 }
                             });
@@ -137,7 +137,7 @@ console.log("server started");
                         });
                     }
                     catch (e) {
-                        console.log("error 2 " + e);
+                        //console.log("error 2 " + e);
                     }
                 });
 
@@ -150,15 +150,15 @@ console.log("server started");
     }
     catch (e) {
         //delete sockets[i];
-        console.log("error 5 " + e);
+        //console.log("error 5 " + e);
     }
 })();
 
 try {
     var decoder = new StringDecoder('utf8');
     server.on('connection', function (socket) {
-        //console.log("Connected");
-        console.log('CONNECTED: ' + socket.remoteAddress + ':' + socket.remotePort);
+        ////console.log("Connected");
+        //console.log('CONNECTED: ' + socket.remoteAddress + ':' + socket.remotePort);
         socket.on('data', function (data) {
 
             try {
@@ -210,13 +210,13 @@ try {
             }
             catch (e) {
                 //delete sockets[i];
-                console.log("error 3 " + e);
+                //console.log("error 3 " + e);
             }
 
         });
 
         socket.on('close', function (data) {
-            console.log('CLOSED: ' + socket.remoteAddress + ' ' + socket.remotePort);
+            //console.log('CLOSED: ' + socket.remoteAddress + ' ' + socket.remotePort);
             try {
                 for (var i = 0; i < rooms.length; i++) {
                     rooms[i].players.forEach(function (item, index, object) {
@@ -229,22 +229,22 @@ try {
             }
             catch (e) {
                 //delete sockets[i];
-                console.log("error 4 " + e);
+                //console.log("error 4 " + e);
             }
         });
 
         socket.on('disconnect', function (data) {
-            console.log('disconnect: ' + data);
+            //console.log('disconnect: ' + data);
         });
 
 
         socket.on('error', function (data) {
-            console.log('error: ' + data);
+            //console.log('error: ' + data);
             delete socket;
             try {
                 for (var i = 0; i < rooms.length; i++) {
                     rooms[i].players.forEach(function (item, index, object) {
-                        //console.log(item)
+                        ////console.log(item)
                         if (item.connecting == false) {
                             item.destroy();
                             object.splice(index, 1);
@@ -254,7 +254,7 @@ try {
             }
             catch (e) {
                 //delete sockets[i];
-                console.log("error 4 " + e);
+                //console.log("error 4 " + e);
             }
         });
 
@@ -264,5 +264,5 @@ try {
 }
 catch (e) {
     //delete sockets[i];
-    console.log("error 6 " + e);
+    //console.log("error 6 " + e);
 }
