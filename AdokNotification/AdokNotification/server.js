@@ -157,7 +157,9 @@ try {
                 var knd = dt.kind;
                 var added = 0;
 
-                if (kind == "add") {
+                console.log(knd);
+
+                if (knd == "add") {
                     rooms.forEach(function (item, index, object) {
                         if (item.pkgNameAndroid == pkgName) {
                             item.playersId.forEach(function (itemp, indexp, objectp) {
@@ -197,8 +199,9 @@ try {
                         }
                     }
                 }
-                else if (kind == "Alive")
+                else if (knd == "Alive")
                 {
+                    
                     var data = {
                         alive: true, Meskind:"Alive"
                     };
