@@ -8,7 +8,6 @@ var _ip = "94.130.122.236";
 var _port = 3010;
 
 var rooms = [];
-//console.log("server started");
 
 
 (function () {
@@ -46,12 +45,9 @@ var rooms = [];
                 res.on('end', function () {
 
                     try {
-                        //rooms = [];
                         var dt = JSON.parse(buffer);
-                        ////console.log(dt.length);
                         for (var i = 0; i < dt.length; i++) {
                             var id = dt[i].id;
-                           // //console.log(id);
                             if (id != -1) {
                                 var appId = dt[i].appId;
                                 var title = dt[i].title;
@@ -92,7 +88,6 @@ var rooms = [];
                                     }
                                     if (canAdd == 0) {
                                         rooms.push(userData);
-                                        //console.log("rooms added- rooms count:" + rooms.length);
                                     }
                                 }
                             }
@@ -110,26 +105,22 @@ var rooms = [];
                             }
                         });
 
-                        ////console.log("sending notification to " + rooms.length + " apps");
-
                         rooms.forEach(function (item, index, object) {
                             var noti = {
                                 id: item.id, appId: item.appId, title: item.title, message: item.message, url: item.url, timeToLive: item.timeToLive
                                 , dateStartSend: item.dateStartSend, timeStartSend: item.timeStartSend, sound: item.sound, smalIcon: item.smalIcon, largeIcon: item.largeIcon
                                 , bigPicture: item.bigPicture, ledColor: item.ledColor, accentColor: item.accentColor, gId: item.gId, priority: item.priority
-                                , pkgNameAndroid: item.pkgNameAndroid, pkgNameIos: item.pkgNameIos, kind: item.kind,AdditionalData: item.AdditionalData, btns: item.btns
+                                , pkgNameAndroid: item.pkgNameAndroid, pkgNameIos: item.pkgNameIos, kind: item.kind,AdditionalData: item.AdditionalData, btns: item.btns,Meskind:"noti"
                             };
 
 
                             item.players.forEach(function (itemp, indexp, objectp) {
                                 try {
                                     if (itemp != undefined) {
-                                        ////console.log('noti to: ' + itemp.remoteAddress + ':' + itemp.remotePort);
                                         itemp.write(JSON.stringify(noti) + "\n");
                                     }
                                 }
                                 catch (e) {
-                                    //console.log("error 1 " + e);
                                     objectp.splice(indexp, 1);
                                 }
                             });
@@ -137,7 +128,6 @@ var rooms = [];
                         });
                     }
                     catch (e) {
-                        //console.log("error 2 " + e);
                     }
                 });
 
@@ -149,8 +139,6 @@ var rooms = [];
         }, 10000);
     }
     catch (e) {
-        //delete sockets[i];
-        //console.log("error 5 " + e);
     }
 })();
 
@@ -166,57 +154,64 @@ try {
                 var playerId = dt.playerId;
                 var pkgName = dt.pkgName;
                 var phoneNo = dt.phoneNo;
-
+                var knd = dt.kind;
                 var added = 0;
 
-                rooms.forEach(function (item, index, object) {
-                    if (item.pkgNameAndroid == pkgName) {
-                        item.playersId.forEach(function (itemp, indexp, objectp) {
-                            if (itemp == playerId) {
-                                delete item.players[indexp];
-                                item.players.splice(indexp, 1);
-                                item.playersId.splice(indexp, 1);
-                            }
-                        });
-                    }
-                    else {
-                        if (item.pkgNameIos == pkgName) {
+                if (kind == "add") {
+                    rooms.forEach(function (item, index, object) {
+                        if (item.pkgNameAndroid == pkgName) {
                             item.playersId.forEach(function (itemp, indexp, objectp) {
                                 if (itemp == playerId) {
-                                    item.players.destroy();
+                                    delete item.players[indexp];
                                     item.players.splice(indexp, 1);
                                     item.playersId.splice(indexp, 1);
                                 }
                             });
                         }
-                    }
-                });
-
-
-                for (var i = 0; i < rooms.length; i++) {
-                    if (rooms.pkgNameAndroid != "") {
-                        if (rooms[i].pkgNameAndroid == pkgName) {
-                            rooms[i].players.push(socket);
-                            rooms[i].playersId.push(playerId);
+                        else {
+                            if (item.pkgNameIos == pkgName) {
+                                item.playersId.forEach(function (itemp, indexp, objectp) {
+                                    if (itemp == playerId) {
+                                        item.players.destroy();
+                                        item.players.splice(indexp, 1);
+                                        item.playersId.splice(indexp, 1);
+                                    }
+                                });
+                            }
                         }
-                    }
-                    else {
-                        if (rooms[i].pkgNameIos == pkgName) {
-                            rooms[i].players.push(socket);
-                            rooms[i].playersId.push(playerId);
+                    });
+
+
+                    for (var i = 0; i < rooms.length; i++) {
+                        if (rooms.pkgNameAndroid != "") {
+                            if (rooms[i].pkgNameAndroid == pkgName) {
+                                rooms[i].players.push(socket);
+                                rooms[i].playersId.push(playerId);
+                            }
+                        }
+                        else {
+                            if (rooms[i].pkgNameIos == pkgName) {
+                                rooms[i].players.push(socket);
+                                rooms[i].playersId.push(playerId);
+                            }
                         }
                     }
                 }
+                else if (kind == "Alive")
+                {
+                    var data = {
+                        alive: true, Meskind:"Alive"
+                    };
+                    socket.write(JSON.stringify(data) + "\n");
+                }
             }
             catch (e) {
-                //delete sockets[i];
-                //console.log("error 3 " + e);
-            }
+                }
+            
 
         });
 
         socket.on('close', function (data) {
-            //console.log('CLOSED: ' + socket.remoteAddress + ' ' + socket.remotePort);
             try {
                 for (var i = 0; i < rooms.length; i++) {
                     rooms[i].players.forEach(function (item, index, object) {
@@ -228,23 +223,18 @@ try {
                 }
             }
             catch (e) {
-                //delete sockets[i];
-                //console.log("error 4 " + e);
             }
         });
 
         socket.on('disconnect', function (data) {
-            //console.log('disconnect: ' + data);
         });
 
 
         socket.on('error', function (data) {
-            //console.log('error: ' + data);
             delete socket;
             try {
                 for (var i = 0; i < rooms.length; i++) {
                     rooms[i].players.forEach(function (item, index, object) {
-                        ////console.log(item)
                         if (item.connecting == false) {
                             item.destroy();
                             object.splice(index, 1);
@@ -253,8 +243,6 @@ try {
                 }
             }
             catch (e) {
-                //delete sockets[i];
-                //console.log("error 4 " + e);
             }
         });
 
@@ -263,6 +251,4 @@ try {
     server.listen(_port, _ip);
 }
 catch (e) {
-    //delete sockets[i];
-    //console.log("error 6 " + e);
 }
