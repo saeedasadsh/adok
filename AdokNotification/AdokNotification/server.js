@@ -157,8 +157,6 @@ try {
                 var knd = dt.kind;
                 var added = 0;
 
-                console.log(knd);
-
                 if (knd == "add") {
                     rooms.forEach(function (item, index, object) {
                         if (item.pkgNameAndroid == pkgName) {
