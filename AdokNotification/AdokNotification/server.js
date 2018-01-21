@@ -150,6 +150,11 @@ try {
         socket.on('data', function (data) {
 
             try {
+
+                if (data && data.byteLength != undefined) {
+                    data = new Buffer(data).toString('utf8');
+                }
+
                 var dt = JSON.parse(data);
                 var playerId = dt.playerId;
                 var pkgName = dt.pkgName;
@@ -158,6 +163,8 @@ try {
                 var added = 0;
 
                 console.log(data);
+
+                
 
                 if (knd == "add") {
                     rooms.forEach(function (item, index, object) {
