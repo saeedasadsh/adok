@@ -156,14 +156,17 @@ try {
                 }
 
                 var dt = JSON.parse(data);
+                console.log(dt);
                 var playerId = dt.playerId;
                 var pkgName = dt.pkgName;
                 var phoneNo = dt.phoneNo;
                 var knd = dt.kind;
                 var added = 0;
 
-                console.log(data);
-
+                console.log(playerId);
+                console.log(pkgName);
+                console.log(phoneNo);
+                console.log(knd);
                 
 
                 if (knd == "add") {
