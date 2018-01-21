@@ -146,7 +146,7 @@ try {
     var decoder = new StringDecoder('utf8');
     server.on('connection', function (socket) {
         ////console.log("Connected");
-        //console.log('CONNECTED: ' + socket.remoteAddress + ':' + socket.remotePort);
+        console.log('CONNECTED: ' + socket.remoteAddress + ':' + socket.remotePort);
         socket.on('data', function (data) {
 
             try {
@@ -156,6 +156,8 @@ try {
                 var phoneNo = dt.phoneNo;
                 var knd = dt.kind;
                 var added = 0;
+
+                console.log(data);
 
                 if (knd == "add") {
                     rooms.forEach(function (item, index, object) {
