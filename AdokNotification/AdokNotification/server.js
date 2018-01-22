@@ -8,7 +8,7 @@ var _ip = "94.130.122.236";
 var _port = 3010;
 
 var rooms = [];
-var roomLessPlayes = [];
+
 
 (function () {
 
@@ -88,27 +88,6 @@ var roomLessPlayes = [];
                                     }
                                     if (canAdd == 0) {
                                         rooms.push(userData);
-
-                                        roomLessPlayes.forEach(function (item, index, object) {
-                                            if (item.sock == undefined) {
-                                                item.destroy();
-                                                object.splice(index, 1);
-                                            }
-                                            else if (item.sock.connecting == false)
-                                            {
-                                                item.destroy();
-                                                object.splice(index, 1);
-                                            }
-                                        });
-
-                                        roomLessPlayes.forEach(function (item, index, object) {
-                                            if (item.pkg == userData.pkgNameAndroid || item.pkg == userData.pkgNameIos) {
-                                                rooms[rooms.length - 1].players.push(item.sock);
-                                                rooms[rooms.length - 1].playersId.push(item.id);
-                                                object.splice(index, 1);
-                                            }
-                                        });
-
                                     }
                                 }
                             }
@@ -166,8 +145,8 @@ var roomLessPlayes = [];
 try {
     var decoder = new StringDecoder('utf8');
     server.on('connection', function (socket) {
-        ////console.log("Connected");
         console.log('CONNECTED: ' + socket.remoteAddress + ':' + socket.remotePort);
+
         socket.on('data', function (data) {
 
             try {
@@ -214,22 +193,14 @@ try {
                             if (rooms[i].pkgNameAndroid == pkgName) {
                                 rooms[i].players.push(socket);
                                 rooms[i].playersId.push(playerId);
-                                added = 1;
                             }
                         }
                         else {
                             if (rooms[i].pkgNameIos == pkgName) {
                                 rooms[i].players.push(socket);
                                 rooms[i].playersId.push(playerId);
-                                added = 1;
                             }
                         }
-                    }
-
-                    if (added == 0)
-                    {
-                        var pl = { sock: socket, id: playerId, pkg: pkgName};
-                        roomLessPlayes.push(pl);
                     }
                 }
                 else if (knd == "Alive")
@@ -260,17 +231,6 @@ try {
             }
             catch (e) {
             }
-
-            try {
-                roomLessPlayes.forEach(function (item, index, object) {
-                    if (item.sock == undefined) {
-                        item.destroy();
-                        object.splice(index, 1);
-                    }
-                });
-            }
-            catch (e) {
-            }
         });
 
         socket.on('disconnect', function (data) {
@@ -288,17 +248,6 @@ try {
                         }
                     });
                 }
-            }
-            catch (e) {
-            }
-
-            try {
-                roomLessPlayes.forEach(function (item, index, object) {
-                    if (item.sock.connecting == false) {
-                        item.destroy();
-                        object.splice(index, 1);
-                    }
-                });
             }
             catch (e) {
             }
