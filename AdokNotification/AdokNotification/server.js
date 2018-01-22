@@ -210,6 +210,46 @@ try {
                         alive: true, Meskind:"Alive"
                     };
                     socket.write(JSON.stringify(data) + "\n");
+
+                    for (var i = 0; i < rooms.length; i++) {
+                        if (rooms.pkgNameAndroid != "") {
+                            if (rooms[i].pkgNameAndroid == pkgName) {
+                                var canAdd = 0;
+
+                                for (var j = 0; j < rooms[i].players.length; j++)
+                                {
+                                    if (rooms[i].playersId[j] == playerId)
+                                    {
+                                        canAdd = 1;
+                                        break;
+                                    }
+                                }
+
+                                if (canAdd == 0)
+                                {
+                                    rooms[i].players.push(socket);
+                                    rooms[i].playersId.push(playerId);
+                                }
+                            }
+                        }
+                        else {
+                            if (rooms[i].pkgNameAndroid == pkgName) {
+                                var canAdd = 0;
+
+                                for (var j = 0; j < rooms[i].players.length; j++) {
+                                    if (rooms[i].playersId[j] == playerId) {
+                                        canAdd = 1;
+                                        break;
+                                    }
+                                }
+
+                                if (canAdd == 0) {
+                                    rooms[i].players.push(socket);
+                                    rooms[i].playersId.push(playerId);
+                                }
+                            }
+                        }
+                    }
                 }
             }
             catch (e) {
