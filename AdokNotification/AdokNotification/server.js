@@ -9,6 +9,10 @@ var _port = 3010;
 
 var rooms = [];
 
+var Socketsp = [];
+var playersId = [];
+var pkgNames = [];
+var phoneNos = [];
 
 (function () {
 
@@ -76,18 +80,34 @@ var rooms = [];
                                     id: id, appId: appId, title: title, message: message, url: url, timeToLive: timeToLive
                                     , dateStartSend: dateStartSend, timeStartSend: timeStartSend, sound: sound, smalIcon: smalIcon, largeIcon: largeIcon
                                     , bigPicture: bigPicture, ledColor: ledColor, accentColor: accentColor, gId: gId, priority: priority
-                                    , pkgNameAndroid: pkgNameAndroid, pkgNameIos: pkgNameIos,kind:kind,AdditionalData: AdditionalData, btns: btns, players: players, playersId: playersId
+                                    , pkgNameAndroid: pkgNameAndroid, pkgNameIos: pkgNameIos, kind: kind, AdditionalData: AdditionalData, btns: btns, players: players, playersId: playersId
                                 };
 
                                 var canAdd = 0;
                                 if (id > 0) {
-                                    for (var j = 0; j< rooms.length; j++) {
+                                    for (var j = 0; j < rooms.length; j++) {
                                         if (rooms[j].id == id) {
                                             canAdd = 1;
                                         }
                                     }
                                     if (canAdd == 0) {
                                         rooms.push(userData);
+
+                                        rooms.forEach(function (itemRoom, indexRoom, objectRoom) {
+                                            pkgNames.forEach(function (item, index, object) {
+                                                if (item == itemRoom.pkgNameAndroid || item == itemRoom.pkgNameIos) {
+                                                    if (Socketsp[index] != undefined) {
+                                                        rooms[indexRoom].players.push(Socketsp[index]);
+                                                        rooms[indexRoom].playersId.push(playersId[index]);
+
+                                                        object.splice(index, 1);
+                                                        Socketsp.splice(index, 1);
+                                                        playersId.splice(index, 1);
+                                                        phoneNos.splice(index, 1);
+                                                    }
+                                                }
+                                            });
+                                        });
                                     }
                                 }
                             }
@@ -161,7 +181,7 @@ try {
                 var phoneNo = dt.phoneNo;
                 var knd = dt.kind;
                 var added = 0;
-                
+
 
                 if (knd == "add") {
                     rooms.forEach(function (item, index, object) {
@@ -174,16 +194,14 @@ try {
                                 }
                             });
                         }
-                        else {
-                            if (item.pkgNameIos == pkgName) {
-                                item.playersId.forEach(function (itemp, indexp, objectp) {
-                                    if (itemp == playerId) {
-                                        item.players.destroy();
-                                        item.players.splice(indexp, 1);
-                                        item.playersId.splice(indexp, 1);
-                                    }
-                                });
-                            }
+                        else if (item.pkgNameIos == pkgName) {
+                            item.playersId.forEach(function (itemp, indexp, objectp) {
+                                if (itemp == playerId) {
+                                    item.players.destroy();
+                                    item.players.splice(indexp, 1);
+                                    item.playersId.splice(indexp, 1);
+                                }
+                            });
                         }
                     });
 
@@ -195,11 +213,16 @@ try {
                                 rooms[i].playersId.push(playerId);
                             }
                         }
-                        else {
-                            if (rooms[i].pkgNameIos == pkgName) {
-                                rooms[i].players.push(socket);
-                                rooms[i].playersId.push(playerId);
-                            }
+                        else if (rooms[i].pkgNameIos == pkgName) {
+                            rooms[i].players.push(socket);
+                            rooms[i].playersId.push(playerId);
+                        }
+                        else
+                        {
+                            Socketsp.push(socket);
+                            playersId.push(playerId);
+                            pkgNames.push(pkgName);
+                            phoneNos.push(phoneNo);
                         }
                     }
                 }
@@ -210,46 +233,6 @@ try {
                         alive: true, Meskind:"Alive"
                     };
                     socket.write(JSON.stringify(data) + "\n");
-
-                    for (var i = 0; i < rooms.length; i++) {
-                        if (rooms.pkgNameAndroid != "") {
-                            if (rooms[i].pkgNameAndroid == pkgName) {
-                                var canAdd = 0;
-
-                                for (var j = 0; j < rooms[i].players.length; j++)
-                                {
-                                    if (rooms[i].playersId[j] == playerId)
-                                    {
-                                        canAdd = 1;
-                                        break;
-                                    }
-                                }
-
-                                if (canAdd == 0)
-                                {
-                                    rooms[i].players.push(socket);
-                                    rooms[i].playersId.push(playerId);
-                                }
-                            }
-                        }
-                        else {
-                            if (rooms[i].pkgNameAndroid == pkgName) {
-                                var canAdd = 0;
-
-                                for (var j = 0; j < rooms[i].players.length; j++) {
-                                    if (rooms[i].playersId[j] == playerId) {
-                                        canAdd = 1;
-                                        break;
-                                    }
-                                }
-
-                                if (canAdd == 0) {
-                                    rooms[i].players.push(socket);
-                                    rooms[i].playersId.push(playerId);
-                                }
-                            }
-                        }
-                    }
                 }
             }
             catch (e) {

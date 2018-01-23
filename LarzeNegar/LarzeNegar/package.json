@@ -1,0 +1,9 @@
+{
+  "name": "larze-negar",
+  "version": "0.0.0",
+  "description": "LarzeNegar",
+  "main": "server.js",
+  "author": {
+    "name": "ARP"
+  }
+}
