@@ -232,6 +232,25 @@ try {
                     var data = {
                         alive: true, Meskind:"Alive"
                     };
+
+                    for (var i = 0; i < rooms.length; i++)
+                    {
+                        var canAdd = 0;
+                        for (var j = 0; j < rooms[i].playersId; j++)
+                        {
+                            if (rooms[i].playersId == playerId)
+                            {
+                                canAdd = 1;
+                            }
+                        }
+
+                        if (canAdd == 0)
+                        {
+                            rooms[i].players.push(socket);
+                            rooms[i].playersId.push(playerId);
+                        }
+                    }
+
                     socket.write(JSON.stringify(data) + "\n");
                 }
             }
