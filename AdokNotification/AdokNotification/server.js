@@ -7,12 +7,9 @@ var StringDecoder = require('string_decoder').StringDecoder;
 var _ip = "94.130.122.236";
 var _port = 3010;
 
-var rooms = [];
+var Notifications=[];
 
-var Socketsp = [];
-var playersId = [];
-var pkgNames = [];
-var phoneNos = [];
+var Players=[];
 
 (function () {
 
@@ -76,38 +73,23 @@ var phoneNos = [];
                                 var players = [];
                                 var playersId = [];
 
-                                var userData = {
+                                var NotiData = {
                                     id: id, appId: appId, title: title, message: message, url: url, timeToLive: timeToLive
                                     , dateStartSend: dateStartSend, timeStartSend: timeStartSend, sound: sound, smalIcon: smalIcon, largeIcon: largeIcon
                                     , bigPicture: bigPicture, ledColor: ledColor, accentColor: accentColor, gId: gId, priority: priority
-                                    , pkgNameAndroid: pkgNameAndroid, pkgNameIos: pkgNameIos, kind: kind, AdditionalData: AdditionalData, btns: btns, players: players, playersId: playersId
+                                    , pkgNameAndroid: pkgNameAndroid, pkgNameIos: pkgNameIos, kind: kind, AdditionalData: AdditionalData, btns: btns
                                 };
 
                                 var canAdd = 0;
                                 if (id > 0) {
-                                    for (var j = 0; j < rooms.length; j++) {
-                                        if (rooms[j].id == id) {
+                                    for (var j = 0; j < Notifications.length; j++) {
+                                        if (Notifications[j].id == id) {
                                             canAdd = 1;
                                         }
                                     }
+
                                     if (canAdd == 0) {
-                                        rooms.push(userData);
-
-                                        rooms.forEach(function (itemRoom, indexRoom, objectRoom) {
-                                            pkgNames.forEach(function (item, index, object) {
-                                                if (item == itemRoom.pkgNameAndroid || item == itemRoom.pkgNameIos) {
-                                                    if (Socketsp[index] != undefined) {
-                                                        rooms[indexRoom].players.push(Socketsp[index]);
-                                                        rooms[indexRoom].playersId.push(playersId[index]);
-
-                                                        object.splice(index, 1);
-                                                        Socketsp.splice(index, 1);
-                                                        playersId.splice(index, 1);
-                                                        phoneNos.splice(index, 1);
-                                                    }
-                                                }
-                                            });
-                                        });
+                                        Notifications.push(NotiData);
                                     }
                                 }
                             }
@@ -119,13 +101,23 @@ var phoneNos = [];
 
                         var dat = h * 60 + m;
 
-                        rooms.forEach(function (item, index, object) {
+                        Notifications.forEach(function (item, index, object) {
                             if (item.timeStartSend + item.timeToLive < dat) {
                                 object.splice(index, 1);
                             }
                         });
 
-                        rooms.forEach(function (item, index, object) {
+                        for (var k = 0; k < Players.length; k++)
+                        {
+                            Players[k][1].forEach(function (item, index, object) {
+                                if (item.socket == undefined)
+                                {
+                                    object.splice(index, 1);
+                                }
+                            });
+                        }
+
+                        Notifications.forEach(function (item, index, object) {
                             var noti = {
                                 id: item.id, appId: item.appId, title: item.title, message: item.message, url: item.url, timeToLive: item.timeToLive
                                 , dateStartSend: item.dateStartSend, timeStartSend: item.timeStartSend, sound: item.sound, smalIcon: item.smalIcon, largeIcon: item.largeIcon
@@ -133,17 +125,22 @@ var phoneNos = [];
                                 , pkgNameAndroid: item.pkgNameAndroid, pkgNameIos: item.pkgNameIos, kind: item.kind,AdditionalData: item.AdditionalData, btns: item.btns,Meskind:"noti"
                             };
 
-
-                            item.players.forEach(function (itemp, indexp, objectp) {
-                                try {
-                                    if (itemp != undefined) {
-                                        itemp.write(JSON.stringify(noti) + "\n");
-                                    }
+                            for (var k = 0; k < Players.length; k++)
+                            {
+                                if (Players[k][0] == noti.pkgNameAndroid || Players[k][0] == noti.pkgNameIos)
+                                {
+                                    Players[k][1].forEach(function (itemp, indexp, objectp) {
+                                        if (itemp.socket == undefined) {
+                                            objectp.splice(indexp, 1);
+                                        }
+                                        else
+                                        {
+                                            itemp.socket.write(JSON.stringify(noti) + "\n");
+                                        }
+                                    });
+                                    
                                 }
-                                catch (e) {
-                                    objectp.splice(indexp, 1);
-                                }
-                            });
+                            }
 
                         });
                     }
@@ -182,74 +179,30 @@ try {
                 var knd = dt.kind;
                 var added = 0;
 
+                var myData = {
+                    playerId: playerId, phoneNo: phoneNo, socket: socket
+                };
 
                 if (knd == "add") {
-                    rooms.forEach(function (item, index, object) {
-                        if (item.pkgNameAndroid == pkgName) {
-                            item.playersId.forEach(function (itemp, indexp, objectp) {
-                                if (itemp == playerId) {
-                                    delete item.players[indexp];
-                                    item.players.splice(indexp, 1);
-                                    item.playersId.splice(indexp, 1);
-                                }
-                            });
+                    for (var i = 0; i < Players.length; i++) {
+                        if (Players[i][0].pkgNameAndroid == pkgName || Players[i][0].pkgNameIos == pkgName) {
+                            
+                            Players[i][1].push(myData);
+                            added = 1;
                         }
-                        else if (item.pkgNameIos == pkgName) {
-                            item.playersId.forEach(function (itemp, indexp, objectp) {
-                                if (itemp == playerId) {
-                                    item.players.destroy();
-                                    item.players.splice(indexp, 1);
-                                    item.playersId.splice(indexp, 1);
-                                }
-                            });
-                        }
-                    });
+                    }
 
-
-                    for (var i = 0; i < rooms.length; i++) {
-                        if (rooms.pkgNameAndroid != "") {
-                            if (rooms[i].pkgNameAndroid == pkgName) {
-                                rooms[i].players.push(socket);
-                                rooms[i].playersId.push(playerId);
-                            }
-                        }
-                        else if (rooms[i].pkgNameIos == pkgName) {
-                            rooms[i].players.push(socket);
-                            rooms[i].playersId.push(playerId);
-                        }
-                        else
-                        {
-                            Socketsp.push(socket);
-                            playersId.push(playerId);
-                            pkgNames.push(pkgName);
-                            phoneNos.push(phoneNo);
-                        }
+                    if (added == 0)
+                    {
+                        Players.push(pkgName, []);
+                        Players[Players.length - 1][1].push(myData);
                     }
                 }
                 else if (knd == "Alive")
-                {
-                    
+                {                 
                     var data = {
                         alive: true, Meskind:"Alive"
                     };
-
-                    for (var i = 0; i < rooms.length; i++)
-                    {
-                        var canAdd = 0;
-                        for (var j = 0; j < rooms[i].playersId; j++)
-                        {
-                            if (rooms[i].playersId == playerId)
-                            {
-                                canAdd = 1;
-                            }
-                        }
-
-                        if (canAdd == 0)
-                        {
-                            rooms[i].players.push(socket);
-                            rooms[i].playersId.push(playerId);
-                        }
-                    }
 
                     socket.write(JSON.stringify(data) + "\n");
                 }
@@ -261,11 +214,10 @@ try {
         });
 
         socket.on('close', function (data) {
-            try {
-                for (var i = 0; i < rooms.length; i++) {
-                    rooms[i].players.forEach(function (item, index, object) {
-                        if (item == undefined) {
-                            item.destroy();
+        try {
+                for (var k = 0; k < Players.length; k++) {
+                    Players[k][1].forEach(function (item, index, object) {
+                        if (item.socket == undefined) {
                             object.splice(index, 1);
                         }
                     });
@@ -282,10 +234,9 @@ try {
         socket.on('error', function (data) {
             delete socket;
             try {
-                for (var i = 0; i < rooms.length; i++) {
-                    rooms[i].players.forEach(function (item, index, object) {
-                        if (item.connecting == false) {
-                            item.destroy();
+                for (var k = 0; k < Players.length; k++) {
+                    Players[k][1].forEach(function (item, index, object) {
+                        if (item.socket == undefined) {
                             object.splice(index, 1);
                         }
                     });
