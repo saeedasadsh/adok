@@ -186,7 +186,7 @@ try {
                 if (knd == "add") {
                     for (var i = 0; i < Players.length; i++) {
                         if (Players[i][0].pkgNameAndroid == pkgName || Players[i][0].pkgNameIos == pkgName) {
-                            
+                            console.log("player Added");
                             Players[i][1].push(myData);
                             added = 1;
                         }
