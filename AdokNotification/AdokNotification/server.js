@@ -187,9 +187,6 @@ try {
                     for (var i = 0; i < Players.length; i++) {
                         if (Players[i].pkgName == pkgName || Players[i].pkgName == pkgName) {
                             Players[i].players.push(myData);
-
-                            console.log("player Added");
-                            console.log(Players[i]);
                             added = 1;
                         }
                     }
@@ -199,10 +196,6 @@ try {
                         var dt = { pkgName: pkgName,players:[]};
                         Players.push(dt);
                         Players[Players.length - 1].players.push(myData);
-
-                        console.log("player Added here");
-                        console.log(Players[Players.length - 1].players);
-
                     }
                 }
                 else if (knd == "Alive")
