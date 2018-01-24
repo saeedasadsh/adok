@@ -109,7 +109,7 @@ var Players=[];
 
                         for (var k = 0; k < Players.length; k++)
                         {
-                            Players[k][1].forEach(function (item, index, object) {
+                            Players[k].players.forEach(function (item, index, object) {
                                 if (item.socket == undefined)
                                 {
                                     object.splice(index, 1);
@@ -127,9 +127,9 @@ var Players=[];
 
                             for (var k = 0; k < Players.length; k++)
                             {
-                                if (Players[k][0] == noti.pkgNameAndroid || Players[k][0] == noti.pkgNameIos)
+                                if (Players[k].pkgName == noti.pkgNameAndroid || Players[k].pkgName == noti.pkgNameIos)
                                 {
-                                    Players[k][1].forEach(function (itemp, indexp, objectp) {
+                                    Players[k].players.forEach(function (itemp, indexp, objectp) {
                                         if (itemp.socket == undefined) {
                                             objectp.splice(indexp, 1);
                                         }
@@ -162,7 +162,7 @@ var Players=[];
 try {
     var decoder = new StringDecoder('utf8');
     server.on('connection', function (socket) {
-        //console.log('CONNECTED: ' + socket.remoteAddress + ':' + socket.remotePort);
+        console.log('CONNECTED: ' + socket.remoteAddress + ':' + socket.remotePort);
 
         socket.on('data', function (data) {
 
@@ -185,22 +185,23 @@ try {
 
                 if (knd == "add") {
                     for (var i = 0; i < Players.length; i++) {
-                        if (Players[i][0].pkgNameAndroid == pkgName || Players[i][0].pkgNameIos == pkgName) {                
-                            Players[i][1].push(myData);
+                        if (Players[i].pkgName == pkgName || Players[i].pkgName == pkgName) {
+                            Players[i].players.push(myData);
 
                             console.log("player Added");
-                            console.log(Players[i][1]);
+                            console.log(Players[i]);
                             added = 1;
                         }
                     }
 
                     if (added == 0)
                     {
-                        Players.push(pkgName, []);
-                        Players[Players.length - 1][1].push(myData);
+                        var dt = { pkgName: pkgName,players:[]};
+                        Players.push(dt);
+                        Players[Players.length - 1].players.push(myData);
 
                         console.log("player Added here");
-                        console.log(Players[Players.length - 1][1]);
+                        console.log(Players[Players.length - 1].players);
 
                     }
                 }
@@ -221,8 +222,8 @@ try {
 
         socket.on('close', function (data) {
         try {
-                for (var k = 0; k < Players.length; k++) {
-                    Players[k][1].forEach(function (item, index, object) {
+            for (var k = 0; k < Players.length; k++) {
+                Players[k].players.forEach(function (item, index, object) {
                         if (item.socket == undefined) {
                             object.splice(index, 1);
                         }
@@ -241,7 +242,7 @@ try {
             delete socket;
             try {
                 for (var k = 0; k < Players.length; k++) {
-                    Players[k][1].forEach(function (item, index, object) {
+                    Players[k].players.forEach(function (item, index, object) {
                         if (item.socket == undefined) {
                             object.splice(index, 1);
                         }
