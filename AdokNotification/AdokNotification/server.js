@@ -135,7 +135,7 @@ var Players=[];
                                         }
                                         else
                                         {
-                                            var tm = k * 5;
+                                            var tm = k * 100;
                                             setTimeout(function () {
                                                 itemp.socket.write(JSON.stringify(noti) + "\n");
                                             }, tm);
