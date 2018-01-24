@@ -185,9 +185,11 @@ try {
 
                 if (knd == "add") {
                     for (var i = 0; i < Players.length; i++) {
-                        if (Players[i][0].pkgNameAndroid == pkgName || Players[i][0].pkgNameIos == pkgName) {
-                            console.log("player Added");
+                        if (Players[i][0].pkgNameAndroid == pkgName || Players[i][0].pkgNameIos == pkgName) {                
                             Players[i][1].push(myData);
+
+                            console.log("player Added");
+                            console.log(Players[i][1]);
                             added = 1;
                         }
                     }
@@ -196,6 +198,10 @@ try {
                     {
                         Players.push(pkgName, []);
                         Players[Players.length - 1][1].push(myData);
+
+                        console.log("player Added here");
+                        console.log(Players[Players.length - 1][1]);
+
                     }
                 }
                 else if (knd == "Alive")
