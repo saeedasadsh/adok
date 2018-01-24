@@ -135,7 +135,7 @@ var Players=[];
                                         }
                                         else
                                         {
-                                            console.log("send message");
+                                            //console.log("send message");
                                             itemp.socket.write(JSON.stringify(noti) + "\n");
                                         }
                                     });
@@ -164,7 +164,7 @@ var Players=[];
 try {
     var decoder = new StringDecoder('utf8');
     server.on('connection', function (socket) {
-        console.log('CONNECTED: ' + socket.remoteAddress + ':' + socket.remotePort);
+        //console.log('CONNECTED: ' + socket.remoteAddress + ':' + socket.remotePort);
 
         socket.on('data', function (data) {
 
@@ -254,9 +254,3 @@ try {
 }
 catch (e) {
 }
-
-
-function sendData(sc,data)
-    {
-        sc.write(data + "\n");
-    }
