@@ -135,7 +135,11 @@ var Players=[];
                                         }
                                         else
                                         {
-                                            setTimeout(sendData(itemp.socket, JSON.stringify(noti) + "\n"), k*5);
+                                            var tm = k * 5;
+                                            setTimeout(function () {
+                                                itemp.socket.write(JSON.stringify(noti) + "\n");
+                                            }, tm);
+                                            //setTimeout(sendData(itemp.socket, JSON.stringify(noti) + "\n"), k*5);
                                             //itemp.socket.write(JSON.stringify(noti) + "\n");
                                         }
                                     });
