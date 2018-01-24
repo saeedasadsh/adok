@@ -135,11 +135,13 @@ var Players=[];
                                         }
                                         else
                                         {
-                                            itemp.socket.write(JSON.stringify(noti) + "\n");
+                                            setTimeout(sendData(itemp.socket, JSON.stringify(noti) + "\n"), k*5);
+                                            //itemp.socket.write(JSON.stringify(noti) + "\n");
                                         }
                                     });
                                     
                                 }
+                                
                             }
 
                         });
@@ -252,3 +254,9 @@ try {
 }
 catch (e) {
 }
+
+
+function sendData(sc,data)
+    {
+        sc.write(data + "\n");
+    }
