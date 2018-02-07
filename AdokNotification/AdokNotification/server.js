@@ -277,6 +277,7 @@ try {
                     socket.write(JSON.stringify(data) + "\n");
                 }
                 else if (knd == "Deliver") {
+                    console.log("Delivered: " + playerId);
                     var nid = dt.nid;
                     for (i = 0; i < delivery.length; i++)
                     {
