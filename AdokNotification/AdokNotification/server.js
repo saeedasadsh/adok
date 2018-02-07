@@ -8,8 +8,8 @@ var _ip = "94.130.122.236";
 var _port = 3010;
 
 var Notifications=[];
-
 var Players=[];
+var delivery = [];
 
 (function () {
 
@@ -47,6 +47,7 @@ var Players=[];
 
                     try {
                         var dt = JSON.parse(buffer);
+                        var CurNotifications = [];
                         for (var i = 0; i < dt.length; i++) {
                             var id = dt[i].id;
                             if (id != -1) {
@@ -70,26 +71,56 @@ var Players=[];
                                 var kind = dt[i].kind;
                                 var AdditionalData = dt[i].AdditionalData;
                                 var btns = dt[i].btns;
+                                var lastUpdateTime = dt[i].lastUpdateTime;
+                                var IsStop = dt[i].IsStop;
                                 var players = [];
                                 var playersId = [];
+                                
 
                                 var NotiData = {
                                     id: id, appId: appId, title: title, message: message, url: url, timeToLive: timeToLive
                                     , dateStartSend: dateStartSend, timeStartSend: timeStartSend, sound: sound, smalIcon: smalIcon, largeIcon: largeIcon
                                     , bigPicture: bigPicture, ledColor: ledColor, accentColor: accentColor, gId: gId, priority: priority
-                                    , pkgNameAndroid: pkgNameAndroid, pkgNameIos: pkgNameIos, kind: kind, AdditionalData: AdditionalData, btns: btns
+                                    , pkgNameAndroid: pkgNameAndroid, pkgNameIos: pkgNameIos, kind: kind, lastUpdateTime: lastUpdateTime, AdditionalData: AdditionalData, btns: btns
                                 };
 
+                                var Deliverydt = { id: id, playersId: "" };
+                                CurNotifications.push(NotiData);
                                 var canAdd = 0;
                                 if (id > 0) {
                                     for (var j = 0; j < Notifications.length; j++) {
                                         if (Notifications[j].id == id) {
+
+                                            if (Notifications[j].lastUpdateTime < lastUpdateTime)
+                                            {
+                                                Notifications[j].appId = appId;
+                                                Notifications[j].title = title;
+                                                Notifications[j].message = message;
+                                                Notifications[j].url = url;
+                                                Notifications[j].timeToLive = timeToLive;
+                                                Notifications[j].dateStartSend = dateStartSend;
+                                                Notifications[j].timeStartSend = timeStartSend;
+                                                Notifications[j].sound = sound;
+                                                Notifications[j].smalIcon = smalIcon;
+                                                Notifications[j].largeIcon = largeIcon;
+                                                Notifications[j].bigPicture = bigPicture;
+                                                Notifications[j].ledColor = ledColor;
+                                                Notifications[j].accentColor = accentColor;
+                                                Notifications[j].gId = gId;
+                                                Notifications[j].priority = priority;
+                                                Notifications[j].pkgNameAndroid = pkgNameAndroid;
+                                                Notifications[j].pkgNameIos = pkgNameIos;
+                                                Notifications[j].kind = kind;
+                                                Notifications[j].lastUpdateTime = lastUpdateTime;
+                                                Notifications[j].IsStop = IsStop;
+                                            }
                                             canAdd = 1;
                                         }
                                     }
 
                                     if (canAdd == 0) {
                                         Notifications.push(NotiData);
+                                        delivery.push(Deliverydt);
                                     }
                                 }
                             }
@@ -100,9 +131,29 @@ var Players=[];
                         var m = today.getMinutes();
 
                         var dat = h * 60 + m;
+                        Notifications.forEach(function (item, index, object) {
+                            if (item.IsStop>0) {
+                                object.splice(index, 1);
+                            }
+                        });
 
                         Notifications.forEach(function (item, index, object) {
                             if (item.timeStartSend + item.timeToLive < dat) {
+                                object.splice(index, 1);
+                            }
+                        });
+
+                        Notifications.forEach(function (item, index, object) {
+                            var exsist = 0;
+                            for (k = 0; k < CurNotifications.length; k++)
+                            {
+                                if (CurNotifications[j].id == item.id)
+                                {
+                                    exsist = 1;
+                                }
+                            }
+                            if (exsist == 0)
+                            {
                                 object.splice(index, 1);
                             }
                         });
@@ -136,7 +187,11 @@ var Players=[];
                                         else
                                         {
                                             //console.log("send message");
-                                            itemp.socket.write(JSON.stringify(noti) + "\n");
+                                            if (delivery[index].playersId.indexOf(":" + itemp.playerId + ":") < 0)
+                                            {
+                                                itemp.socket.write(JSON.stringify(noti) + "\n");
+                                            }
+                                            
                                         }
                                     });
                                     
@@ -207,6 +262,16 @@ try {
                     };
 
                     socket.write(JSON.stringify(data) + "\n");
+                }
+                else if (knd == "Deliver") {
+                    var nid = dt.nid;
+                    for (i = 0; i < delivery.length; i++)
+                    {
+                        if (delivery[i].id == nid)
+                        {
+                            delivery[i].playersId += ":" + playerId + ":";
+                        }
+                    }
                 }
             }
             catch (e) {
