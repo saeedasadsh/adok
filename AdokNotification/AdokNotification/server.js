@@ -116,6 +116,11 @@ var delivery = [];
                                             }
                                             canAdd = 1;
                                         }
+
+                                        if (Notifications[j].IsStop > 0)
+                                        {
+                                            canAdd = 1;
+                                        }
                                     }
 
                                     if (canAdd == 0) {
