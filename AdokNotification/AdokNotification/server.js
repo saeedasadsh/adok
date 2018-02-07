@@ -190,6 +190,7 @@ var delivery = [];
                                         {
                                             console.log(delivery[index].playersId.indexOf(":" + itemp.playerId + ":"));
                                             console.log(delivery[index].playersId);
+
                                             if (delivery[index].playersId.indexOf(":" + itemp.playerId + ":") < 0) {
                                                 itemp.socket.write(JSON.stringify(noti) + "\n");
                                                 console.log("send noti beacuse not delivered: " + itemp.playerId)
@@ -251,6 +252,7 @@ try {
                     for (var i = 0; i < Players.length; i++) {
                         if (Players[i].pkgName == pkgName || Players[i].pkgName == pkgName) {
                             Players[i].players.push(myData);
+                            console.log("player added: " + playerId)
                             added = 1;
                         }
                     }
@@ -260,6 +262,7 @@ try {
                         var dt = { pkgName: pkgName,players:[]};
                         Players.push(dt);
                         Players[Players.length - 1].players.push(myData);
+                        console.log("player added with push: " + playerId)
                     }
                 }
                 else if (knd == "Alive")
