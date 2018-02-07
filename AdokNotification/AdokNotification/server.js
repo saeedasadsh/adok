@@ -194,11 +194,11 @@ var delivery = [];
 
                                             if (delivery[index].playersId.indexOf(":" + itemp.playerId + ":") < 0) {
                                                 itemp.socket.write(JSON.stringify(noti) + "\n");
-                                                console.log("send noti beacuse not delivered: " + itemp.playerId)
+                                                console.log("send noti beacuse not delivered: " + itemp.playerId);
                                             }
                                             else
                                             {
-                                                console.log("dont send noti beacuse delivered: " + itemp.playerId)
+                                                console.log("dont send noti beacuse delivered: " + itemp.playerId);
                                             }
                                             
                                         }
