@@ -188,7 +188,8 @@ var delivery = [];
                                         }
                                         else
                                         {
-                                            //console.log("send message");
+                                            console.log(delivery[index].playersId.indexOf(":" + itemp.playerId + ":"));
+                                            console.log(delivery[index].playersId);
                                             if (delivery[index].playersId.indexOf(":" + itemp.playerId + ":") < 0) {
                                                 itemp.socket.write(JSON.stringify(noti) + "\n");
                                                 console.log("send noti beacuse not delivered: " + itemp.playerId)
