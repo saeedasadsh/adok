@@ -124,7 +124,7 @@ var delivery = [];
                                     }
 
                                     if (canAdd == 0) {
-                                        console.log("added: " + NotiData.id);
+                                        //console.log("added: " + NotiData.id);
                                         Notifications.push(NotiData);
                                         delivery.push(Deliverydt);
                                     }
@@ -140,7 +140,7 @@ var delivery = [];
                         Notifications.forEach(function (item, index, object) {
                             if (item.IsStop>0) {
                                 object.splice(index, 1);
-                                console.log("stoped: " + item.id);
+                                //console.log("stoped: " + item.id);
                             }
                         });
 
@@ -156,7 +156,7 @@ var delivery = [];
                             if (exsist == 0)
                             {
                                 object.splice(index, 1);
-                                console.log("deleted beacuse not exsist: " + item.id);
+                                //console.log("deleted beacuse not exsist: " + item.id);
                             }
                         });
 
@@ -194,11 +194,11 @@ var delivery = [];
 
                                             if (delivery[index].playersId.indexOf(":" + itemp.playerId + ":") < 0) {
                                                 itemp.socket.write(JSON.stringify(noti) + "\n");
-                                                console.log("send noti beacuse not delivered: " + itemp.playerId);
+                                                //console.log("send noti beacuse not delivered: " + itemp.playerId);
                                             }
                                             else
                                             {
-                                                console.log("dont send noti beacuse delivered: " + itemp.playerId);
+                                                //console.log("dont send noti beacuse delivered: " + itemp.playerId);
                                             }
                                             
                                         }
@@ -255,7 +255,7 @@ try {
                     for (var i = 0; i < Players.length; i++) {
                         if (Players[i].pkgName == pkgName || Players[i].pkgName == pkgName) {
                             Players[i].players.push(myData);
-                            console.log("player added: " + playerId);
+                            //console.log("player added: " + playerId);
                             added = 1;
                         }
                     }
@@ -265,7 +265,7 @@ try {
                         var dt = { pkgName: pkgName,players:[]};
                         Players.push(dt);
                         Players[Players.length - 1].players.push(myData);
-                        console.log("player added with push: " + playerId);
+                        //console.log("player added with push: " + playerId);
                     }
                 }
                 else if (knd == "Alive")
@@ -277,7 +277,7 @@ try {
                     socket.write(JSON.stringify(data) + "\n");
                 }
                 else if (knd == "Deliver") {
-                    console.log("Delivered: " + playerId);
+                    //console.log("Delivered: " + playerId);
                     var nid = dt.nid;
                     for (i = 0; i < delivery.length; i++)
                     {
