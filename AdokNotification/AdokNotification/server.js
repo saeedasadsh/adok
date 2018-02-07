@@ -211,6 +211,7 @@ var delivery = [];
                         });
                     }
                     catch (e) {
+                        console.log("1: "+e.message);
                     }
                 });
 
@@ -222,6 +223,7 @@ var delivery = [];
         }, 10000);
     }
     catch (e) {
+        console.log("2: " +e.message);
     }
 })();
 
@@ -286,6 +288,7 @@ try {
                 }
             }
             catch (e) {
+                console.log("3: " +e.message);
                 }
             
 
@@ -301,7 +304,8 @@ try {
                     });
                 }
             }
-            catch (e) {
+        catch (e) {
+            console.log("4: " +e.message);
             }
         });
 
@@ -321,6 +325,7 @@ try {
                 }
             }
             catch (e) {
+                console.log("5: " +e.message);
             }
         });
 
@@ -329,4 +334,5 @@ try {
     server.listen(_port, _ip);
 }
 catch (e) {
+    console.log("6: " +e.message);
 }
