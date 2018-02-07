@@ -140,6 +140,7 @@ var delivery = [];
                         Notifications.forEach(function (item, index, object) {
                             if (item.IsStop>0) {
                                 object.splice(index, 1);
+                                delivery.splice(index, 1);
                                 //console.log("stoped: " + item.id);
                             }
                         });
@@ -156,6 +157,7 @@ var delivery = [];
                             if (exsist == 0)
                             {
                                 object.splice(index, 1);
+                                delivery.splice(index, 1);
                                 //console.log("deleted beacuse not exsist: " + item.id);
                             }
                         });
