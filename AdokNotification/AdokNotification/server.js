@@ -180,6 +180,7 @@ var delivery = [];
 
                             for (var k = 0; k < Players.length; k++)
                             {
+                                console.log(Players[k].pkgName + " " + noti.pkgNameAndroid + " " + Players[k].pkgName + " " + noti.pkgNameIos);
                                 if (Players[k].pkgName == noti.pkgNameAndroid || Players[k].pkgName == noti.pkgNameIos)
                                 {
                                     Players[k].players.forEach(function (itemp, indexp, objectp) {
