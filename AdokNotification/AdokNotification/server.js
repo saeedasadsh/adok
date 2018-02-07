@@ -124,6 +124,7 @@ var delivery = [];
                                     }
 
                                     if (canAdd == 0) {
+                                        console.log("added: "+NotiData.id)
                                         Notifications.push(NotiData);
                                         delivery.push(Deliverydt);
                                     }
@@ -139,12 +140,7 @@ var delivery = [];
                         Notifications.forEach(function (item, index, object) {
                             if (item.IsStop>0) {
                                 object.splice(index, 1);
-                            }
-                        });
-
-                        Notifications.forEach(function (item, index, object) {
-                            if (item.timeStartSend + item.timeToLive < dat) {
-                                object.splice(index, 1);
+                                console.log("stoped: " + item.id)
                             }
                         });
 
@@ -160,6 +156,7 @@ var delivery = [];
                             if (exsist == 0)
                             {
                                 object.splice(index, 1);
+                                console.log("deleted beacuse not exsist: " + item.id)
                             }
                         });
 
@@ -192,9 +189,13 @@ var delivery = [];
                                         else
                                         {
                                             //console.log("send message");
-                                            if (delivery[index].playersId.indexOf(":" + itemp.playerId + ":") < 0)
-                                            {
+                                            if (delivery[index].playersId.indexOf(":" + itemp.playerId + ":") < 0) {
                                                 itemp.socket.write(JSON.stringify(noti) + "\n");
+                                                console.log("send noti beacuse not delivered: " + itemp.playerId)
+                                            }
+                                            else
+                                            {
+                                                console.log("dont send noti beacuse delivered: " + itemp.playerId)
                                             }
                                             
                                         }
