@@ -148,7 +148,7 @@ var delivery = [];
                             var exsist = 0;
                             for (k = 0; k < CurNotifications.length; k++)
                             {
-                                if (CurNotifications[j].id == item.id)
+                                if (CurNotifications[k].id == item.id)
                                 {
                                     exsist = 1;
                                 }
