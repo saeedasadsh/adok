@@ -180,7 +180,7 @@ var delivery = [];
 
                             for (var k = 0; k < Players.length; k++)
                             {
-                                console.log(Players[k].pkgName + " " + noti.pkgNameAndroid + " " + Players[k].pkgName + " " + noti.pkgNameIos);
+                                //console.log(Players[k].pkgName + " " + noti.pkgNameAndroid + " " + Players[k].pkgName + " " + noti.pkgNameIos);
                                 if (Players[k].pkgName == noti.pkgNameAndroid || Players[k].pkgName == noti.pkgNameIos)
                                 {
                                     Players[k].players.forEach(function (itemp, indexp, objectp) {
@@ -189,8 +189,8 @@ var delivery = [];
                                         }
                                         else
                                         {
-                                            console.log(delivery[index].playersId.indexOf(":" + itemp.playerId + ":"));
-                                            console.log(delivery[index].playersId);
+                                            //console.log(delivery[index].playersId.indexOf(":" + itemp.playerId + ":"));
+                                            //console.log(delivery[index].playersId);
 
                                             if (delivery[index].playersId.indexOf(":" + itemp.playerId + ":") < 0) {
                                                 itemp.socket.write(JSON.stringify(noti) + "\n");
