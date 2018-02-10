@@ -73,6 +73,8 @@ var delivery = [];
                                 var btns = dt[i].btns;
                                 var lastUpdateTime = dt[i].lastUpdateTime;
                                 var IsStop = dt[i].IsStop;
+                                var bigText = dt[i].bigText;
+                                var summary = dt[i].summary;
                                 var players = [];
                                 var playersId = [];
                                 
@@ -81,7 +83,8 @@ var delivery = [];
                                     id: id, appId: appId, title: title, message: message, url: url, timeToLive: timeToLive
                                     , dateStartSend: dateStartSend, timeStartSend: timeStartSend, sound: sound, smalIcon: smalIcon, largeIcon: largeIcon
                                     , bigPicture: bigPicture, ledColor: ledColor, accentColor: accentColor, gId: gId, priority: priority
-                                    , pkgNameAndroid: pkgNameAndroid, pkgNameIos: pkgNameIos, kind: kind, lastUpdateTime: lastUpdateTime, AdditionalData: AdditionalData, btns: btns
+                                    , pkgNameAndroid: pkgNameAndroid, pkgNameIos: pkgNameIos, kind: kind, lastUpdateTime: lastUpdateTime,
+                                    bigText: bigText, summary: summary,AdditionalData: AdditionalData, btns: btns
                                 };
 
                                 var Deliverydt = { id: id, playersId: "" };
@@ -113,6 +116,8 @@ var delivery = [];
                                                 Notifications[j].kind = kind;
                                                 Notifications[j].lastUpdateTime = lastUpdateTime;
                                                 Notifications[j].IsStop = IsStop;
+                                                Notifications[j].bigText = bigText;
+                                                Notifications[j].summary = summary;
                                             }
                                             canAdd = 1;
                                         }
@@ -177,7 +182,8 @@ var delivery = [];
                                 id: item.id, appId: item.appId, title: item.title, message: item.message, url: item.url, timeToLive: item.timeToLive
                                 , dateStartSend: item.dateStartSend, timeStartSend: item.timeStartSend, sound: item.sound, smalIcon: item.smalIcon, largeIcon: item.largeIcon
                                 , bigPicture: item.bigPicture, ledColor: item.ledColor, accentColor: item.accentColor, gId: item.gId, priority: item.priority
-                                , pkgNameAndroid: item.pkgNameAndroid, pkgNameIos: item.pkgNameIos, kind: item.kind,AdditionalData: item.AdditionalData, btns: item.btns,Meskind:"noti"
+                                , pkgNameAndroid: item.pkgNameAndroid, pkgNameIos: item.pkgNameIos, kind: item.kind,
+                                bigText: item.bigText, summary: item.summary,AdditionalData: item.AdditionalData, btns: item.btns, Meskind: "noti"
                             };
 
                             for (var k = 0; k < Players.length; k++)
