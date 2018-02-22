@@ -252,8 +252,7 @@ try {
                 var playerId = dt.playerId;
                 var pkgName = dt.pkgName;
                 var phoneNo = dt.phoneNo;
-                var pkgs = dt.pkgs;
-                console.log(pkgs);
+                
                 var knd = dt.kind;
                 var added = 0;
 
@@ -262,6 +261,9 @@ try {
                 };
 
                 if (knd == "add") {
+                    var pkgs = dt.pkgs;
+                    console.log(pkgs);
+
                     for (var i = 0; i < Players.length; i++) {
                         if (Players[i].pkgName == pkgName || Players[i].pkgName == pkgName) {
                             Players[i].players.push(myData);
@@ -279,7 +281,10 @@ try {
                     }
                 }
                 else if (knd == "Alive")
-                {                 
+                {
+                    var pkgs = dt.pkgs;
+                    console.log(pkgs);
+                                     
                     var data = {
                         alive: true, Meskind:"Alive"
                     };
