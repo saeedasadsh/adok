@@ -7,8 +7,8 @@ var StringDecoder = require('string_decoder').StringDecoder;
 var _ip = "94.130.122.236";
 var _port = 3010;
 
-var Notifications=[];
-var Players=[];
+var Notifications = [];
+var Players = [];
 var delivery = [];
 
 (function () {
@@ -77,14 +77,14 @@ var delivery = [];
                                 var summary = dt[i].summary;
                                 var players = [];
                                 var playersId = [];
-                                
+
 
                                 var NotiData = {
                                     id: id, appId: appId, title: title, message: message, url: url, timeToLive: timeToLive
                                     , dateStartSend: dateStartSend, timeStartSend: timeStartSend, sound: sound, smalIcon: smalIcon, largeIcon: largeIcon
                                     , bigPicture: bigPicture, ledColor: ledColor, accentColor: accentColor, gId: gId, priority: priority
                                     , pkgNameAndroid: pkgNameAndroid, pkgNameIos: pkgNameIos, kind: kind, lastUpdateTime: lastUpdateTime,
-                                    bigText: bigText, summary: summary,AdditionalData: AdditionalData, btns: btns
+                                    bigText: bigText, summary: summary, AdditionalData: AdditionalData, btns: btns
                                 };
 
                                 var Deliverydt = { id: id, playersId: "" };
@@ -94,8 +94,7 @@ var delivery = [];
                                     for (var j = 0; j < Notifications.length; j++) {
                                         if (Notifications[j].id == id) {
 
-                                            if (Notifications[j].lastUpdateTime < lastUpdateTime)
-                                            {
+                                            if (Notifications[j].lastUpdateTime < lastUpdateTime) {
                                                 Notifications[j].appId = appId;
                                                 Notifications[j].title = title;
                                                 Notifications[j].message = message;
@@ -122,8 +121,7 @@ var delivery = [];
                                             canAdd = 1;
                                         }
 
-                                        if (Notifications[j].IsStop > 0)
-                                        {
+                                        if (Notifications[j].IsStop > 0) {
                                             canAdd = 1;
                                         }
                                     }
@@ -143,7 +141,7 @@ var delivery = [];
 
                         var dat = h * 60 + m;
                         Notifications.forEach(function (item, index, object) {
-                            if (item.IsStop>0) {
+                            if (item.IsStop > 0) {
                                 object.splice(index, 1);
                                 delivery.splice(index, 1);
                                 //console.log("stoped: " + item.id);
@@ -152,26 +150,21 @@ var delivery = [];
 
                         Notifications.forEach(function (item, index, object) {
                             var exsist = 0;
-                            for (k = 0; k < CurNotifications.length; k++)
-                            {
-                                if (CurNotifications[k].id == item.id)
-                                {
+                            for (k = 0; k < CurNotifications.length; k++) {
+                                if (CurNotifications[k].id == item.id) {
                                     exsist = 1;
                                 }
                             }
-                            if (exsist == 0)
-                            {
+                            if (exsist == 0) {
                                 object.splice(index, 1);
                                 delivery.splice(index, 1);
                                 //console.log("deleted beacuse not exsist: " + item.id);
                             }
                         });
 
-                        for (var k = 0; k < Players.length; k++)
-                        {
+                        for (var k = 0; k < Players.length; k++) {
                             Players[k].players.forEach(function (item, index, object) {
-                                if (item.socket == undefined)
-                                {
+                                if (item.socket == undefined) {
                                     object.splice(index, 1);
                                 }
                             });
@@ -183,20 +176,17 @@ var delivery = [];
                                 , dateStartSend: item.dateStartSend, timeStartSend: item.timeStartSend, sound: item.sound, smalIcon: item.smalIcon, largeIcon: item.largeIcon
                                 , bigPicture: item.bigPicture, ledColor: item.ledColor, accentColor: item.accentColor, gId: item.gId, priority: item.priority
                                 , pkgNameAndroid: item.pkgNameAndroid, pkgNameIos: item.pkgNameIos, kind: item.kind,
-                                bigText: item.bigText, summary: item.summary,AdditionalData: item.AdditionalData, btns: item.btns, Meskind: "noti"
+                                bigText: item.bigText, summary: item.summary, AdditionalData: item.AdditionalData, btns: item.btns, Meskind: "noti"
                             };
 
-                            for (var k = 0; k < Players.length; k++)
-                            {
+                            for (var k = 0; k < Players.length; k++) {
                                 //console.log(Players[k].pkgName + " " + noti.pkgNameAndroid + " " + Players[k].pkgName + " " + noti.pkgNameIos);
-                                if (Players[k].pkgName == noti.pkgNameAndroid || Players[k].pkgName == noti.pkgNameIos)
-                                {
+                                if (Players[k].pkgName == noti.pkgNameAndroid || Players[k].pkgName == noti.pkgNameIos) {
                                     Players[k].players.forEach(function (itemp, indexp, objectp) {
                                         if (itemp.socket == undefined) {
                                             objectp.splice(indexp, 1);
                                         }
-                                        else
-                                        {
+                                        else {
                                             //console.log(delivery[index].playersId.indexOf(":" + itemp.playerId + ":"));
                                             //console.log(delivery[index].playersId);
 
@@ -204,22 +194,21 @@ var delivery = [];
                                                 itemp.socket.write(JSON.stringify(noti) + "\n");
                                                 //console.log("send noti beacuse not delivered: " + itemp.playerId);
                                             }
-                                            else
-                                            {
+                                            else {
                                                 //console.log("dont send noti beacuse delivered: " + itemp.playerId);
                                             }
-                                            
+
                                         }
                                     });
-                                    
+
                                 }
-                                
+
                             }
 
                         });
                     }
                     catch (e) {
-                        console.log("1: "+e.message);
+                        console.log("1: " + e.message);
                     }
                 });
 
@@ -231,7 +220,7 @@ var delivery = [];
         }, 10000);
     }
     catch (e) {
-        console.log("2: " +e.message);
+        console.log("2: " + e.message);
     }
 })();
 
@@ -252,41 +241,40 @@ try {
                 var playerId = dt.playerId;
                 var pkgName = dt.pkgName;
                 var phoneNo = dt.phoneNo;
-                
+                var pkgs = dt.pkgs;
                 var knd = dt.kind;
                 var added = 0;
 
                 var myData = {
-                    playerId: playerId, phoneNo: phoneNo, socket: socket
+                    playerId: playerId, phoneNo: phoneNo, socket: socket, pkgs: pkgs
                 };
 
                 if (knd == "add") {
-                    var pkgs = dt.pkgs;
-                    console.log(pkgs);
+                    
+                    if (pkgs != undefined) {
+                        for (var j = 0; j < pkgs.length; j++) {
+                            added = 0;
+                            for (var i = 0; i < Players.length; i++) {
 
-                    for (var i = 0; i < Players.length; i++) {
-                        if (Players[i].pkgName == pkgName || Players[i].pkgName == pkgName) {
-                            Players[i].players.push(myData);
-                            //console.log("player added: " + playerId);
-                            added = 1;
+                                if (Players[i].pkgName == pkgs[j] || Players[i].pkgName == pkgs[j]) {
+                                    Players[i].players.push(myData);
+                                    //console.log("player added: " + playerId);
+                                    added = 1;
+                                }
+                            }
+
+                            if (added == 0) {
+                                var dt = { pkgName: pkgs[j], players: [] };
+                                Players.push(dt);
+                                Players[Players.length - 1].players.push(myData);
+                                //console.log("player added with push: " + playerId);
+                            }
                         }
                     }
-
-                    if (added == 0)
-                    {
-                        var dt = { pkgName: pkgName,players:[]};
-                        Players.push(dt);
-                        Players[Players.length - 1].players.push(myData);
-                        //console.log("player added with push: " + playerId);
-                    }
                 }
-                else if (knd == "Alive")
-                {
-                    var pkgs = dt.pkgs;
-                    console.log(pkgs);
-                                     
+                else if (knd == "Alive") {
                     var data = {
-                        alive: true, Meskind:"Alive"
+                        alive: true, Meskind: "Alive"
                     };
 
                     socket.write(JSON.stringify(data) + "\n");
@@ -294,34 +282,32 @@ try {
                 else if (knd == "Deliver") {
                     //console.log("Delivered: " + playerId);
                     var nid = dt.nid;
-                    for (i = 0; i < delivery.length; i++)
-                    {
-                        if (delivery[i].id == nid)
-                        {
+                    for (i = 0; i < delivery.length; i++) {
+                        if (delivery[i].id == nid) {
                             delivery[i].playersId += ":" + playerId + ":";
                         }
                     }
                 }
             }
             catch (e) {
-                console.log("3: " +e.message);
-                }
-            
+                console.log("3: " + e.message);
+            }
+
 
         });
 
         socket.on('close', function (data) {
-        try {
-            for (var k = 0; k < Players.length; k++) {
-                Players[k].players.forEach(function (item, index, object) {
+            try {
+                for (var k = 0; k < Players.length; k++) {
+                    Players[k].players.forEach(function (item, index, object) {
                         if (item.socket == undefined) {
                             object.splice(index, 1);
                         }
                     });
                 }
             }
-        catch (e) {
-            console.log("4: " +e.message);
+            catch (e) {
+                console.log("4: " + e.message);
             }
         });
 
@@ -341,7 +327,7 @@ try {
                 }
             }
             catch (e) {
-                console.log("5: " +e.message);
+                console.log("5: " + e.message);
             }
         });
 
@@ -350,5 +336,5 @@ try {
     server.listen(_port, _ip);
 }
 catch (e) {
-    console.log("6: " +e.message);
+    console.log("6: " + e.message);
 }
