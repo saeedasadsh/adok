@@ -252,6 +252,8 @@ try {
                 var playerId = dt.playerId;
                 var pkgName = dt.pkgName;
                 var phoneNo = dt.phoneNo;
+                var pkgs = dt.pkgs;
+                console.log(pkgs);
                 var knd = dt.kind;
                 var added = 0;
 
