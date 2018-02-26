@@ -127,7 +127,7 @@ var delivery = [];
                                     }
 
                                     if (canAdd == 0) {
-                                        console.log("added: " + NotiData.id);
+                                        //console.log("added: " + NotiData.id);
                                         Notifications.push(NotiData);
                                         delivery.push(Deliverydt);
                                     }
@@ -192,10 +192,10 @@ var delivery = [];
 
                                             if (delivery[index].playersId.indexOf(":" + itemp.playerId + ":") < 0) {
                                                 itemp.socket.write(JSON.stringify(noti) + "\n");
-                                                console.log("send noti beacuse not delivered: " + itemp.playerId);
+                                                //console.log("send noti beacuse not delivered: " + itemp.playerId);
                                             }
                                             else {
-                                                console.log("dont send noti beacuse delivered: " + itemp.playerId);
+                                                //console.log("dont send noti beacuse delivered: " + itemp.playerId);
                                             }
 
                                         }
@@ -236,7 +236,7 @@ try {
                 if (data && data.byteLength != undefined) {
                     data = new Buffer(data).toString('utf8');
                 }
-                console.log('data: ' + data);
+               // console.log('data: ' + data);
 
                 var dt = JSON.parse(data);
                 var playerId = dt.playerId;
