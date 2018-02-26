@@ -4,7 +4,9 @@ var http = require('http');
 var server = net.createServer();
 var StringDecoder = require('string_decoder').StringDecoder;
 
-var _ip = "94.130.122.236";
+//var _ip = "94.130.122.236";
+var _ip = "188.253.2.147";
+
 var _port = 3010;
 
 var Notifications = [];
