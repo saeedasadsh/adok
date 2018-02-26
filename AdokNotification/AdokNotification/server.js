@@ -129,7 +129,7 @@ var delivery = [];
                                     }
 
                                     if (canAdd == 0) {
-                                        console.log("added: " + NotiData.id);
+                                        //console.log("added: " + NotiData.id);
                                         Notifications.push(NotiData);
                                         delivery.push(Deliverydt);
                                     }
@@ -238,7 +238,7 @@ try {
                 if (data && data.byteLength != undefined) {
                     data = new Buffer(data).toString('utf8');
                 }
-                console.log('data: ' + data);
+                //console.log('data: ' + data);
 
                 var dt = JSON.parse(data);
                 var playerId = dt.playerId;
