@@ -127,7 +127,7 @@ var delivery = [];
                                     }
 
                                     if (canAdd == 0) {
-                                        //console.log("added: " + NotiData.id);
+                                        console.log("added: " + NotiData.id);
                                         Notifications.push(NotiData);
                                         delivery.push(Deliverydt);
                                     }
