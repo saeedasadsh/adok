@@ -180,22 +180,22 @@ var delivery = [];
                             };
 
                             for (var k = 0; k < Players.length; k++) {
-                                //console.log(Players[k].pkgName + " " + noti.pkgNameAndroid + " " + Players[k].pkgName + " " + noti.pkgNameIos);
+                                console.log(Players[k].pkgName + " " + noti.pkgNameAndroid + " " + Players[k].pkgName + " " + noti.pkgNameIos);
                                 if (Players[k].pkgName == noti.pkgNameAndroid || Players[k].pkgName == noti.pkgNameIos) {
                                     Players[k].players.forEach(function (itemp, indexp, objectp) {
                                         if (itemp.socket == undefined) {
                                             objectp.splice(indexp, 1);
                                         }
                                         else {
-                                            //console.log(delivery[index].playersId.indexOf(":" + itemp.playerId + ":"));
-                                            //console.log(delivery[index].playersId);
+                                            console.log(delivery[index].playersId.indexOf(":" + itemp.playerId + ":"));
+                                            console.log(delivery[index].playersId);
 
                                             if (delivery[index].playersId.indexOf(":" + itemp.playerId + ":") < 0) {
                                                 itemp.socket.write(JSON.stringify(noti) + "\n");
-                                                //console.log("send noti beacuse not delivered: " + itemp.playerId);
+                                                console.log("send noti beacuse not delivered: " + itemp.playerId);
                                             }
                                             else {
-                                                //console.log("dont send noti beacuse delivered: " + itemp.playerId);
+                                                console.log("dont send noti beacuse delivered: " + itemp.playerId);
                                             }
 
                                         }
@@ -250,9 +250,10 @@ try {
                 };
 
                 if (knd == "add") {
-                    console.log('CONNECTED: ' +pkgs);
+                    
                     if (pkgs != undefined) {
                         for (var j = 0; j < pkgs.length; j++) {
+                            console.log('CONNECTED: ' + pkgs[j]);
                             added = 0;
                             for (var i = 0; i < Players.length; i++) {
 
