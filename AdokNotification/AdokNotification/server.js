@@ -236,6 +236,7 @@ try {
                 if (data && data.byteLength != undefined) {
                     data = new Buffer(data).toString('utf8');
                 }
+                console.log('CONNECTED: ' + data);
 
                 var dt = JSON.parse(data);
                 var playerId = dt.playerId;
@@ -253,7 +254,7 @@ try {
                     
                     if (pkgs != undefined) {
                         for (var j = 0; j < pkgs.length; j++) {
-                            console.log('CONNECTED: ' + pkgs[j]);
+                            
                             added = 0;
                             for (var i = 0; i < Players.length; i++) {
 
