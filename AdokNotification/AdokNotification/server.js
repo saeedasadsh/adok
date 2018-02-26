@@ -250,7 +250,7 @@ try {
                 };
 
                 if (knd == "add") {
-                    
+                    console.log('CONNECTED: ' +pkgs);
                     if (pkgs != undefined) {
                         for (var j = 0; j < pkgs.length; j++) {
                             added = 0;
