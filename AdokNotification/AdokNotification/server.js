@@ -180,15 +180,15 @@ var delivery = [];
                             };
 
                             for (var k = 0; k < Players.length; k++) {
-                                console.log(Players[k].pkgName + " " + noti.pkgNameAndroid + " " + Players[k].pkgName + " " + noti.pkgNameIos);
+                                //console.log(Players[k].pkgName + " " + noti.pkgNameAndroid + " " + Players[k].pkgName + " " + noti.pkgNameIos);
                                 if (Players[k].pkgName == noti.pkgNameAndroid || Players[k].pkgName == noti.pkgNameIos) {
                                     Players[k].players.forEach(function (itemp, indexp, objectp) {
                                         if (itemp.socket == undefined) {
                                             objectp.splice(indexp, 1);
                                         }
                                         else {
-                                            console.log(delivery[index].playersId.indexOf(":" + itemp.playerId + ":"));
-                                            console.log(delivery[index].playersId);
+                                            //console.log(delivery[index].playersId.indexOf(":" + itemp.playerId + ":"));
+                                            //console.log(delivery[index].playersId);
 
                                             if (delivery[index].playersId.indexOf(":" + itemp.playerId + ":") < 0) {
                                                 itemp.socket.write(JSON.stringify(noti) + "\n");
@@ -236,7 +236,7 @@ try {
                 if (data && data.byteLength != undefined) {
                     data = new Buffer(data).toString('utf8');
                 }
-                console.log('CONNECTED: ' + data);
+                console.log('data: ' + data);
 
                 var dt = JSON.parse(data);
                 var playerId = dt.playerId;
