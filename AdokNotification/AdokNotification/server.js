@@ -229,7 +229,7 @@ var delivery = [];
 try {
     var decoder = new StringDecoder('utf8');
     server.on('connection', function (socket) {
-        console.log('CONNECTED: ' + socket.remoteAddress + ':' + socket.remotePort);
+        //console.log('CONNECTED: ' + socket.remoteAddress + ':' + socket.remotePort);
 
         socket.on('data', function (data) {
 
