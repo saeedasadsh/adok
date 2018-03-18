@@ -48,6 +48,7 @@ var delivery = [];
                 res.on('end', function () {
 
                     try {
+                        console.log(buffer);
                         var dt = JSON.parse(buffer);
                         var CurNotifications = [];
                         for (var i = 0; i < dt.length; i++) {
