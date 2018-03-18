@@ -79,7 +79,7 @@ var delivery = [];
                                 var summary = dt[i].summary;
                                 var players = [];
                                 var playersId = [];
-
+                                
 
                                 var NotiData = {
                                     id: id, appId: appId, title: title, message: message, url: url, timeToLive: timeToLive
@@ -88,6 +88,8 @@ var delivery = [];
                                     , pkgNameAndroid: pkgNameAndroid, pkgNameIos: pkgNameIos, kind: kind, lastUpdateTime: lastUpdateTime,
                                     bigText: bigText, summary: summary, AdditionalData: AdditionalData, btns: btns
                                 };
+
+                                
 
                                 var Deliverydt = { id: id, playersId: "" };
                                 CurNotifications.push(NotiData);
@@ -122,14 +124,11 @@ var delivery = [];
                                             }
                                             canAdd = 1;
                                         }
-
-                                        if (Notifications[j].IsStop > 0) {
-                                            canAdd = 1;
-                                        }
                                     }
 
                                     if (canAdd == 0) {
-                                        //console.log("added: " + NotiData.id);
+                                        console.log("added: " + NotiData.id);
+                                        //console.log();
                                         Notifications.push(NotiData);
                                         delivery.push(Deliverydt);
                                     }
