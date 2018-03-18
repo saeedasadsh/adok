@@ -29,7 +29,7 @@ var delivery = [];
             var qslength = qs.length;
 
             var options = {
-                hostname: "ashabrasaneh.ir",
+                hostname: "adok.ir",
                 port: 80,
                 path: "/GamesData/ADok/GetNotifications.php",
                 method: 'POST',
