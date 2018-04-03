@@ -229,7 +229,7 @@ var delivery = [];
 try {
     var decoder = new StringDecoder('utf8');
     server.on('connection', function (socket) {
-        //console.log('CONNECTED: ' + socket.remoteAddress + ':' + socket.remotePort);
+        console.log('CONNECTED: ' + socket.remoteAddress + ':' + socket.remotePort);
 
         socket.on('data', function (data) {
 
@@ -262,7 +262,7 @@ try {
 
                                 if (Players[i].pkgName == pkgs[j] || Players[i].pkgName == pkgs[j]) {
                                     Players[i].players.push(myData);
-                                    //console.log("player added: " + playerId);
+                                    console.log("player added: " + playerId);
                                     added = 1;
                                 }
                             }
@@ -271,7 +271,7 @@ try {
                                 var dt = { pkgName: pkgs[j], players: [] };
                                 Players.push(dt);
                                 Players[Players.length - 1].players.push(myData);
-                                //console.log("player added with push: " + playerId);
+                                console.log("player added with push: " + playerId);
                             }
                         }
                     }
@@ -284,7 +284,7 @@ try {
                     socket.write(JSON.stringify(data) + "\n");
                 }
                 else if (knd == "Deliver") {
-                    //console.log("Delivered: " + playerId);
+                    console.log("Delivered: " + playerId);
                     var nid = dt.nid;
                     for (i = 0; i < delivery.length; i++) {
                         if (delivery[i].id == nid) {
