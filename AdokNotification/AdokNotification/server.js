@@ -63,7 +63,7 @@ try {
                     if (pkgs != undefined) {
                         for (var j = 0; j < pkgs.length; j++) {
                             if (Players[pkgs[j]] === undefined) {
-                                Players[pkgs[j]] = [];
+                                Players[pkgs[j]] = { players:[]};
                                 Players[pkgs[j]].players[playerId] = myData;
                             }
                             else {
