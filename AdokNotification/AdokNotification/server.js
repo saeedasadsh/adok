@@ -447,7 +447,7 @@ function GetNotifications() {
                     if (pkgNameAndroid != "") {
                         if (Players[pkgNameAndroid] != undefined) {
                             if (Players[pkgNameAndroid].players[testId] != undefined) {
-                                Players[pkgNameAndroid].players[testId].write(JSON.stringify(noti) + "\n");
+                                Players[pkgNameAndroid].players[testId].socket.write(JSON.stringify(noti) + "\n");
                                 object.splice(index, 1);
                             }
                         }
@@ -456,7 +456,7 @@ function GetNotifications() {
                     if (pkgNameIos != "") {
                         if (Players[pkgNameIos] != undefined) {
                             if (Players[pkgNameIos].players[testId] != undefined) {
-                                Players[pkgNameIos].players[testId].write(JSON.stringify(noti) + "\n");
+                                Players[pkgNameIos].players[testId].socket.write(JSON.stringify(noti) + "\n");
                                 object.splice(index, 1);
                             }
                         }
