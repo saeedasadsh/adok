@@ -392,9 +392,9 @@ function GetNotifications() {
                         }
                         else
                         {
-                            if (n - itemp.alive > 300000) {
-                                PlayerDisonnected(itemp.playerId);
-                                objectp.splice(indexp, 1);
+                            if (n - item.alive > 300000) {
+                                PlayerDisonnected(item.playerId);
+                                objectp.splice(index, 1);
                             }
                         }
                     });
