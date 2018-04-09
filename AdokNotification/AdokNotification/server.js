@@ -175,8 +175,16 @@ function PlayerConnected(pid) {
 
     var buffer = "";
     var req = http.request(options, function (res) {
-        //console.log(res);
+        res.on('data', function (chunk) {
+            buffer += chunk;
+
+        });
+
+        res.on('end', function () {
+            console.log("PlayerConnected " + buffer);
+        });
     });
+
     req.write(qs);
     req.end();
 }
@@ -205,7 +213,14 @@ function PlayerDisonnected(pid) {
 
     var buffer = "";
     var req = http.request(options, function (res) {
-        //console.log(res);
+        res.on('data', function (chunk) {
+            buffer += chunk;
+
+        });
+
+        res.on('end', function () {
+            console.log("PlayerDisconnected "+buffer);
+        });
     });
     req.write(qs);
     req.end();
@@ -241,7 +256,7 @@ function GetNotifications() {
         res.on('end', function () {
 
             try {
-                console.log(buffer);
+                //console.log(buffer);
 
                 var dt = JSON.parse(buffer);
                 var CurNotifications = [];
