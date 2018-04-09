@@ -79,12 +79,12 @@ try {
                     var data = {
                         alive: true, Meskind: "Alive"
                     };
-
                     for (var j = 0; j < pkgs.length; j++) {
                         if (Players[pkgs[j]] != undefined) {
                             if (Players[pkgs[j]].players[playerId] != undefined) {
                                 var d = new Date();
                                 var n = d.getTime();
+                                console.log("Alive: "+n - Players[pkgs[j]].players[playerId].alive);
                                 Players[pkgs[j]].players[playerId].alive = n;
                             }
                         }
@@ -179,7 +179,7 @@ function PlayerConnected(pid) {
         });
 
         res.on('end', function () {
-            console.log("PlayerConnected " + buffer);
+            console.log("PlayerConnected " + pid +" : "+ buffer);
         });
     });
 
