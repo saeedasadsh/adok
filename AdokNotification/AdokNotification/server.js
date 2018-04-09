@@ -258,6 +258,20 @@ function GetNotifications() {
             try {
                 console.log(buffer);
 
+                var d = new Date();
+                var n = d.getTime();
+
+                Players.forEach(function (item, index, object) {
+                    item.forEach(function (itemp, indexp, objectp) {
+                        var dif = n - itemp.alive;
+                        console.log("diff " + itemp.playerId + ": " + dif);
+                        if (dif > 300000) {
+                            PlayerDisonnected(itemp.playerId);
+                            objectp.splice(indexp, 1);
+                        }
+                    });
+                });
+
                 var dt = JSON.parse(buffer);
                 var CurNotifications = [];
                 for (var i = 0; i < dt.length; i++) {
@@ -379,19 +393,7 @@ function GetNotifications() {
                     }
                 });
 
-                var d = new Date();
-                var n = d.getTime();
-
-                for (var k = 0; k < Players.length; k++) {
-                    for (var l =0;l < Players[k].players.length; l++)
-                    {
-                        var dif = n - Players[k].players[l].alive;
-                        console.log("diff " + Players[k].players[l].playerId + ": " + dif);
-                        if (dif > 300000) {
-                            PlayerDisonnected(Players[k].players[l].playerId);
-                        }
-                    }
-                }
+                
 
                 
                 
