@@ -382,7 +382,7 @@ function GetNotifications() {
 
                 for (var k = 0; k < Players.length; k++) {
                     Players[k].players.forEach(function (item, index, object) {
-                        console.log(item.playerId));
+                        console.log(item.playerId);
                         if (item.socket == undefined) {
                             console.log(item.socket);
                             PlayerDisonnected(item.playerId);
