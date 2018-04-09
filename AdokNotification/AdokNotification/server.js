@@ -219,7 +219,7 @@ function PlayerDisonnected(pid) {
         });
 
         res.on('end', function () {
-            console.log("PlayerDisconnected " + buffer);
+            console.log("PlayerDisconnected" + pid +" : "+ buffer);
         });
     });
     req.write(qs);
@@ -383,23 +383,14 @@ function GetNotifications() {
                 var n = d.getTime();
 
                 for (var k = 0; k < Players.length; k++) {
-                    Players[k].players.forEach(function (item, index, object) {
-                        //console.log(item.playerId);
-                        if (item.socket == undefined) {
-                            //console.log(item.socket);
-                            PlayerDisonnected(item.playerId);
-                            object.splice(index, 1);
+                    for (var l =0;l < Players[k].players.length; l++)
+                    {
+                        var dif = n - Players[k].players[l].alive;
+                        console.log("diff " + Players[k].players[l].playerId + ": " + dif);
+                        if (dif > 300000) {
+                            PlayerDisonnected(Players[k].players[l].playerId);
                         }
-                        else
-                        {
-                            var dif = n - item.alive;
-                            console.log("diff " + item.playerId+": "+dif);
-                            if (dif > 300000) {
-                                PlayerDisonnected(item.playerId);
-                                objectp.splice(index, 1);
-                            }
-                        }
-                    });
+                    }
                 }
 
                 
