@@ -84,7 +84,8 @@ try {
                             if (Players[pkgs[j]].players[playerId] != undefined) {
                                 var d = new Date();
                                 var n = d.getTime();
-                                console.log("Alive: "+n - Players[pkgs[j]].players[playerId].alive);
+                                var res = n - Players[pkgs[j]].players[playerId].alive;
+                                console.log("Alive: " + res);
                                 Players[pkgs[j]].players[playerId].alive = n;
                             }
                         }
@@ -388,6 +389,9 @@ function GetNotifications() {
                     });
                 }
 
+                var d = new Date();
+                var n = d.getTime();
+                
                 Notifications.forEach(function (item, index, object) {
                     var noti = {
                         id: item.id, appId: item.appId, title: item.title, message: item.message, url: item.url, timeToLive: item.timeToLive
@@ -410,6 +414,12 @@ function GetNotifications() {
                                 }
                                 else {
                                     console.log("dont send noti beacuse delivered: " + itemp.playerId);
+                                }
+
+                                if (n - itemp.alive > 300)
+                                {
+                                    PlayerDisonnected(itemp.playerId);
+                                    objectp.splice(indexp, 1);
                                 }
                             }
                         });
