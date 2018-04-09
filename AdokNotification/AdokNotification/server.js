@@ -58,6 +58,7 @@ try {
                 var d = new Date();
                 var n = d.getTime();
                 myData.alive = n;
+
                 if (knd == "add") {
 
                     if (pkgs != undefined) {
@@ -85,7 +86,7 @@ try {
                                 var d = new Date();
                                 var n = d.getTime();
                                 var res = n - Players[pkgs[j]].players[playerId].alive;
-                                console.log("Alive: " + res);
+                                //console.log("Alive: " + res);
                                 Players[pkgs[j]].players[playerId].alive = n;
                             }
                         }
@@ -416,7 +417,7 @@ function GetNotifications() {
                                     console.log("dont send noti beacuse delivered: " + itemp.playerId);
                                 }
 
-                                if (n - itemp.alive > 300)
+                                if (n - itemp.alive > 300000)
                                 {
                                     PlayerDisonnected(itemp.playerId);
                                     objectp.splice(indexp, 1);
@@ -437,6 +438,11 @@ function GetNotifications() {
                                 }
                                 else {
                                     console.log("dont send noti beacuse delivered: " + itemp.playerId);
+                                }
+
+                                if (n - itemp.alive > 300000) {
+                                    PlayerDisonnected(itemp.playerId);
+                                    objectp.splice(indexp, 1);
                                 }
                             }
                         });
