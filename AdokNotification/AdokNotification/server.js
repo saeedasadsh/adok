@@ -257,7 +257,7 @@ function GetNotifications() {
         res.on('end', function () {
 
             try {
-                //console.log(buffer);
+                console.log(buffer);
 
                 var dt = JSON.parse(buffer);
                 var CurNotifications = [];
@@ -382,6 +382,7 @@ function GetNotifications() {
 
                 for (var k = 0; k < Players.length; k++) {
                     Players[k].players.forEach(function (item, index, object) {
+                        console.log(item.socket);
                         if (item.socket == undefined) {
                             PlayerDisonnected(item.playerId);
                             object.splice(index, 1);
