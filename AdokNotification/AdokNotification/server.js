@@ -33,7 +33,7 @@ try {
     var decoder = new StringDecoder('utf8');
     server.on('connection', function (socket) {
         console.log('CONNECTED: ' + socket.remoteAddress + ':' + socket.remotePort);
-
+        var myId = -1;
         socket.on('data', function (data) {
 
             try {
@@ -50,11 +50,13 @@ try {
                 var pkgs = dt.pkgs;
                 var knd = dt.kind;
                 var added = 0;
-
+                myId = playerId;
                 var myData = {
-                    playerId: playerId, phoneNo: phoneNo, socket: socket, pkgs: pkgs
+                    playerId: playerId, phoneNo: phoneNo, socket: socket, pkgs: pkgs,alive:0
                 };
-
+                var d = new Date();
+                var n = d.getTime();
+                myData.alive = n;
                 if (knd == "add") {
                     
                     if (pkgs != undefined) {
@@ -65,7 +67,7 @@ try {
 
                                 if (Players[i].pkgName == pkgs[j] || Players[i].pkgName == pkgs[j]) {
                                     Players[i].players.push(myData);
-                                    console.log("player added: " + playerId);
+                                    //console.log("player added: " + playerId);
                                     added = 1;
                                 }
                             }
@@ -74,7 +76,7 @@ try {
                                 var dt = { pkgName: pkgs[j], players: [] };
                                 Players.push(dt);
                                 Players[Players.length - 1].players.push(myData);
-                                console.log("player added with push: " + playerId);
+                                //console.log("player added with push: " + playerId);
                             }
                         }
 
@@ -86,6 +88,26 @@ try {
                     var data = {
                         alive: true, Meskind: "Alive"
                     };
+
+                    //for (var j = 0; j < pkgs.length; j++) {
+                    //    for (var i = 0; i < Players.length; i++) {
+
+                    //        if (Players[i].pkgName == pkgs[j] || Players[i].pkgName == pkgs[j]) {
+                    //            Players[i].players.push(myData);
+                    //            console.log("player added: " + playerId);
+                    //            added = 1;
+                    //        }
+                    //    }
+                    //}
+
+                    //for (var i = 0; i < Players.length; i++) {
+                    //    if (Players[i].playerId = myId)
+                    //    {
+                    //        var d = new Date();
+                    //        var n = d.getTime();
+                    //        players[i].alive = n;
+                    //    }
+                    //}
 
                     socket.write(JSON.stringify(data) + "\n");
                 }
@@ -382,9 +404,9 @@ function GetNotifications() {
 
                 for (var k = 0; k < Players.length; k++) {
                     Players[k].players.forEach(function (item, index, object) {
-                        console.log(item.playerId);
+                        //console.log(item.playerId);
                         if (item.socket == undefined) {
-                            console.log(item.socket);
+                            //console.log(item.socket);
                             PlayerDisonnected(item.playerId);
                             object.splice(index, 1);
                         }
