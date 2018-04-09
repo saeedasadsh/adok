@@ -165,7 +165,7 @@ function PlayerConnected(pid) {
     var options = {
         hostname: "adok.ir",
         port: 80,
-        path: "/GamesData/ADok/PlayerConnected.php?playerId=" + playerId,
+        path: "/GamesData/ADok/PlayerConnected.php?playerId=" + pid,
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -175,6 +175,7 @@ function PlayerConnected(pid) {
 
     var buffer = "";
     var req = http.request(options, function (res) {
+        console.log(res);
     });
     req.write(qs);
     req.end();
@@ -194,7 +195,7 @@ function PlayerDisonnected(pid) {
     var options = {
         hostname: "adok.ir",
         port: 80,
-        path: "/GamesData/ADok/PlayerDisconnected.php?playerId=" + playerId,
+        path: "/GamesData/ADok/PlayerDisconnected.php?playerId=" + pid,
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -204,6 +205,7 @@ function PlayerDisonnected(pid) {
 
     var buffer = "";
     var req = http.request(options, function (res) {
+        console.log(res);
     });
     req.write(qs);
     req.end();
