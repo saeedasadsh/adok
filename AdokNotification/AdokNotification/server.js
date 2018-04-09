@@ -239,7 +239,7 @@ function GetNotifications() {
         res.on('end', function () {
 
             try {
-                //console.log(buffer);
+                console.log(buffer);
 
                 var dt = JSON.parse(buffer);
                 var CurNotifications = [];
