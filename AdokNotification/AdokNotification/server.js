@@ -392,7 +392,9 @@ function GetNotifications() {
                         }
                         else
                         {
-                            if (n - item.alive > 300000) {
+                            var dif = n - item.alive;
+                            console.log("diff " + item.playerId+": "+dif);
+                            if (dif > 300000) {
                                 PlayerDisonnected(item.playerId);
                                 objectp.splice(index, 1);
                             }
