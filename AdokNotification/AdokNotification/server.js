@@ -34,6 +34,7 @@ try {
     server.on('connection', function (socket) {
         console.log('CONNECTED: ' + socket.remoteAddress + ':' + socket.remotePort);
         var myId = -1;
+        var pkgs = [];
         socket.on('data', function (data) {
 
             try {
@@ -41,56 +42,53 @@ try {
                 if (data && data.byteLength != undefined) {
                     data = new Buffer(data).toString('utf8');
                 }
-
-
-                console.log('data: ' + data);
+                //console.log('data: ' + data);
 
                 var dt = JSON.parse(data);
                 var playerId = dt.playerId;
                 var pkgName = dt.pkgName;
                 var phoneNo = dt.phoneNo;
-                var pkgs = dt.pkgs;
+                pkgs = dt.pkgs;
                 var knd = dt.kind;
                 var added = 0;
                 myId = playerId;
                 var myData = {
-                    playerId: playerId, phoneNo: phoneNo, socket: socket, pkgs: pkgs,alive:0
+                    playerId: playerId, phoneNo: phoneNo, socket: socket, pkgs: pkgs, alive: 0
                 };
                 var d = new Date();
                 var n = d.getTime();
                 myData.alive = n;
                 if (knd == "add") {
-                    
+
                     if (pkgs != undefined) {
                         for (var j = 0; j < pkgs.length; j++) {
-                            
-                            added = 0;
-                            for (var i = 0; i < Players.length; i++) {
-
-                                if (Players[i].pkgName == pkgs[j] || Players[i].pkgName == pkgs[j]) {
-                                    Players[i].players.push(myData);
-                                    //console.log("player added: " + playerId);
-                                    added = 1;
-                                }
+                            if (Players[pkgs[j]] === undefined) {
+                                Players[pkgs[j]] = [];
+                                Players[pkgs[j]].players[playerId] = myData;
                             }
-
-                            if (added == 0) {
-                                var dt = { pkgName: pkgs[j], players: [] };
-                                Players.push(dt);
-                                Players[Players.length - 1].players.push(myData);
-                                //console.log("player added with push: " + playerId);
+                            else {
+                                Players[pkgs[j]].players[playerId] = myData;
                             }
                         }
 
                         PlayerConnected(playerId);
                     }
-                    
                 }
+
                 else if (knd == "Alive") {
                     var data = {
                         alive: true, Meskind: "Alive"
                     };
 
+                    for (var j = 0; j < pkgs.length; j++) {
+                        if (Players[pkgs[j]] != undefined) {
+                            if (Players[pkgs[j]].players[playerId] != undefined) {
+                                var d = new Date();
+                                var n = d.getTime();
+                                Players[pkgs[j]].players[playerId].alive = n;
+                            }
+                        }
+                    }
                     socket.write(JSON.stringify(data) + "\n");
                 }
                 else if (knd == "Deliver") {
@@ -106,19 +104,16 @@ try {
             catch (e) {
                 console.log("3: " + e.message);
             }
-
-
         });
 
         socket.on('close', function (data) {
             try {
-                for (var k = 0; k < Players.length; k++) {
-                    Players[k].players.forEach(function (item, index, object) {
-                        if (item.socket == undefined) {
-                            PlayerDisonnected(item.playerId);
-                            object.splice(index, 1);
+                for (var j = 0; j < pkgs.length; j++) {
+                    if (Players[pkgs[j]] != undefined) {
+                        if (Players[pkgs[j]].players[myId] != undefined) {
+                            delete Players[pkgs[j]].players[myId];
                         }
-                    });
+                    }
                 }
             }
             catch (e) {
@@ -131,15 +126,13 @@ try {
 
 
         socket.on('error', function (data) {
-            delete socket;
             try {
-                for (var k = 0; k < Players.length; k++) {
-                    Players[k].players.forEach(function (item, index, object) {
-                        if (item.socket == undefined) {
-                            PlayerDisonnected(item.playerId);
-                            object.splice(index, 1);
+                for (var j = 0; j < pkgs.length; j++) {
+                    if (Players[pkgs[j]] != undefined) {
+                        if (Players[pkgs[j]].players[myId] != undefined) {
+                            delete Players[pkgs[j]].players[myId];
                         }
-                    });
+                    }
                 }
             }
             catch (e) {
@@ -224,7 +217,7 @@ function PlayerDisonnected(pid) {
         });
 
         res.on('end', function () {
-            console.log("PlayerDisconnected "+buffer);
+            console.log("PlayerDisconnected " + buffer);
         });
     });
     req.write(qs);
@@ -404,32 +397,40 @@ function GetNotifications() {
                         bigText: item.bigText, summary: item.summary, AdditionalData: item.AdditionalData, btns: item.btns, Meskind: "noti"
                     };
 
-                    for (var k = 0; k < Players.length; k++) {
-                        //console.log(Players[k].pkgName + " " + noti.pkgNameAndroid + " " + Players[k].pkgName + " " + noti.pkgNameIos);
-                        if (Players[k].pkgName == noti.pkgNameAndroid || Players[k].pkgName == noti.pkgNameIos) {
-                            Players[k].players.forEach(function (itemp, indexp, objectp) {
-                                if (itemp.socket == undefined) {
-                                    objectp.splice(indexp, 1);
+                    if (Players[pkgNameAndroid] != undefined)
+                    {
+                        Players[pkgNameAndroid].players.forEach(function (itemp, indexp, objectp) {
+                            if (itemp.socket == undefined) {
+                                objectp.splice(indexp, 1);
+                            }
+                            else {
+                                if (delivery[index].playersId.indexOf(":" + itemp.playerId + ":") < 0) {
+                                    itemp.socket.write(JSON.stringify(noti) + "\n");
+                                    console.log("send noti beacuse not delivered: " + itemp.playerId);
                                 }
                                 else {
-                                    //console.log(delivery[index].playersId.indexOf(":" + itemp.playerId + ":"));
-                                    //console.log(delivery[index].playersId);
-
-                                    if (delivery[index].playersId.indexOf(":" + itemp.playerId + ":") < 0) {
-                                        itemp.socket.write(JSON.stringify(noti) + "\n");
-                                        console.log("send noti beacuse not delivered: " + itemp.playerId);
-                                    }
-                                    else {
-                                        console.log("dont send noti beacuse delivered: " + itemp.playerId);
-                                    }
-
+                                    console.log("dont send noti beacuse delivered: " + itemp.playerId);
                                 }
-                            });
-
-                        }
-
+                            }
+                        });
                     }
 
+                    if (Players[pkgNameIos] != undefined) {
+                        Players[pkgNameIos].players.forEach(function (itemp, indexp, objectp) {
+                            if (itemp.socket == undefined) {
+                                objectp.splice(indexp, 1);
+                            }
+                            else {
+                                if (delivery[index].playersId.indexOf(":" + itemp.playerId + ":") < 0) {
+                                    itemp.socket.write(JSON.stringify(noti) + "\n");
+                                    console.log("send noti beacuse not delivered: " + itemp.playerId);
+                                }
+                                else {
+                                    console.log("dont send noti beacuse delivered: " + itemp.playerId);
+                                }
+                            }
+                        });
+                    }
                 });
 
                 testNoti.forEach(function (item, index, object) {
@@ -443,25 +444,22 @@ function GetNotifications() {
 
                     var testId = item.testId;
 
-                    for (var k = 0; k < Players.length; k++) {
-                        //console.log(Players[k].pkgName + " " + noti.pkgNameAndroid + " " + Players[k].pkgName + " " + noti.pkgNameIos);
-                        if (Players[k].pkgName == noti.pkgNameAndroid || Players[k].pkgName == noti.pkgNameIos) {
-                            Players[k].players.forEach(function (itemp, indexp, objectp) {
-                                if (itemp.socket == undefined) {
-                                    objectp.splice(indexp, 1);
-                                }
-                                else {
-                                    //console.log(delivery[index].playersId.indexOf(":" + itemp.playerId + ":"));
-                                    //console.log(delivery[index].playersId);
-                                    if (itemp.playerId == testId) {
-                                        itemp.socket.write(JSON.stringify(noti) + "\n");
-                                        object.splice(index, 1);
-                                    }
-                                }
-                            });
-
+                    if (pkgNameAndroid != "") {
+                        if (Players[pkgNameAndroid] != undefined) {
+                            if (Players[pkgNameAndroid].players[testId] != undefined) {
+                                Players[pkgNameAndroid].players[testId].write(JSON.stringify(noti) + "\n");
+                                object.splice(index, 1);
+                            }
                         }
+                    }
 
+                    if (pkgNameIos != "") {
+                        if (Players[pkgNameIos] != undefined) {
+                            if (Players[pkgNameIos].players[testId] != undefined) {
+                                Players[pkgNameIos].players[testId].write(JSON.stringify(noti) + "\n");
+                                object.splice(index, 1);
+                            }
+                        }
                     }
 
                 });
