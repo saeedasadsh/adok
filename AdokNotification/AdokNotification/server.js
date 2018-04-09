@@ -175,7 +175,7 @@ function PlayerConnected(pid) {
 
     var buffer = "";
     var req = http.request(options, function (res) {
-        console.log(res);
+        //console.log(res);
     });
     req.write(qs);
     req.end();
@@ -205,7 +205,7 @@ function PlayerDisonnected(pid) {
 
     var buffer = "";
     var req = http.request(options, function (res) {
-        console.log(res);
+        //console.log(res);
     });
     req.write(qs);
     req.end();
