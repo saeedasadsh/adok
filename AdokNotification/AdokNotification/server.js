@@ -379,6 +379,9 @@ function GetNotifications() {
                     }
                 });
 
+                var d = new Date();
+                var n = d.getTime();
+
                 for (var k = 0; k < Players.length; k++) {
                     Players[k].players.forEach(function (item, index, object) {
                         //console.log(item.playerId);
@@ -387,11 +390,17 @@ function GetNotifications() {
                             PlayerDisonnected(item.playerId);
                             object.splice(index, 1);
                         }
+                        else
+                        {
+                            if (n - itemp.alive > 300000) {
+                                PlayerDisonnected(itemp.playerId);
+                                objectp.splice(indexp, 1);
+                            }
+                        }
                     });
                 }
 
-                var d = new Date();
-                var n = d.getTime();
+                
                 
                 Notifications.forEach(function (item, index, object) {
                     var noti = {
