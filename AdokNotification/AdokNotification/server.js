@@ -41,7 +41,9 @@ try {
                 if (data && data.byteLength != undefined) {
                     data = new Buffer(data).toString('utf8');
                 }
-                //console.log('data: ' + data);
+
+
+                console.log('data: ' + data);
 
                 var dt = JSON.parse(data);
                 var playerId = dt.playerId;
@@ -88,26 +90,6 @@ try {
                     var data = {
                         alive: true, Meskind: "Alive"
                     };
-
-                    //for (var j = 0; j < pkgs.length; j++) {
-                    //    for (var i = 0; i < Players.length; i++) {
-
-                    //        if (Players[i].pkgName == pkgs[j] || Players[i].pkgName == pkgs[j]) {
-                    //            Players[i].players.push(myData);
-                    //            console.log("player added: " + playerId);
-                    //            added = 1;
-                    //        }
-                    //    }
-                    //}
-
-                    //for (var i = 0; i < Players.length; i++) {
-                    //    if (Players[i].playerId = myId)
-                    //    {
-                    //        var d = new Date();
-                    //        var n = d.getTime();
-                    //        players[i].alive = n;
-                    //    }
-                    //}
 
                     socket.write(JSON.stringify(data) + "\n");
                 }
