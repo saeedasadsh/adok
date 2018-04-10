@@ -254,7 +254,7 @@ function GetNotifications() {
         res.on('end', function () {
 
             try {
-                console.log(buffer);
+                //console.log(buffer);
 
                 var d = new Date();
                 var n = d.getTime();
