@@ -263,6 +263,7 @@ function GetNotifications() {
 
                 for (var eachItem in Players) {
                     for (var eachPlayer in Players[eachItem]) {
+                        console.log(eachPlayer);
                         var player = Players[eachItem].players[eachPlayer];
                         var dif = n - player.alive;
                         console.log("diff " + player.playerId + ": " + dif);
