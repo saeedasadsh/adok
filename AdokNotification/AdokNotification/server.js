@@ -96,11 +96,7 @@ try {
                 else if (knd == "Deliver") {
                     console.log("Delivered: " + playerId);
                     var nid = dt.nid;
-                    for (i = 0; i < delivery.length; i++) {
-                        if (delivery[i].id == nid) {
-                            delivery[i].playersId += ":" + playerId + ":";
-                        }
-                    }
+                    delivery[nid].playersId += ":" + playerId + ":";
                 }
             }
             catch (e) {
@@ -324,42 +320,38 @@ function GetNotifications() {
                             CurNotifications.push(NotiData);
                             var canAdd = 0;
                             if (id > 0) {
-                                for (var j = 0; j < Notifications.length; j++) {
-                                    if (Notifications[j].id == id) {
-
-                                        if (Notifications[j].lastUpdateTime != lastUpdateTime) {
-                                            Notifications[j].appId = appId;
-                                            Notifications[j].title = title;
-                                            Notifications[j].message = message;
-                                            Notifications[j].url = url;
-                                            Notifications[j].timeToLive = timeToLive;
-                                            Notifications[j].dateStartSend = dateStartSend;
-                                            Notifications[j].timeStartSend = timeStartSend;
-                                            Notifications[j].sound = sound;
-                                            Notifications[j].smalIcon = smalIcon;
-                                            Notifications[j].largeIcon = largeIcon;
-                                            Notifications[j].bigPicture = bigPicture;
-                                            Notifications[j].ledColor = ledColor;
-                                            Notifications[j].accentColor = accentColor;
-                                            Notifications[j].gId = gId;
-                                            Notifications[j].priority = priority;
-                                            Notifications[j].pkgNameAndroid = pkgNameAndroid;
-                                            Notifications[j].pkgNameIos = pkgNameIos;
-                                            Notifications[j].kind = kind;
-                                            Notifications[j].lastUpdateTime = lastUpdateTime;
-                                            Notifications[j].IsStop = IsStop;
-                                            Notifications[j].bigText = bigText;
-                                            Notifications[j].summary = summary;
-                                        }
-                                        canAdd = 1;
+                                if (Notifications[id] != undefined) {
+                                    if (Notifications[id].lastUpdateTime != lastUpdateTime) {
+                                        Notifications[id].appId = appId;
+                                        Notifications[id].title = title;
+                                        Notifications[id].message = message;
+                                        Notifications[id].url = url;
+                                        Notifications[id].timeToLive = timeToLive;
+                                        Notifications[id].dateStartSend = dateStartSend;
+                                        Notifications[id].timeStartSend = timeStartSend;
+                                        Notifications[id].sound = sound;
+                                        Notifications[id].smalIcon = smalIcon;
+                                        Notifications[id].largeIcon = largeIcon;
+                                        Notifications[id].bigPicture = bigPicture;
+                                        Notifications[id].ledColor = ledColor;
+                                        Notifications[id].accentColor = accentColor;
+                                        Notifications[id].gId = gId;
+                                        Notifications[id].priority = priority;
+                                        Notifications[id].pkgNameAndroid = pkgNameAndroid;
+                                        Notifications[id].pkgNameIos = pkgNameIos;
+                                        Notifications[id].kind = kind;
+                                        Notifications[id].lastUpdateTime = lastUpdateTime;
+                                        Notifications[id].IsStop = IsStop;
+                                        Notifications[id].bigText = bigText;
+                                        Notifications[id].summary = summary;
                                     }
                                 }
-
-                                if (canAdd == 0) {
+                                else
+                                {
                                     console.log("added: " + NotiData.id);
                                     //console.log();
-                                    Notifications.push(NotiData);
-                                    delivery.push(Deliverydt);
+                                    Notifications[id]=NotiData;
+                                    delivery[id]=Deliverydt;
                                 }
                             }
                         }
@@ -371,72 +363,44 @@ function GetNotifications() {
                 var m = today.getMinutes();
 
                 var dat = h * 60 + m;
-                Notifications.forEach(function (item, index, object) {
-                    if (item.IsStop > 0) {
-                        object.splice(index, 1);
-                        delivery.splice(index, 1);
-                        console.log("stoped: " + item.id);
-                    }
-                });
-
-                Notifications.forEach(function (item, index, object) {
+                for (var l in Notifications)
+                {
                     var exsist = 0;
                     for (k = 0; k < CurNotifications.length; k++) {
                         if (CurNotifications[k].id == item.id) {
                             exsist = 1;
                         }
                     }
+
                     if (exsist == 0) {
-                        object.splice(index, 1);
-                        delivery.splice(index, 1);
+                        delete Notifications[l];
+                        delete delivery[l];
                         console.log("deleted beacuse not exsist: " + item.id);
                     }
-                });
+                    else if (Notifications[l].IsStop > 0) {
+                        delete Notifications[l];
+                        delete delivery[l];
+                        console.log("deleted beacuse not Stop: " + item.id);
+                    }
+                    
+                }
 
-                
-
-                
-                
-                Notifications.forEach(function (item, index, object) {
+                for (var l in Notifications) {
                     var noti = {
-                        id: item.id, appId: item.appId, title: item.title, message: item.message, url: item.url, timeToLive: item.timeToLive
-                        , dateStartSend: item.dateStartSend, timeStartSend: item.timeStartSend, sound: item.sound, smalIcon: item.smalIcon, largeIcon: item.largeIcon
-                        , bigPicture: item.bigPicture, ledColor: item.ledColor, accentColor: item.accentColor, gId: item.gId, priority: item.priority
-                        , pkgNameAndroid: item.pkgNameAndroid, pkgNameIos: item.pkgNameIos, kind: item.kind,
-                        bigText: item.bigText, summary: item.summary, AdditionalData: item.AdditionalData, btns: item.btns, Meskind: "noti"
+                        id: Notifications[l].id, appId: Notifications[l].appId, title: Notifications[l].title, message: Notifications[l].message, url: Notifications[l].url, timeToLive: Notifications[l].timeToLive
+                        , dateStartSend: Notifications[l].dateStartSend, timeStartSend: Notifications[l].timeStartSend, sound: Notifications[l].sound, smalIcon: Notifications[l].smalIcon, largeIcon: Notifications[l].largeIcon
+                        , bigPicture: Notifications[l].bigPicture, ledColor: Notifications[l].ledColor, accentColor: Notifications[l].accentColor, gId: Notifications[l].gId, priority: Notifications[l].priority
+                        , pkgNameAndroid: Notifications[l].pkgNameAndroid, pkgNameIos: Notifications[l].pkgNameIos, kind: Notifications[l].kind,
+                        bigText: Notifications[l].bigText, summary: Notifications[l].summary, AdditionalData: Notifications[l].AdditionalData, btns: Notifications[l].btns, Meskind: "noti"
                     };
 
-                    if (Players[pkgNameAndroid] != undefined)
-                    {
+                    if (Players[pkgNameAndroid] != undefined) {
                         Players[pkgNameAndroid].players.forEach(function (itemp, indexp, objectp) {
                             if (itemp.socket == undefined) {
                                 objectp.splice(indexp, 1);
                             }
                             else {
-                                if (delivery[index].playersId.indexOf(":" + itemp.playerId + ":") < 0) {
-                                    itemp.socket.write(JSON.stringify(noti) + "\n");
-                                    console.log("send noti beacuse not delivered: " + itemp.playerId);
-                                }
-                                else {
-                                    console.log("dont send noti beacuse delivered: " + itemp.playerId);
-                                }
-
-                                if (n - itemp.alive > 300000)
-                                {
-                                    PlayerDisonnected(itemp.playerId);
-                                    objectp.splice(indexp, 1);
-                                }
-                            }
-                        });
-                    }
-
-                    if (Players[pkgNameIos] != undefined) {
-                        Players[pkgNameIos].players.forEach(function (itemp, indexp, objectp) {
-                            if (itemp.socket == undefined) {
-                                objectp.splice(indexp, 1);
-                            }
-                            else {
-                                if (delivery[index].playersId.indexOf(":" + itemp.playerId + ":") < 0) {
+                                if (delivery[Notifications[l].id].playersId.indexOf(":" + itemp.playerId + ":") < 0) {
                                     itemp.socket.write(JSON.stringify(noti) + "\n");
                                     console.log("send noti beacuse not delivered: " + itemp.playerId);
                                 }
@@ -451,7 +415,29 @@ function GetNotifications() {
                             }
                         });
                     }
-                });
+
+                    if (Players[pkgNameIos] != undefined) {
+                        Players[pkgNameIos].players.forEach(function (itemp, indexp, objectp) {
+                            if (itemp.socket == undefined) {
+                                objectp.splice(indexp, 1);
+                            }
+                            else {
+                                if (delivery[Notifications[l].id].playersId.indexOf(":" + itemp.playerId + ":") < 0) {
+                                    itemp.socket.write(JSON.stringify(noti) + "\n");
+                                    console.log("send noti beacuse not delivered: " + itemp.playerId);
+                                }
+                                else {
+                                    console.log("dont send noti beacuse delivered: " + itemp.playerId);
+                                }
+
+                                if (n - itemp.alive > 300000) {
+                                    PlayerDisonnected(itemp.playerId);
+                                    objectp.splice(indexp, 1);
+                                }
+                            }
+                        });
+                    }
+                }
 
                 testNoti.forEach(function (item, index, object) {
                     var noti = {
