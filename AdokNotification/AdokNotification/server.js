@@ -263,11 +263,9 @@ function GetNotifications() {
 
                 for (var eachItem in Players) {
                     for (var eachPlayer in Players[eachItem].players) {
-                        console.log(eachPlayer);
                         var player = Players[eachItem].players[eachPlayer];
                         var dif = n - player.alive;
-                        console.log("diff " + player.playerId + ": " + dif);
-                        if (dif > 300000) {
+                        if (dif > 150000) {
                             PlayerDisonnected(player.playerId);
                             delete Players[eachItem].players[eachPlayer];
                         }
