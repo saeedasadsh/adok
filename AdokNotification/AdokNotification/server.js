@@ -369,7 +369,7 @@ function GetNotifications() {
                 {
                     var exsist = 0;
                     for (k = 0; k < CurNotifications.length; k++) {
-                        if (CurNotifications[k].id == item.id) {
+                        if (CurNotifications[k].id == Notifications[l].id) {
                             exsist = 1;
                         }
                     }
@@ -377,12 +377,12 @@ function GetNotifications() {
                     if (exsist == 0) {
                         delete Notifications[l];
                         delete delivery[l];
-                        console.log("deleted beacuse not exsist: " + item.id);
+                        console.log("deleted beacuse not exsist: " + Notifications[l].id);
                     }
                     else if (Notifications[l].IsStop > 0) {
                         delete Notifications[l];
                         delete delivery[l];
-                        console.log("deleted beacuse not Stop: " + item.id);
+                        console.log("deleted beacuse not Stop: " + Notifications[l].id);
                     }
                     
                 }
