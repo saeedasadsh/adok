@@ -262,7 +262,7 @@ function GetNotifications() {
                 var n = d.getTime();
 
                 for (var eachItem in Players) {
-                    for (var eachPlayer in Players[eachItem]) {
+                    for (var eachPlayer in Players[eachItem].players) {
                         console.log(eachPlayer);
                         var player = Players[eachItem].players[eachPlayer];
                         var dif = n - player.alive;
