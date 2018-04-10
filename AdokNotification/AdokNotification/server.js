@@ -262,7 +262,7 @@ function GetNotifications() {
                 var n = d.getTime();
 
                 for (var eachItem in Players) {
-                    for (var eachPlayer in eachItem) {
+                    for (var eachPlayer in eachItem.players) {
                         var dif = n - eachPlayer.alive;
                         console.log("diff " + eachPlayer.playerId + ": " + dif);
                         if (dif > 300000) {
