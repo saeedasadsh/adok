@@ -261,17 +261,16 @@ function GetNotifications() {
                 var d = new Date();
                 var n = d.getTime();
 
-                Players.forEach(function (item, index, object) {
-                    console.log(index);
-                    item.forEach(function (itemp, indexp, objectp) {
-                        var dif = n - itemp.alive;
+                for (var eachItem in Players) {
+                    for (var eachPlayer in eachItem) {
+                        var dif = n - eachPlayer.alive;
                         console.log("diff " + itemp.playerId + ": " + dif);
                         if (dif > 300000) {
                             PlayerDisonnected(itemp.playerId);
                             objectp.splice(indexp, 1);
                         }
-                    });
-                });
+                    }
+                }
 
                 var dt = JSON.parse(buffer);
                 var CurNotifications = [];
