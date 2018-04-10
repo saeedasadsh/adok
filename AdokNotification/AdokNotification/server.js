@@ -96,7 +96,9 @@ try {
                 else if (knd == "Deliver") {
                     console.log("Delivered: " + playerId);
                     var nid = dt.nid;
-                    delivery[nid].playersId += ":" + playerId + ":";
+                    if (delivery[nid] != undefined) {
+                        delivery[nid].playersId += ":" + playerId + ":";
+                    }
                 }
             }
             catch (e) {
