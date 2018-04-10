@@ -72,7 +72,7 @@ try {
                             }
                         }
 
-                        PlayerConnected(playerId);
+                        PlayerConnected(playerId, pkgs);
                     }
                 }
 
@@ -150,7 +150,7 @@ catch (e) {
     console.log("6: " + e.message);
 }
 
-function PlayerConnected(pid) {
+function PlayerConnected(pid,pkgs) {
 
     var dataQS = {
         var1: "something",
@@ -164,7 +164,7 @@ function PlayerConnected(pid) {
     var options = {
         hostname: "adok.ir",
         port: 80,
-        path: "/GamesData/ADok/PlayerConnected.php?playerId=" + pid,
+        path: "/GamesData/ADok/PlayerConnected.php?playerId=" + pid + "&pkgs=" + pkgs,
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
