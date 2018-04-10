@@ -264,10 +264,10 @@ function GetNotifications() {
                 for (var eachItem in Players) {
                     for (var eachPlayer in eachItem) {
                         var dif = n - eachPlayer.alive;
-                        console.log("diff " + itemp.playerId + ": " + dif);
+                        console.log("diff " + eachPlayer.playerId + ": " + dif);
                         if (dif > 300000) {
-                            PlayerDisonnected(itemp.playerId);
-                            objectp.splice(indexp, 1);
+                            PlayerDisonnected(eachPlayer.playerId);
+                            delete eachItem[eachPlayer.playerId];
                         }
                     }
                 }
