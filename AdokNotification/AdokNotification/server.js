@@ -262,6 +262,7 @@ function GetNotifications() {
                 var n = d.getTime();
 
                 Players.forEach(function (item, index, object) {
+                    console.log(index);
                     item.forEach(function (itemp, indexp, objectp) {
                         var dif = n - itemp.alive;
                         console.log("diff " + itemp.playerId + ": " + dif);
