@@ -262,13 +262,13 @@ function GetNotifications() {
                 var n = d.getTime();
 
                 for (var eachItem in Players) {
-                    console.log("eachItem " + eachItem);
-                    for (var eachPlayer in eachItem.players) {
-                        var dif = n - eachPlayer.alive;
-                        console.log("diff " + eachPlayer.playerId + ": " + dif);
+                    for (var eachPlayer in Players[eachItem]) {
+                        var player = Players[eachItem].players[eachPlayer];
+                        var dif = n - player.alive;
+                        console.log("diff " + player.playerId + ": " + dif);
                         if (dif > 300000) {
-                            PlayerDisonnected(eachPlayer.playerId);
-                            delete eachItem[eachPlayer.playerId];
+                            PlayerDisonnected(player.playerId);
+                            delete Players[eachItem].players[eachPlayer];
                         }
                     }
                 }
