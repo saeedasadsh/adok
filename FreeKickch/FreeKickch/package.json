@@ -1,0 +1,9 @@
+{
+  "name": "free-kickch",
+  "version": "0.0.0",
+  "description": "FreeKickch",
+  "main": "server.js",
+  "author": {
+    "name": "ARP"
+  }
+}
