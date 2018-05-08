@@ -18,7 +18,7 @@ var leagueSocksArr = [[]];
         //GetLeagues();
         //
         console.log("Hi");
-    }, 3600000);
+    }, 30000);
 })();
 
 io.on('connection', function (socket) {
