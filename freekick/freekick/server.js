@@ -17,6 +17,7 @@ var leagueSocksArr = [[]];
         //do thing
         //GetLeagues();
         //
+        console.log("Hi");
     }, 3600000);
 })();
 
