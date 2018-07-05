@@ -505,8 +505,8 @@ function GetNotifications() {
         var day = d.getDate();
         var dateHijri = gregorian_to_jalali(y, m, d);
         y = dateHijri[0];
-        m = dateHijri[0];
-        day = dateHijri[0];
+        m = dateHijri[1];
+        day = dateHijri[2];
 
         if (m.length == 1)
         {
