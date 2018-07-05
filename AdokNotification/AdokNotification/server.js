@@ -17,12 +17,12 @@ con.connect((err) => {
     console.log('Connection established');
 });
 
-con.end((err) => {
-    // The connection is terminated gracefully
-    // Ensures all previously enqueued queries are still
-    // before sending a COM_QUIT packet to the MySQL server.
-    console.log('Connection closed');
-});
+//con.end((err) => {
+//    // The connection is terminated gracefully
+//    // Ensures all previously enqueued queries are still
+//    // before sending a COM_QUIT packet to the MySQL server.
+//    console.log('Connection closed');
+//});
 
 
 
