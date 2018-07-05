@@ -503,8 +503,8 @@ function GetNotifications() {
         var m = d.getMonth();
         m++;
         var day = d.getDate();
-        console.log(y+"/"+m+"/"+d);
-        var dateHijri = gregorian_to_jalali(y, m, d);
+        console.log(y + "/" + m + "/" + day);
+        var dateHijri = gregorian_to_jalali(y, m, day);
         console.log(dateHijri);
         y = dateHijri[0];
         m = dateHijri[1];
@@ -519,7 +519,7 @@ function GetNotifications() {
             day = "0" + day;
         }
 
-        var curDate = y + "" + m + "" + d;
+        var curDate = y + "" + m + "" + day;
         console.log(curDate);
 
         var query = "SELECT notification.id,notification.appId,notification.title,notification.message,notification.url,notification.timeToLive,notification.dateStartSend,notification.timeStartSend,notification.sound, notification.smalIcon, notification.largeIcon, notification.bigPicture, notification.ledColor, notification.accentColor, notification.gId, notification.priority, apps.pkgNameAndroid, apps.pkgNameIos, notification.kind, notification.IsStop, notification.lastUpdateTime, notification.bigText, notification.summary, notification.budget, notification.isTest, notification.playerId FROM notification  inner join apps on notification.appId = apps.id where dateStartSend=" +curDate+" and notification.isSend = 0;";
