@@ -562,9 +562,10 @@ function GetNotifications() {
         }
 
         var query = "SELECT notification.id,notification.appId,notification.title,notification.message,notification.url,notification.timeToLive,notification.dateStartSend,notification.timeStartSend,notification.sound, notification.smalIcon, notification.largeIcon, notification.bigPicture, notification.ledColor, notification.accentColor, notification.gId, notification.priority, apps.pkgNameAndroid, apps.pkgNameIos, notification.kind, notification.IsStop, notification.lastUpdateTime, notification.bigText, notification.summary, notification.budget, notification.isTest, notification.playerId FROM notification  inner join apps on notification.appId = apps.id where dateStartSend>=" + curDate + " and notification.isSend = 0;";
+        console.log(query);
         con.query(query, function (err, result, fields) {
             if (err) throw err;
-            console.log(result);
+            //console.log(result);
             result.forEach((row) => {
                 console.log("notiId: " + row.id);
                 var id = row.id;
