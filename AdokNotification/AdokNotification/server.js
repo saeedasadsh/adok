@@ -503,7 +503,9 @@ function GetNotifications() {
         var m = d.getMonth();
         m++;
         var day = d.getDate();
+        console.log(y+"/"+m+"/"+d);
         var dateHijri = gregorian_to_jalali(y, m, d);
+        console.log(dateHijri);
         y = dateHijri[0];
         m = dateHijri[1];
         day = dateHijri[2];
