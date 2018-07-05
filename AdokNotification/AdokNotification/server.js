@@ -556,43 +556,43 @@ function GetNotifications() {
         var query = "SELECT notification.id,notification.appId,notification.title,notification.message,notification.url,notification.timeToLive,notification.dateStartSend,notification.timeStartSend,notification.sound, notification.smalIcon, notification.largeIcon, notification.bigPicture, notification.ledColor, notification.accentColor, notification.gId, notification.priority, apps.pkgNameAndroid, apps.pkgNameIos, notification.kind, notification.IsStop, notification.lastUpdateTime, notification.bigText, notification.summary, notification.budget, notification.isTest, notification.playerId FROM notification  inner join apps on notification.appId = apps.id where dateStartSend>=" + curDate + " and notification.isSend = 0;";
         con.query(query, function (err, result, fields) {
             if (err) throw err;
-            console.log(rows);
+            console.log(result);
             result.forEach((row) => {
-                console.log("notiId: " + result.id);
-                var id = result.id;
-                var appId = result.appId;
-                var title = result.title;
-                var message = result.message;
-                var url = result.url;
-                var timeToLive = result.timeToLive;
-                var dateStartSend = result.dateStartSend;
-                var timeStartSend = result.timeStartSend;
-                var sound = result.sound;
-                var smalIcon = result.smalIcon;
-                var largeIcon = result.largeIcon;
-                var bigPicture = result.bigPicture;
-                var ledColor = result.ledColor;
-                var accentColor = result.accentColor;
-                var gId = result.gId;
-                var priority = result.priority;
-                var pkgNameAndroid = result.pkgNameAndroid;
-                var pkgNameIos = result.pkgNameIos;
-                var kind = result.kind;
-                var AdditionalData = result.AdditionalData;
-                var btns = result.btns;
-                var lastUpdateTime = result.lastUpdateTime;
-                var IsStop = result.IsStop;
-                var bigText = result.bigText;
-                var summary = result.summary;
-                var isTest = result.isTest;
-                var testId = result.playerId;
+                console.log("notiId: " + row.id);
+                var id = row.id;
+                var appId = row.appId;
+                var title = row.title;
+                var message = row.message;
+                var url = row.url;
+                var timeToLive = row.timeToLive;
+                var dateStartSend = row.dateStartSend;
+                var timeStartSend = row.timeStartSend;
+                var sound = row.sound;
+                var smalIcon = row.smalIcon;
+                var largeIcon = row.largeIcon;
+                var bigPicture = row.bigPicture;
+                var ledColor = row.ledColor;
+                var accentColor = row.accentColor;
+                var gId = row.gId;
+                var priority = row.priority;
+                var pkgNameAndroid = row.pkgNameAndroid;
+                var pkgNameIos = row.pkgNameIos;
+                var kind = row.kind;
+                var AdditionalData = row.AdditionalData;
+                var btns = row.btns;
+                var lastUpdateTime = row.lastUpdateTime;
+                var IsStop = row.IsStop;
+                var bigText = row.bigText;
+                var summary = row.summary;
+                var isTest = row.isTest;
+                var testId = row.playerId;
 
                 var noti = {
-                    id: result.id, appId: result.appId, title: result.title, message: result.message, url: result.url, timeToLive: result.timeToLive
-                    , dateStartSend: result.dateStartSend, timeStartSend: result.timeStartSend, sound: result.sound, smalIcon: result.smalIcon, largeIcon: result.largeIcon
-                    , bigPicture: result.bigPicture, ledColor: result.ledColor, accentColor: result.accentColor, gId: result.gId, priority: result.priority
-                    , pkgNameAndroid: result.pkgNameAndroid, pkgNameIos: result.pkgNameIos, kind: result.kind,
-                    bigText: result.bigText, summary: result.summary, AdditionalData: result.AdditionalData, btns: result.btns, Meskind: "noti"
+                    id: row.id, appId: row.appId, title: row.title, message: row.message, url: row.url, timeToLive: row.timeToLive
+                    , dateStartSend: row.dateStartSend, timeStartSend: row.timeStartSend, sound: row.sound, smalIcon: row.smalIcon, largeIcon: row.largeIcon
+                    , bigPicture: row.bigPicture, ledColor: row.ledColor, accentColor: row.accentColor, gId: row.gId, priority: row.priority
+                    , pkgNameAndroid: row.pkgNameAndroid, pkgNameIos: row.pkgNameIos, kind: row.kind,
+                    bigText: row.bigText, summary: row.summary, AdditionalData: row.AdditionalData, btns: row.btns, Meskind: "noti"
                 };
 
                 //console.log(noti);
@@ -626,7 +626,7 @@ function GetNotifications() {
                                 }
                                 else {
 
-                                    if (delivery[result.id].playersId.indexOf(":" + itemp.playerId + ":") < 0) {
+                                    if (delivery[row.id].playersId.indexOf(":" + itemp.playerId + ":") < 0) {
                                         itemp.socket.write(JSON.stringify(noti) + "\n");
                                         console.log("send noti beacuse not delivered: " + itemp.playerId);
                                     }
@@ -648,7 +648,7 @@ function GetNotifications() {
                                     objectp.splice(indexp, 1);
                                 }
                                 else {
-                                    if (delivery[result.id].playersId.indexOf(":" + itemp.playerId + ":") < 0) {
+                                    if (delivery[row.id].playersId.indexOf(":" + itemp.playerId + ":") < 0) {
                                         itemp.socket.write(JSON.stringify(noti) + "\n");
                                         console.log("send noti beacuse not delivered: " + itemp.playerId);
                                     }
