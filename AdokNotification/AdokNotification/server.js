@@ -1,5 +1,15 @@
 ﻿var net = require("net");
 var http = require('http');
+var mysql = require('mysql');
+
+var mysql = require('mysql');
+
+var con = mysql.createConnection({
+    host: "localhost",
+    user: "kingofmeta_adok",
+    password: "NTGePf_Pnn%N",
+    database: "kingofmeta_ADok"
+});
 
 var server = net.createServer();
 var StringDecoder = require('string_decoder').StringDecoder;
@@ -224,261 +234,293 @@ function PlayerDisonnected(pid) {
     req.end();
 }
 
-function GetNotifications() {
-    var dataQS = {
-        var1: "something",
-        var2: "something else"
-    };
+//function GetNotifications() {
 
-    var querystring = require("querystring");
-    var qs = querystring.stringify(dataQS);
-    var qslength = qs.length;
+    
+//    var dataQS = {
+//        var1: "something",
+//        var2: "something else"
+//    };
 
-    var options = {
-        hostname: "adok.ir",
-        port: 80,
-        path: "/GamesData/ADok/GetNotifications.php",
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Content-Length': qslength
-        }
-    };
+//    var querystring = require("querystring");
+//    var qs = querystring.stringify(dataQS);
+//    var qslength = qs.length;
 
-    var buffer = "";
-    var req = http.request(options, function (res) {
-        res.on('data', function (chunk) {
-            buffer += chunk;
-        });
+//    var options = {
+//        hostname: "adok.ir",
+//        port: 80,
+//        path: "/GamesData/ADok/GetNotifications.php",
+//        method: 'POST',
+//        headers: {
+//            'Content-Type': 'application/x-www-form-urlencoded',
+//            'Content-Length': qslength
+//        }
+//    };
 
-        res.on('end', function () {
+//    var buffer = "";
+//    var req = http.request(options, function (res) {
+//        res.on('data', function (chunk) {
+//            buffer += chunk;
+//        });
 
-            try {
-                //console.log(buffer);
+//        res.on('end', function () {
 
-                var d = new Date();
-                var n = d.getTime();
+//            try {
+//                //console.log(buffer);
 
-                for (var eachItem in Players) {
-                    for (var eachPlayer in Players[eachItem].players) {
-                        var player = Players[eachItem].players[eachPlayer];
-                        var dif = n - player.alive;
-                        if (dif > 150000) {
-                            PlayerDisonnected(player.playerId);
-                            delete Players[eachItem].players[eachPlayer];
-                        }
-                    }
-                }
+//                var d = new Date();
+//                var n = d.getTime();
 
-                var dt = JSON.parse(buffer);
-                var CurNotifications = [];
-                for (var i = 0; i < dt.length; i++) {
-                    var id = dt[i].id;
-                    if (id != -1) {
-                        var appId = dt[i].appId;
-                        var title = dt[i].title;
-                        var message = dt[i].message;
-                        var url = dt[i].url;
-                        var timeToLive = dt[i].timeToLive;
-                        var dateStartSend = dt[i].dateStartSend;
-                        var timeStartSend = dt[i].timeStartSend;
-                        var sound = dt[i].sound;
-                        var smalIcon = dt[i].smalIcon;
-                        var largeIcon = dt[i].largeIcon;
-                        var bigPicture = dt[i].bigPicture;
-                        var ledColor = dt[i].ledColor;
-                        var accentColor = dt[i].accentColor;
-                        var gId = dt[i].gId;
-                        var priority = dt[i].priority;
-                        var pkgNameAndroid = dt[i].pkgNameAndroid;
-                        var pkgNameIos = dt[i].pkgNameIos;
-                        var kind = dt[i].kind;
-                        var AdditionalData = dt[i].AdditionalData;
-                        var btns = dt[i].btns;
-                        var lastUpdateTime = dt[i].lastUpdateTime;
-                        var IsStop = dt[i].IsStop;
-                        var bigText = dt[i].bigText;
-                        var summary = dt[i].summary;
-                        var isTest = dt[i].isTest;
-                        var testId = dt[i].playerId;
-                        var players = [];
-                        var playersId = [];
+//                for (var eachItem in Players) {
+//                    for (var eachPlayer in Players[eachItem].players) {
+//                        var player = Players[eachItem].players[eachPlayer];
+//                        var dif = n - player.alive;
+//                        if (dif > 150000) {
+//                            PlayerDisonnected(player.playerId);
+//                            delete Players[eachItem].players[eachPlayer];
+//                        }
+//                    }
+//                }
 
 
-                        var NotiData = {
-                            id: id, appId: appId, title: title, message: message, url: url, timeToLive: timeToLive
-                            , dateStartSend: dateStartSend, timeStartSend: timeStartSend, sound: sound, smalIcon: smalIcon, largeIcon: largeIcon
-                            , bigPicture: bigPicture, ledColor: ledColor, accentColor: accentColor, gId: gId, priority: priority
-                            , pkgNameAndroid: pkgNameAndroid, pkgNameIos: pkgNameIos, kind: kind, lastUpdateTime: lastUpdateTime,
-                            bigText: bigText, summary: summary, AdditionalData: AdditionalData, btns: btns, isTest: isTest, testId: testId
-                        };
+
+//                var dt = JSON.parse(buffer);
+//                var CurNotifications = [];
+//                for (var i = 0; i < dt.length; i++) {
+//                    var id = dt[i].id;
+//                    if (id != -1) {
+//                        var appId = dt[i].appId;
+//                        var title = dt[i].title;
+//                        var message = dt[i].message;
+//                        var url = dt[i].url;
+//                        var timeToLive = dt[i].timeToLive;
+//                        var dateStartSend = dt[i].dateStartSend;
+//                        var timeStartSend = dt[i].timeStartSend;
+//                        var sound = dt[i].sound;
+//                        var smalIcon = dt[i].smalIcon;
+//                        var largeIcon = dt[i].largeIcon;
+//                        var bigPicture = dt[i].bigPicture;
+//                        var ledColor = dt[i].ledColor;
+//                        var accentColor = dt[i].accentColor;
+//                        var gId = dt[i].gId;
+//                        var priority = dt[i].priority;
+//                        var pkgNameAndroid = dt[i].pkgNameAndroid;
+//                        var pkgNameIos = dt[i].pkgNameIos;
+//                        var kind = dt[i].kind;
+//                        var AdditionalData = dt[i].AdditionalData;
+//                        var btns = dt[i].btns;
+//                        var lastUpdateTime = dt[i].lastUpdateTime;
+//                        var IsStop = dt[i].IsStop;
+//                        var bigText = dt[i].bigText;
+//                        var summary = dt[i].summary;
+//                        var isTest = dt[i].isTest;
+//                        var testId = dt[i].playerId;
+//                        var players = [];
+//                        var playersId = [];
 
 
-                        if (isTest > 0) {
-                            testNoti.push(NotiData);
-                        }
-                        else {
-                            var Deliverydt = { id: id, playersId: "" };
-                            CurNotifications.push(NotiData);
-                            var canAdd = 0;
-                            if (id > 0) {
-                                if (Notifications[id] != undefined) {
-                                    if (Notifications[id].lastUpdateTime != lastUpdateTime) {
-                                        Notifications[id].appId = appId;
-                                        Notifications[id].title = title;
-                                        Notifications[id].message = message;
-                                        Notifications[id].url = url;
-                                        Notifications[id].timeToLive = timeToLive;
-                                        Notifications[id].dateStartSend = dateStartSend;
-                                        Notifications[id].timeStartSend = timeStartSend;
-                                        Notifications[id].sound = sound;
-                                        Notifications[id].smalIcon = smalIcon;
-                                        Notifications[id].largeIcon = largeIcon;
-                                        Notifications[id].bigPicture = bigPicture;
-                                        Notifications[id].ledColor = ledColor;
-                                        Notifications[id].accentColor = accentColor;
-                                        Notifications[id].gId = gId;
-                                        Notifications[id].priority = priority;
-                                        Notifications[id].pkgNameAndroid = pkgNameAndroid;
-                                        Notifications[id].pkgNameIos = pkgNameIos;
-                                        Notifications[id].kind = kind;
-                                        Notifications[id].lastUpdateTime = lastUpdateTime;
-                                        Notifications[id].IsStop = IsStop;
-                                        Notifications[id].bigText = bigText;
-                                        Notifications[id].summary = summary;
-                                    }
-                                }
-                                else
-                                {
-                                    console.log("added: " + NotiData.id);
-                                    //console.log();
-                                    Notifications[id]=NotiData;
-                                    delivery[id]=Deliverydt;
-                                }
-                            }
-                        }
-                    }
-                }
+//                        var NotiData = {
+//                            id: id, appId: appId, title: title, message: message, url: url, timeToLive: timeToLive
+//                            , dateStartSend: dateStartSend, timeStartSend: timeStartSend, sound: sound, smalIcon: smalIcon, largeIcon: largeIcon
+//                            , bigPicture: bigPicture, ledColor: ledColor, accentColor: accentColor, gId: gId, priority: priority
+//                            , pkgNameAndroid: pkgNameAndroid, pkgNameIos: pkgNameIos, kind: kind, lastUpdateTime: lastUpdateTime,
+//                            bigText: bigText, summary: summary, AdditionalData: AdditionalData, btns: btns, isTest: isTest, testId: testId
+//                        };
 
-                var today = new Date();
-                var h = today.getHours();
-                var m = today.getMinutes();
 
-                var dat = h * 60 + m;
-                for (var l in Notifications)
-                {
-                    var exsist = 0;
-                    for (k = 0; k < CurNotifications.length; k++) {
-                        if (CurNotifications[k].id == Notifications[l].id) {
-                            exsist = 1;
-                        }
-                    }
+//                        if (isTest > 0) {
+//                            testNoti.push(NotiData);
+//                        }
+//                        else {
+//                            var Deliverydt = { id: id, playersId: "" };
+//                            CurNotifications.push(NotiData);
+//                            var canAdd = 0;
+//                            if (id > 0) {
+//                                if (Notifications[id] != undefined) {
+//                                    if (Notifications[id].lastUpdateTime != lastUpdateTime) {
+//                                        Notifications[id].appId = appId;
+//                                        Notifications[id].title = title;
+//                                        Notifications[id].message = message;
+//                                        Notifications[id].url = url;
+//                                        Notifications[id].timeToLive = timeToLive;
+//                                        Notifications[id].dateStartSend = dateStartSend;
+//                                        Notifications[id].timeStartSend = timeStartSend;
+//                                        Notifications[id].sound = sound;
+//                                        Notifications[id].smalIcon = smalIcon;
+//                                        Notifications[id].largeIcon = largeIcon;
+//                                        Notifications[id].bigPicture = bigPicture;
+//                                        Notifications[id].ledColor = ledColor;
+//                                        Notifications[id].accentColor = accentColor;
+//                                        Notifications[id].gId = gId;
+//                                        Notifications[id].priority = priority;
+//                                        Notifications[id].pkgNameAndroid = pkgNameAndroid;
+//                                        Notifications[id].pkgNameIos = pkgNameIos;
+//                                        Notifications[id].kind = kind;
+//                                        Notifications[id].lastUpdateTime = lastUpdateTime;
+//                                        Notifications[id].IsStop = IsStop;
+//                                        Notifications[id].bigText = bigText;
+//                                        Notifications[id].summary = summary;
+//                                    }
+//                                }
+//                                else
+//                                {
+//                                    console.log("added: " + NotiData.id);
+//                                    //console.log();
+//                                    Notifications[id]=NotiData;
+//                                    delivery[id]=Deliverydt;
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
 
-                    if (exsist == 0) {
-                        delete Notifications[l];
-                        delete delivery[l];
-                        console.log("deleted beacuse not exsist: " + Notifications[l].id);
-                    }
-                    else if (Notifications[l].IsStop > 0) {
-                        delete Notifications[l];
-                        delete delivery[l];
-                        console.log("deleted beacuse not Stop: " + Notifications[l].id);
-                    }
+//                var today = new Date();
+//                var h = today.getHours();
+//                var m = today.getMinutes();
+
+//                var dat = h * 60 + m;
+//                for (var l in Notifications)
+//                {
+//                    var exsist = 0;
+//                    for (k = 0; k < CurNotifications.length; k++) {
+//                        if (CurNotifications[k].id == Notifications[l].id) {
+//                            exsist = 1;
+//                        }
+//                    }
+
+//                    if (exsist == 0) {
+//                        delete Notifications[l];
+//                        delete delivery[l];
+//                        console.log("deleted beacuse not exsist: " + Notifications[l].id);
+//                    }
+//                    else if (Notifications[l].IsStop > 0) {
+//                        delete Notifications[l];
+//                        delete delivery[l];
+//                        console.log("deleted beacuse not Stop: " + Notifications[l].id);
+//                    }
                     
-                }
+//                }
 
-                for (var l in Notifications) {
-                    var noti = {
-                        id: Notifications[l].id, appId: Notifications[l].appId, title: Notifications[l].title, message: Notifications[l].message, url: Notifications[l].url, timeToLive: Notifications[l].timeToLive
-                        , dateStartSend: Notifications[l].dateStartSend, timeStartSend: Notifications[l].timeStartSend, sound: Notifications[l].sound, smalIcon: Notifications[l].smalIcon, largeIcon: Notifications[l].largeIcon
-                        , bigPicture: Notifications[l].bigPicture, ledColor: Notifications[l].ledColor, accentColor: Notifications[l].accentColor, gId: Notifications[l].gId, priority: Notifications[l].priority
-                        , pkgNameAndroid: Notifications[l].pkgNameAndroid, pkgNameIos: Notifications[l].pkgNameIos, kind: Notifications[l].kind,
-                        bigText: Notifications[l].bigText, summary: Notifications[l].summary, AdditionalData: Notifications[l].AdditionalData, btns: Notifications[l].btns, Meskind: "noti"
-                    };
+//                for (var l in Notifications) {
+//                    var noti = {
+//                        id: Notifications[l].id, appId: Notifications[l].appId, title: Notifications[l].title, message: Notifications[l].message, url: Notifications[l].url, timeToLive: Notifications[l].timeToLive
+//                        , dateStartSend: Notifications[l].dateStartSend, timeStartSend: Notifications[l].timeStartSend, sound: Notifications[l].sound, smalIcon: Notifications[l].smalIcon, largeIcon: Notifications[l].largeIcon
+//                        , bigPicture: Notifications[l].bigPicture, ledColor: Notifications[l].ledColor, accentColor: Notifications[l].accentColor, gId: Notifications[l].gId, priority: Notifications[l].priority
+//                        , pkgNameAndroid: Notifications[l].pkgNameAndroid, pkgNameIos: Notifications[l].pkgNameIos, kind: Notifications[l].kind,
+//                        bigText: Notifications[l].bigText, summary: Notifications[l].summary, AdditionalData: Notifications[l].AdditionalData, btns: Notifications[l].btns, Meskind: "noti"
+//                    };
 
-                    if (Players[pkgNameAndroid] != undefined) {
-                        Players[pkgNameAndroid].players.forEach(function (itemp, indexp, objectp) {
-                            if (itemp.socket == undefined) {
-                                objectp.splice(indexp, 1);
-                            }
-                            else {
-                                if (delivery[Notifications[l].id].playersId.indexOf(":" + itemp.playerId + ":") < 0) {
-                                    itemp.socket.write(JSON.stringify(noti) + "\n");
-                                    console.log("send noti beacuse not delivered: " + itemp.playerId);
-                                }
-                                else {
-                                    console.log("dont send noti beacuse delivered: " + itemp.playerId);
-                                }
+//                    if (Players[pkgNameAndroid] != undefined) {
+//                        Players[pkgNameAndroid].players.forEach(function (itemp, indexp, objectp) {
+//                            if (itemp.socket == undefined) {
+//                                objectp.splice(indexp, 1);
+//                            }
+//                            else {
+//                                if (delivery[Notifications[l].id].playersId.indexOf(":" + itemp.playerId + ":") < 0) {
+//                                    itemp.socket.write(JSON.stringify(noti) + "\n");
+//                                    console.log("send noti beacuse not delivered: " + itemp.playerId);
+//                                }
+//                                else {
+//                                    console.log("dont send noti beacuse delivered: " + itemp.playerId);
+//                                }
 
-                                if (n - itemp.alive > 300000) {
-                                    PlayerDisonnected(itemp.playerId);
-                                    objectp.splice(indexp, 1);
-                                }
-                            }
-                        });
-                    }
+//                                if (n - itemp.alive > 300000) {
+//                                    PlayerDisonnected(itemp.playerId);
+//                                    objectp.splice(indexp, 1);
+//                                }
+//                            }
+//                        });
+//                    }
 
-                    if (Players[pkgNameIos] != undefined) {
-                        Players[pkgNameIos].players.forEach(function (itemp, indexp, objectp) {
-                            if (itemp.socket == undefined) {
-                                objectp.splice(indexp, 1);
-                            }
-                            else {
-                                if (delivery[Notifications[l].id].playersId.indexOf(":" + itemp.playerId + ":") < 0) {
-                                    itemp.socket.write(JSON.stringify(noti) + "\n");
-                                    console.log("send noti beacuse not delivered: " + itemp.playerId);
-                                }
-                                else {
-                                    console.log("dont send noti beacuse delivered: " + itemp.playerId);
-                                }
+//                    if (Players[pkgNameIos] != undefined) {
+//                        Players[pkgNameIos].players.forEach(function (itemp, indexp, objectp) {
+//                            if (itemp.socket == undefined) {
+//                                objectp.splice(indexp, 1);
+//                            }
+//                            else {
+//                                if (delivery[Notifications[l].id].playersId.indexOf(":" + itemp.playerId + ":") < 0) {
+//                                    itemp.socket.write(JSON.stringify(noti) + "\n");
+//                                    console.log("send noti beacuse not delivered: " + itemp.playerId);
+//                                }
+//                                else {
+//                                    console.log("dont send noti beacuse delivered: " + itemp.playerId);
+//                                }
 
-                                if (n - itemp.alive > 300000) {
-                                    PlayerDisonnected(itemp.playerId);
-                                    objectp.splice(indexp, 1);
-                                }
-                            }
-                        });
-                    }
-                }
+//                                if (n - itemp.alive > 300000) {
+//                                    PlayerDisonnected(itemp.playerId);
+//                                    objectp.splice(indexp, 1);
+//                                }
+//                            }
+//                        });
+//                    }
+//                }
 
-                testNoti.forEach(function (item, index, object) {
-                    var noti = {
-                        id: item.id, appId: item.appId, title: item.title, message: item.message, url: item.url, timeToLive: item.timeToLive
-                        , dateStartSend: item.dateStartSend, timeStartSend: item.timeStartSend, sound: item.sound, smalIcon: item.smalIcon, largeIcon: item.largeIcon
-                        , bigPicture: item.bigPicture, ledColor: item.ledColor, accentColor: item.accentColor, gId: item.gId, priority: item.priority
-                        , pkgNameAndroid: item.pkgNameAndroid, pkgNameIos: item.pkgNameIos, kind: item.kind,
-                        bigText: item.bigText, summary: item.summary, AdditionalData: item.AdditionalData, btns: item.btns, Meskind: "noti"
-                    };
+//                testNoti.forEach(function (item, index, object) {
+//                    var noti = {
+//                        id: item.id, appId: item.appId, title: item.title, message: item.message, url: item.url, timeToLive: item.timeToLive
+//                        , dateStartSend: item.dateStartSend, timeStartSend: item.timeStartSend, sound: item.sound, smalIcon: item.smalIcon, largeIcon: item.largeIcon
+//                        , bigPicture: item.bigPicture, ledColor: item.ledColor, accentColor: item.accentColor, gId: item.gId, priority: item.priority
+//                        , pkgNameAndroid: item.pkgNameAndroid, pkgNameIos: item.pkgNameIos, kind: item.kind,
+//                        bigText: item.bigText, summary: item.summary, AdditionalData: item.AdditionalData, btns: item.btns, Meskind: "noti"
+//                    };
 
-                    var testId = item.testId;
+//                    var testId = item.testId;
 
-                    if (pkgNameAndroid != "") {
-                        if (Players[pkgNameAndroid] != undefined) {
-                            if (Players[pkgNameAndroid].players[testId] != undefined) {
-                                Players[pkgNameAndroid].players[testId].socket.write(JSON.stringify(noti) + "\n");
-                                object.splice(index, 1);
-                            }
-                        }
-                    }
+//                    if (pkgNameAndroid != "") {
+//                        if (Players[pkgNameAndroid] != undefined) {
+//                            if (Players[pkgNameAndroid].players[testId] != undefined) {
+//                                Players[pkgNameAndroid].players[testId].socket.write(JSON.stringify(noti) + "\n");
+//                                object.splice(index, 1);
+//                            }
+//                        }
+//                    }
 
-                    if (pkgNameIos != "") {
-                        if (Players[pkgNameIos] != undefined) {
-                            if (Players[pkgNameIos].players[testId] != undefined) {
-                                Players[pkgNameIos].players[testId].socket.write(JSON.stringify(noti) + "\n");
-                                object.splice(index, 1);
-                            }
-                        }
-                    }
+//                    if (pkgNameIos != "") {
+//                        if (Players[pkgNameIos] != undefined) {
+//                            if (Players[pkgNameIos].players[testId] != undefined) {
+//                                Players[pkgNameIos].players[testId].socket.write(JSON.stringify(noti) + "\n");
+//                                object.splice(index, 1);
+//                            }
+//                        }
+//                    }
 
-                });
-            }
-            catch (e) {
-                console.log("1: " + e.message);
+//                });
+//            }
+//            catch (e) {
+//                console.log("1: " + e.message);
+//            }
+//        });
+
+//    });
+
+//    req.write(qs);
+//    req.end();
+//}
+
+function GetNotifications() {
+    con.connect(function (err) {
+        if (err) throw err;
+        var query = "SELECT notification.id,notification.appId,notification.title,notification.message,notification.url,notification.timeToLive,notification.dateStartSend,notification.timeStartSend,notification.sound, notification.smalIcon, notification.largeIcon, notification.bigPicture, notification.ledColor, notification.accentColor, notification.gId, notification.priority, apps.pkgNameAndroid, apps.pkgNameIos, notification.kind, notification.IsStop, notification.lastUpdateTime, notification.bigText, notification.summary, notification.budget, notification.isTest, notification.playerId FROM notification  inner join apps on notification.appId = apps.id where dateStartSend= $dateHejri and notification.isSend = 0;";
+        con.query(query, function (err, result, fields) {
+            if (err) throw err;
+            console.log(fields.length);
+            if (fields.length > 0)
+            {
             }
         });
-
     });
+}
 
-    req.write(qs);
-    req.end();
+function db()
+{
+    con.connect(function (err) {
+        if (err) throw err;
+        console.log("Connected!");
+        var sql = "INSERT INTO customers (name, address) VALUES ('Company Inc', 'Highway 37')";
+        con.query(sql, function (err, result) {
+            if (err) throw err;
+            console.log("1 record inserted");
+
+        });
+    });
 }
