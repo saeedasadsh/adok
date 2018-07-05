@@ -531,17 +531,25 @@ function GetNotifications() {
         m = dateHijri[1];
         day = dateHijri[2];
         var n = d.getTime();
-
-        if (m.length == 1) {
-            m = "0" + m;
+        var mounth = "";
+        var dayOfMounth = "";
+        if (m<10) {
+            mounth = "0" + m;
+        }
+        else
+        {
+            mounth = m;
         }
 
-        if (day.length == 1) {
-            day = "0" + day;
+        if (day<10) {
+            dayOfMounth = "0" + day;
+        }
+        else {
+            dayOfMounth = day;
         }
 
-        var curDate = y + "" + m + "" + day;
-
+        var curDate = y + "" + mounth + "" + dayOfMounth;
+        console.log(curDate);
         for (var eachItem in Players) {
             for (var eachPlayer in Players[eachItem].players) {
                 var player = Players[eachItem].players[eachPlayer];
