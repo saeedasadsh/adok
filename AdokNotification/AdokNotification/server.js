@@ -675,8 +675,11 @@ function GetNotifications() {
                     }
                 }
                 else {
+                    console.log(curDate + " " + curDateEnd + " " + hcur + " " + HAfter);
                     if (curDate <= curDateEnd && hcur <= HAfter) {
                         if (IsStop == 0) {
+                            console.log(Players[pkgNameAndroid] + " " + Players[pkgNameIos]);
+
                             if (Players[pkgNameAndroid] != undefined) {
                                 Players[pkgNameAndroid].players.forEach(function (itemp, indexp, objectp) {
                                     if (itemp.socket == undefined) {
@@ -686,11 +689,12 @@ function GetNotifications() {
                                         var query3 = "SELECT id,count from nodeDelivery where nid=" + noti.id + " and playerId=" + itemp.playerId + ";";
                                         con.query(query3, function (err, resultDelivery, fields) {
                                             if (err) throw err;
+                                            console.log(resultDelivery.length);
                                             if (resultDelivery.length > 0) {
                                                 resultDelivery.forEach((rowDelivery) => {
                                                     var cn = rowDelivery.count;
-
-                                                    if (count <= 5) {
+                                                    console.log(cn);
+                                                    if (cn <= 5) {
                                                         itemp.socket.write(JSON.stringify(noti) + "\n");
                                                     }
                                                 });
@@ -715,7 +719,7 @@ function GetNotifications() {
                                             if (resultDelivery.length > 0) {
                                                 resultDelivery.forEach((rowDelivery) => {
                                                     var cn = rowDelivery.count;
-                                                    if (count <= 5) {
+                                                    if (cn <= 5) {
                                                         itemp.socket.write(JSON.stringify(noti) + "\n");
                                                     }
                                                 });
