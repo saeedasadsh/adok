@@ -616,7 +616,11 @@ function GetNotifications() {
                 var HAfter = 0;
                 if (sendH > 24) {
                     Days = Math.floor(timeToSend / 24);
-                    HAfter = Math.floor(timeToSend % 24);
+                    HAfter = Math.floor(timeToSend-(days*24*60));
+                }
+                else
+                {
+                    HAfter = sendH;
                 }
                 var curDateEnd = "";
                 if (Days > 0) {
