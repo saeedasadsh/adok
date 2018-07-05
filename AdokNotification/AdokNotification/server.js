@@ -121,18 +121,28 @@ try {
                 else if (knd == "Deliver") {
                     console.log("Delivered: " + playerId);
                     var nid = dt.nid;
-                    if (delivery[nid] != undefined) {
-                        //delivery[nid].playersId += ":" + playerId + ":";
-                        var query = "SELECT id,count from nodeDelivery where nid=" + nid + " and playerId=" + playerId + ";";
-                        con.query(query, function (err, result, fields) {
-                            if (err) throw err;
+                    var query = "SELECT id,count from nodeDelivery where nid=" + nid + " and playerId=" + playerId + ";";
+                    con.query(query, function (err, resultDelivery, fields) {
+                        if (err) throw err;
 
-                            if (result.length > 0) {
-                            }
-                            else {
-                            }
-                        });
-                    }
+                        if (resultDelivery.length > 0) {
+                            resultDelivery.forEach((row) => {
+                                var did = row.id;
+                                var dcount = row.count;
+                                dcount++;
+                                var query2 = "update nodeDelivery set  count=" + dcount + " where id=" + did + ";";
+                                con.query(query2, function (err, resultUpdate, fields) {
+                                    if (err) throw err;
+                                });
+                            });
+                        }
+                        else {
+                            var query2 = "insert into nodeDelivery (nid,playerId,count) values (" + nid + "," + playerId + ",1);";
+                            con.query(query2, function (err, resultUpdate, fields) {
+                                if (err) throw err;
+                            });
+                        }
+                    });
                 }
             }
             catch (e) {
@@ -673,19 +683,22 @@ function GetNotifications() {
                                         objectp.splice(indexp, 1);
                                     }
                                     else {
+                                        var query3 = "SELECT id,count from nodeDelivery where nid=" + noti.id + " and playerId=" + itemp.playerId + ";";
+                                        con.query(query3, function (err, resultDelivery, fields) {
+                                            if (err) throw err;
+                                            if (resultDelivery.length > 0) {
+                                                resultDelivery.forEach((rowDelivery) => {
+                                                    var cn = rowDelivery.count;
 
-                                        if (delivery[row.id].playersId.indexOf(":" + itemp.playerId + ":") < 0) {
-                                            itemp.socket.write(JSON.stringify(noti) + "\n");
-                                            console.log("send noti beacuse not delivered: " + itemp.playerId);
-                                        }
-                                        else {
-                                            console.log("dont send noti beacuse delivered: " + itemp.playerId);
-                                        }
-
-                                        if (n - itemp.alive > 300000) {
-                                            PlayerDisonnected(itemp.playerId);
-                                            objectp.splice(indexp, 1);
-                                        }
+                                                    if (count <= 5) {
+                                                        itemp.socket.write(JSON.stringify(noti) + "\n");
+                                                    }
+                                                });
+                                            }
+                                            else {
+                                                itemp.socket.write(JSON.stringify(noti) + "\n");
+                                            }
+                                        });
                                     }
                                 });
                             }
@@ -696,18 +709,21 @@ function GetNotifications() {
                                         objectp.splice(indexp, 1);
                                     }
                                     else {
-                                        if (delivery[row.id].playersId.indexOf(":" + itemp.playerId + ":") < 0) {
-                                            itemp.socket.write(JSON.stringify(noti) + "\n");
-                                            console.log("send noti beacuse not delivered: " + itemp.playerId);
-                                        }
-                                        else {
-                                            console.log("dont send noti beacuse delivered: " + itemp.playerId);
-                                        }
-
-                                        if (n - itemp.alive > 300000) {
-                                            PlayerDisonnected(itemp.playerId);
-                                            objectp.splice(indexp, 1);
-                                        }
+                                        var query3 = "SELECT id,count from nodeDelivery where nid=" + noti.id + " and playerId=" + itemp.playerId + ";";
+                                        con.query(query3, function (err, resultDelivery, fields) {
+                                            if (err) throw err;
+                                            if (resultDelivery.length > 0) {
+                                                resultDelivery.forEach((rowDelivery) => {
+                                                    var cn = rowDelivery.count;
+                                                    if (count <= 5) {
+                                                        itemp.socket.write(JSON.stringify(noti) + "\n");
+                                                    }
+                                                });
+                                            }
+                                            else {
+                                                itemp.socket.write(JSON.stringify(noti) + "\n");
+                                            }
+                                        });
                                     }
                                 });
                             }
