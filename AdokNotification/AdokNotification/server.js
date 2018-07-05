@@ -9,6 +9,23 @@ var con = mysql.createConnection({
     database: "kingofmeta_ADok"
 });
 
+con.connect((err) => {
+    if (err) {
+        console.log('Error connecting to Db');
+        return;
+    }
+    console.log('Connection established');
+});
+
+con.end((err) => {
+    // The connection is terminated gracefully
+    // Ensures all previously enqueued queries are still
+    // before sending a COM_QUIT packet to the MySQL server.
+    console.log('Connection closed');
+});
+
+
+
 var server = net.createServer();
 var StringDecoder = require('string_decoder').StringDecoder;
 
@@ -495,9 +512,13 @@ function PlayerDisonnected(pid) {
 //    req.end();
 //}
 
+
+
+
+
 function GetNotifications() {
-    con.connect(function (err) {
-        if (err) throw err;
+    
+
         var d = new Date();
         var y = d.getFullYear();
         var m = d.getMonth();
@@ -530,8 +551,7 @@ function GetNotifications() {
             {
             }
         });
-    });
-}
+    }
 
 function db()
 {
