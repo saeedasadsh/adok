@@ -207,7 +207,7 @@ function PlayerConnected(pid, pkgs) {
 
     var pkgEx = pkgs;
     for (var i = 0; i < pkgEx.length; i++) {
-        console.log(pkgEx[i]);
+        //console.log(pkgEx[i]);
         if (pkgEx[i] != "") {
             var pkName = pkgEx[i];
             var sql2 = "select id from playerNotifConnect where  playerId=" + pid + " and pkgName='" + pkName + "'";
@@ -450,6 +450,7 @@ function GetNotifications() {
                     }
                 }
                 else {
+                    console.log(curDate +" "+ curDateEnd +" "+ hcur +" "+ HAfter);
                     if (curDate <= curDateEnd && hcur <= HAfter) {
                         if (IsStop == 0) {
                             if (Players[pkgNameAndroid] != undefined) {
@@ -472,6 +473,10 @@ function GetNotifications() {
                                                 });
                                             }
                                             else {
+                                                console.log("insert");
+                                                var query3 = "insert into nodeDelivery (nid,playerId,count) values (" + noti.id + "," + itemp.playerId+",0);";
+                                                con.query(query3, function (err, resultDelivery, fields) {
+                                                });
                                                 itemp.socket.write(JSON.stringify(noti) + "\n");
                                             }
                                         });
@@ -516,19 +521,6 @@ function GetNotifications() {
     catch (e) {
         console.log("10: " + e.message);
     }
-}
-
-function db() {
-    con.connect(function (err) {
-        if (err) throw err;
-        console.log("Connected!");
-        var sql = "INSERT INTO customers (name, address) VALUES ('Company Inc', 'Highway 37')";
-        con.query(sql, function (err, result) {
-            if (err) throw err;
-            console.log("1 record inserted");
-
-        });
-    });
 }
 
 function gregorian_to_jalali(gy, gm, gd) {
