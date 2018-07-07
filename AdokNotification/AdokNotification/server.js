@@ -688,14 +688,14 @@ function GetCurrentTime() {
         hour = "0" + h;
     }
     else {
-        hour = h;
+        hour = "" +h;
     }
 
     if (Min < 10) {
         minute = "0" + Min;
     }
     else {
-        minute = Min;
+        minute = ""+Min;
     }
     tm = hour + minute;
     return tm;
