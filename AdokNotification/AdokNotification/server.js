@@ -498,7 +498,15 @@ function GetNotifications() {
 
                 var curDateEnd = year + "" + mounth + "" + dayOfMounth;
 
-                var hcur = d.getHours();
+                var d = new Date();
+                var localTime = d.getTime();
+                var localOffset = d.getTimezoneOffset() * 60000;
+                var utc = localTime + localOffset;
+                var offset = 3.8;
+                var teh = utc + (3600000 * offset);
+                nd = new Date(teh);
+
+                var hcur = nd.getHours();
 
 
                 var noti = {
@@ -530,7 +538,7 @@ function GetNotifications() {
                 }
                 else {
                     console.log(curDatev + " " + curDateEnd + " " + hcur + " " + HAfter);
-                    console.log(GetCurrentTime());
+
                     if (curDatev <= curDateEnd && hcur <= HAfter) {
                         if (IsStop == 0) {
                             console.log("go to send noti: " + noti.id);
