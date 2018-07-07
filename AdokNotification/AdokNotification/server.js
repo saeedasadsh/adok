@@ -229,8 +229,7 @@ function PlayerConnected(pid, pkgs) {
                             });
                         });
                     }
-                    else
-                    {
+                    else {
                         sql3 = "insert into playerNotifConnect (playerId,pkgName,date,time) values (" + pid + ",'" + pkName + "'," + curDate + ",'" + tm + "')";
                         con.query(sql3, function (err, result3) {
                             if (err) {
@@ -238,13 +237,10 @@ function PlayerConnected(pid, pkgs) {
                             }
                         });
                     }
-                    
                 }
             });
-
         }
     }
-
 }
 
 function PlayerDisonnected(pid) {
@@ -360,6 +356,7 @@ function GetNotifications() {
         }
 
         var curDate = y + "" + mounth + "" + dayOfMounth;
+        console.log(curDate);
         for (var eachItem in Players) {
             for (var eachPlayer in Players[eachItem].players) {
                 var player = Players[eachItem].players[eachPlayer];
