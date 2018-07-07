@@ -539,16 +539,20 @@ function GetNotifications() {
                     if (parseInt(curDatev) < parseInt(curDateEnd) || (parseInt(curDatev) == parseInt(curDateEnd) && parseInt(hcur) <= parseInt(HAfter))) {
                         console.log("IsStop: " + IsStop);
                         if (IsStop == 0) {
-                            console.log("go to send noti: " + noti.id);
+                            console.log("go to send noti: " + noti.id + " Players[pkgNameAndroid]: " + Players[pkgNameAndroid]);
+
                             if (Players[pkgNameAndroid] != undefined) {
                                 Players[pkgNameAndroid].players.forEach(function (itemp, indexp, objectp) {
+                                    
                                     if (itemp.socket == undefined) {
+                                        console.log("itemp.socket: " + indexp);
                                         objectp.splice(indexp, 1);
                                     }
                                     else {
                                         var query3 = "SELECT id,count from nodeDelivery where nid=" + noti.id + " and playerId=" + itemp.playerId + ";";
                                         con.query(query3, function (err, resultDelivery, fields) {
                                             if (err) throw err;
+                                            console.log("resultDelivery.length: " + resultDelivery.length);
                                             if (resultDelivery.length > 0) {
                                                 resultDelivery.forEach((rowDelivery) => {
                                                     var cn = rowDelivery.count;
