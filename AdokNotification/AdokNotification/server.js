@@ -253,14 +253,14 @@ function PlayerDisonnected(pid) {
         mounth = "0" + m;
     }
     else {
-        mounth = m;
+        mounth = "" + m;
     }
 
     if (day < 10) {
         dayOfMounth = "0" + day;
     }
     else {
-        dayOfMounth = day;
+        dayOfMounth = "" +day;
     }
 
     var curDate = y + "" + mounth + "" + dayOfMounth;
@@ -276,14 +276,14 @@ function PlayerDisonnected(pid) {
         hour = "0" + h;
     }
     else {
-        hour = h;
+        hour = "" +h;
     }
 
     if (Min < 10) {
         minute = "0" + Min;
     }
     else {
-        minute = Min;
+        minute = "" +Min;
     }
     tm = hour + minute;
 
@@ -337,14 +337,14 @@ function GetNotifications() {
             mounth = "0" + m;
         }
         else {
-            mounth = m;
+            mounth = "" +m;
         }
 
         if (day < 10) {
             dayOfMounth = "0" + day;
         }
         else {
-            dayOfMounth = day;
+            dayOfMounth = "" +day;
         }
 
         var curDatev = y + "" + mounth + "" + dayOfMounth;
@@ -469,14 +469,14 @@ function GetNotifications() {
                     mounth = "0" + m;
                 }
                 else {
-                    mounth = m;
+                    mounth = "" +m;
                 }
 
                 if (day < 10) {
                     dayOfMounth = "0" + day;
                 }
                 else {
-                    dayOfMounth = day;
+                    dayOfMounth = "" +day;
                 }
 
                 var curDateEnd = year + "" + mounth + "" + dayOfMounth;
@@ -654,21 +654,20 @@ function GetCurrentDate() {
     y = dateHijri[0];
     m = dateHijri[1];
     day = dateHijri[2];
-    var n = d.getTime();
     var mounth = "";
     var dayOfMounth = "";
     if (m < 10) {
         mounth = "0" + m;
     }
     else {
-        mounth = m;
+        mounth = "" +m;
     }
 
     if (day < 10) {
         dayOfMounth = "0" + day;
     }
     else {
-        dayOfMounth = day;
+        dayOfMounth = "" +day;
     }
 
     var curDate = y + "" + mounth + "" + dayOfMounth;
@@ -677,8 +676,18 @@ function GetCurrentDate() {
 
 function GetCurrentTime() {
     var d = new Date();
-    var h = d.getHours(); // => 9
-    var Min = d.getMinutes(); // =>  30
+    var localTime = d.getTime();
+    var localOffset = d.getTimezoneOffset() * 60000;
+    var utc = localTime + localOffset;
+    // obtain and add destination's UTC time offset
+    // for example, Bombay 
+    // which is UTC + 5.5 hours
+    var offset = 3.5;
+    var teh = utc + (3600000 * offset);
+    nd = new Date(bombay); 
+
+    var h = nd.getHours(); // => 9
+    var Min = nd.getMinutes(); // =>  30
 
     var hour = "";
     var minute = "";
@@ -698,5 +707,6 @@ function GetCurrentTime() {
         minute = ""+Min;
     }
     tm = hour + minute;
+    console.log("curtime is : " + tm);
     return tm;
 }
