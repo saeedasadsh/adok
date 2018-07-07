@@ -381,7 +381,7 @@ function GetNotifications() {
                 var testId = row.playerId;
 
                 //-------------------------------------------------------------------------------
-                var additionalData = {};
+                var additionalData = [];
                 var queryad = "select dtKey,dtValue from notiAdditionalData where nid=" + row.id;
                 con.query(queryad, function (errad, resultad, fieldsad) {
                     if (errad) throw errad;
@@ -393,7 +393,7 @@ function GetNotifications() {
                     });
                 });
                 //-------------------------------------------------------------------------------
-                var btns = {};
+                var btns = [];
                 var queryad = "select id,nId,	btnText,url,icon from notiBtn where nid=" + row.id;
                 con.query(queryad, function (errad, resultad, fieldsad) {
                     if (errad) throw errad;
