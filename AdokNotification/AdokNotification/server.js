@@ -442,9 +442,9 @@ function GetNotifications() {
                     HAfter = sendH;
                 }
 
-                var yy = dateStartSend.toString().substr(0, 4);
-                var mm = dateStartSend.toString().substr(4, 2);
-                var dd = dateStartSend.toString().substr(6, 2);
+                var yy = parseInt(dateStartSend.toString().substr(0, 4));
+                var mm = parseInt(dateStartSend.toString().substr(4, 2));
+                var dd = parseInt(dateStartSend.toString().substr(6, 2));
 
                 console.log(yy + " " + mm + " " + dd);
 
@@ -452,6 +452,7 @@ function GetNotifications() {
                 console.log(Days);
                 if (Days > 0) {
                     dd += Days;
+
                     if (dd > 29 && mm == 12 && y % 4 != 3) {
                         dd = dd - 29;
                         mm = 1;
