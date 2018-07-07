@@ -679,15 +679,12 @@ function GetCurrentTime() {
     var localTime = d.getTime();
     var localOffset = d.getTimezoneOffset() * 60000;
     var utc = localTime + localOffset;
-    // obtain and add destination's UTC time offset
-    // for example, Bombay 
-    // which is UTC + 5.5 hours
-    var offset = 4;
+    var offset = 3.8;
     var teh = utc + (3600000 * offset);
     nd = new Date(teh); 
 
-    var h = nd.getHours(); // => 9
-    var Min = nd.getMinutes(); // =>  30
+    var h = nd.getHours();
+    var Min = nd.getMinutes();
 
     var hour = "";
     var minute = "";
