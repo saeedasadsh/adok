@@ -381,22 +381,24 @@ function GetNotifications() {
                 var testId = row.playerId;
 
                 //-------------------------------------------------------------------------------
+                var additionalData = {};
                 var queryad = "select dtKey,dtValue from notiAdditionalData where nid=" + row.id;
                 con.query(queryad, function (errad, resultad, fieldsad) {
                     if (errad) throw errad;
 
-                    var additionalData = {};
+                    
 
                     resultad.forEach((rowad) => {
                         additionalData.push({ "dtKey": rowad.dtKey, "dtValue": rowad.dtValue });
                     });
                 });
                 //-------------------------------------------------------------------------------
+                var btns = {};
                 var queryad = "select id,nId,	btnText,url,icon from notiBtn where nid=" + row.id;
                 con.query(queryad, function (errad, resultad, fieldsad) {
                     if (errad) throw errad;
 
-                    var btns = {};
+                    
 
                     resultad.forEach((rowad) => {
                         btns.push({ "id": rowad.id, "nId": rowad.nId, "btnText": rowad.btnText, "url": rowad.url, "icon": rowad.icon });
