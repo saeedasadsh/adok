@@ -475,25 +475,22 @@ function GetNotifications() {
                         mm++;
                     }
                 }
-
-
-
                 
                 var year = ""+yy;
                 var mounth = "";
                 var dayOfMounth = "";
-                if (m < 10) {
-                    mounth = "0" + m;
+                if (mm < 10) {
+                    mounth = "0" + mm;
                 }
                 else {
-                    mounth = "" +m;
+                    mounth = "" +mm;
                 }
 
-                if (day < 10) {
-                    dayOfMounth = "0" + day;
+                if (dd < 10) {
+                    dayOfMounth = "0" + dd;
                 }
                 else {
-                    dayOfMounth = "" +day;
+                    dayOfMounth = "" +dd;
                 }
 
                 var curDateEnd = year + "" + mounth + "" + dayOfMounth;
