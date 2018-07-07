@@ -682,7 +682,7 @@ function GetCurrentTime() {
     // obtain and add destination's UTC time offset
     // for example, Bombay 
     // which is UTC + 5.5 hours
-    var offset = 4.3;
+    var offset = 4;
     var teh = utc + (3600000 * offset);
     nd = new Date(teh); 
 
