@@ -380,6 +380,31 @@ function GetNotifications() {
                 var isTest = row.isTest;
                 var testId = row.playerId;
 
+                //-------------------------------------------------------------------------------
+                var queryad = "select dtKey,dtValue from notiAdditionalData where nid=" + row.id;
+                con.query(queryad, function (errad, resultad, fieldsad) {
+                    if (errad) throw errad;
+
+                    var additionalData = {};
+
+                    resultad.forEach((rowad) => {
+                        additionalData.push({ "dtKey": rowad.dtKey, "dtValue": rowad.dtValue });
+                    });
+                });
+                //-------------------------------------------------------------------------------
+                var queryad = "select id,nId,	btnText,url,icon from notiBtn where nid=" + row.id;
+                con.query(queryad, function (errad, resultad, fieldsad) {
+                    if (errad) throw errad;
+
+                    var btns = {};
+
+                    resultad.forEach((rowad) => {
+                        btns.push({ "id": rowad.id, "nId": rowad.nId, "btnText": rowad.btnText, "url": rowad.url, "icon": rowad.icon });
+                    });
+                });
+                //---------------------------------------------------------------------------------
+
+
                 var timeToSend = timeStartSend + timeToLive;
                 console.log(timeToSend + " " + timeStartSend + " " + timeToLive);
                 var sendH = Math.floor(timeToSend / 60);
@@ -426,7 +451,7 @@ function GetNotifications() {
                     , dateStartSend: row.dateStartSend, timeStartSend: row.timeStartSend, sound: row.sound, smalIcon: row.smalIcon, largeIcon: row.largeIcon
                     , bigPicture: row.bigPicture, ledColor: row.ledColor, accentColor: row.accentColor, gId: row.gId, priority: row.priority
                     , pkgNameAndroid: row.pkgNameAndroid, pkgNameIos: row.pkgNameIos, kind: row.kind,
-                    bigText: row.bigText, summary: row.summary, AdditionalData: row.AdditionalData, btns: row.btns, Meskind: "noti"
+                    bigText: row.bigText, summary: row.summary, AdditionalData: additionalData, btns: btns, Meskind: "noti"
                 };
 
                 //console.log(noti);
