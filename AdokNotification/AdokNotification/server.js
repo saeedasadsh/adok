@@ -442,9 +442,9 @@ function GetNotifications() {
                     HAfter = sendH;
                 }
 
-                var yy = dateStartSend.substring(0, 4);
-                var mm = dateStartSend.substring(4, 2);
-                var dd = dateStartSend.substring(6, 2);
+                var yy = dateStartSend.toString()..substring(0, 4);
+                var mm = dateStartSend.toString()..substring(4, 2);
+                var dd = dateStartSend.toString()..substring(6, 2);
 
 
                 var curDateEnd = "";
