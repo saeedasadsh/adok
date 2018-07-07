@@ -87,7 +87,7 @@ try {
 
                     if (pkgs != undefined) {
                         for (var j = 0; j < pkgs.length; j++) {
-                            if (Players[pkgs[j]] === undefined) {
+                            if (Players[pkgs[j]] == undefined) {
                                 Players[pkgs[j]] = { players: [] };
                                 Players[pkgs[j]].players[playerId] = myData;
                             }
@@ -304,8 +304,6 @@ function PlayerDisonnected(pid) {
 
     });
 }
-
-
 
 function GetNotifications() {
     try {
@@ -534,25 +532,25 @@ function GetNotifications() {
                     }
                 }
                 else {
-                    console.log(curDatev + " " + curDateEnd + " " + hcur + " " + HAfter);
+                    //console.log(curDatev + " " + curDateEnd + " " + hcur + " " + HAfter);
                     curDatev = ""+dateStartSend;
                     if (parseInt(curDatev) < parseInt(curDateEnd) || (parseInt(curDatev) == parseInt(curDateEnd) && parseInt(hcur) <= parseInt(HAfter))) {
-                        console.log("IsStop: " + IsStop);
+                        //console.log("IsStop: " + IsStop);
                         if (IsStop == 0) {
-                            console.log("go to send noti: " + noti.id + " Players[pkgNameAndroid]: " + Players[pkgNameAndroid]);
+                            //console.log("go to send noti: " + noti.id + " Players[pkgNameAndroid]: " + Players[pkgNameAndroid]);
 
                             if (Players[pkgNameAndroid] != undefined) {
                                 Players[pkgNameAndroid].players.forEach(function (itemp, indexp, objectp) {
-                                    
+
                                     if (itemp.socket == undefined) {
-                                        console.log("itemp.socket: " + indexp);
+                                        //console.log("itemp.socket: " + indexp);
                                         objectp.splice(indexp, 1);
                                     }
                                     else {
                                         var query3 = "SELECT id,count from nodeDelivery where nid=" + noti.id + " and playerId=" + itemp.playerId + ";";
                                         con.query(query3, function (err, resultDelivery, fields) {
                                             if (err) throw err;
-                                            console.log("resultDelivery.length: " + resultDelivery.length);
+                                            //console.log("resultDelivery.length: " + resultDelivery.length);
                                             if (resultDelivery.length > 0) {
                                                 resultDelivery.forEach((rowDelivery) => {
                                                     var cn = rowDelivery.count;
@@ -570,6 +568,10 @@ function GetNotifications() {
                                         });
                                     }
                                 });
+                            }
+                            else
+                            {
+
                             }
 
                             if (Players[pkgNameIos] != undefined) {
