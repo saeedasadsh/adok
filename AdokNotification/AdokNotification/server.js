@@ -449,6 +449,7 @@ function GetNotifications() {
                 console.log(yy + " " + mm + " " + dd);
 
                 var curDateEnd = "";
+                console.log(Days);
                 if (Days > 0) {
                     dd += Days;
                     if (dd > 29 && mm == 12 && y % 4 != 3) {
