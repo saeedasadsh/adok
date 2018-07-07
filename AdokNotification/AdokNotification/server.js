@@ -512,6 +512,7 @@ function GetNotifications() {
                     }
                 }
                 else {
+                    console.log(curDatev + " " + curDateEnd + " " + hcur + " " + HAfter);
                     if (curDatev <= curDateEnd && hcur <= HAfter) {
                         if (IsStop == 0) {
                             console.log("go to send noti: " + noti.id);
