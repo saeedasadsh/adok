@@ -205,7 +205,7 @@ function PlayerConnected(pid, pkgs) {
         if (err) console.log(sql);
     });
 
-    var pkgEx = pkgs.split(",");
+    var pkgEx = pkgs;
     for (var i = 0; i < pkgEx.length; i++) {
         if (pkgEx[i] != "") {
             var pkName = pkgEx[i];
