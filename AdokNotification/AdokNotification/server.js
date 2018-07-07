@@ -207,6 +207,7 @@ function PlayerConnected(pid, pkgs) {
 
     var pkgEx = pkgs;
     for (var i = 0; i < pkgEx.length; i++) {
+        console.log(pkgEx[i]);
         if (pkgEx[i] != "") {
             var pkName = pkgEx[i];
             var sql2 = "select id from playerNotifConnect where  playerId=" + pid + " and pkgName='" + pkName + "'";
