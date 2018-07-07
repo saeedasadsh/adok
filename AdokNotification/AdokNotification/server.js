@@ -573,7 +573,7 @@ function GetNotifications() {
                         //stop send
                         var queryst = "update notification set IsStop=1 where nid=" + row.id;
                         con.query(queryst, function (errst, resultst, fieldsst) {
-                            if (errst) throw errast;
+                            if (errst) throw errst;
                         });
                     }
 
