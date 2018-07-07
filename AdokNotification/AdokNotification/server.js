@@ -684,7 +684,7 @@ function GetCurrentTime() {
     // which is UTC + 5.5 hours
     var offset = 3.5;
     var teh = utc + (3600000 * offset);
-    nd = new Date(bombay); 
+    nd = new Date(teh); 
 
     var h = nd.getHours(); // => 9
     var Min = nd.getMinutes(); // =>  30
