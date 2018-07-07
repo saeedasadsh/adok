@@ -381,7 +381,7 @@ function GetNotifications() {
                 var testId = row.playerId;
 
                 var timeToSend = timeStartSend + timeToLive;
-
+                console.log(timeToSend + " " + timeStartSend + " " + timeToLive);
                 var sendH = Math.floor(timeToSend / 60);
                 var sendM = Math.floor(timeToSend % 60);
                 var Days = 0;
