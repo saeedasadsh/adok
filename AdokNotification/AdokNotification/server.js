@@ -387,8 +387,8 @@ function GetNotifications() {
                 var Days = 0;
                 var HAfter = 0;
                 if (sendH > 24) {
-                    Days = Math.floor(timeToSend / 24);
-                    HAfter = Math.floor(timeToSend - (days * 24 * 60));
+                    Days = Math.floor(sendH / 24);
+                    HAfter = Math.floor(sendH - (Days * 24));
                 }
                 else {
                     HAfter = sendH;
