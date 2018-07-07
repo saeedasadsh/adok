@@ -571,7 +571,7 @@ function GetNotifications() {
                     }
                     else {
                         //stop send
-                        var queryst = "update notification set IsStop=1 where nid=" + row.id;
+                        var queryst = "update notification set IsStop=1 where id=" + row.id;
                         con.query(queryst, function (errst, resultst, fieldsst) {
                             if (errst) throw errst;
                         });
