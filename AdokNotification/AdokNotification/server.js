@@ -470,7 +470,7 @@ function GetNotifications() {
                         mm++;
                     }
                 }
-
+                console.log(yy + " " + mm + " " + dd);
                 var curDateEnd = yy + "" + mm + "" + dd;
 
                 var hcur = d.getHours();
