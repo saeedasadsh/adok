@@ -246,7 +246,9 @@ function PlayerDisonnected(pid) {
     y = dateHijri[0];
     m = dateHijri[1];
     day = dateHijri[2];
-    var n = d.getTime();
+
+
+
     var mounth = "";
     var dayOfMounth = "";
     if (m < 10) {
@@ -265,8 +267,16 @@ function PlayerDisonnected(pid) {
 
     var curDate = y + "" + mounth + "" + dayOfMounth;
 
-    var h = d.getHours(); // => 9
-    var Min = d.getMinutes(); // =>  30
+    var d = new Date();
+    var localTime = d.getTime();
+    var localOffset = d.getTimezoneOffset() * 60000;
+    var utc = localTime + localOffset;
+    var offset = 3.8;
+    var teh = utc + (3600000 * offset);
+    nd = new Date(teh);
+
+    var h = nd.getHours();
+    var Min = nd.getMinutes();
 
     var hour = "";
     var minute = "";
@@ -330,7 +340,14 @@ function GetNotifications() {
         }
 
 
-        var n = d.getTime();
+        var d = new Date();
+        var localTime = d.getTime();
+        var localOffset = d.getTimezoneOffset() * 60000;
+        var utc = localTime + localOffset;
+        var offset = 3.8;
+        var teh = utc + (3600000 * offset);
+        nd = new Date(teh);
+
         var mounth = "";
         var dayOfMounth = "";
         if (m < 10) {
@@ -351,7 +368,7 @@ function GetNotifications() {
         for (var eachItem in Players) {
             for (var eachPlayer in Players[eachItem].players) {
                 var player = Players[eachItem].players[eachPlayer];
-                var dif = n - player.alive;
+                var dif = nd - player.alive;
                 if (dif > 150000) {
                     PlayerDisonnected(player.playerId);
                     delete Players[eachItem].players[eachPlayer];
@@ -704,6 +721,5 @@ function GetCurrentTime() {
         minute = ""+Min;
     }
     tm = hour + minute;
-    console.log("curtime is : " + tm);
     return tm;
 }
