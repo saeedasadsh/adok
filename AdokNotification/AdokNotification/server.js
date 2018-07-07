@@ -446,6 +446,7 @@ function GetNotifications() {
                 var mm = dateStartSend.toString().substring(4, 2);
                 var dd = dateStartSend.toString().substring(6, 2);
 
+                console.log(yy + " " + mm + " " + dd);
 
                 var curDateEnd = "";
                 if (Days > 0) {
