@@ -202,8 +202,7 @@ function PlayerConnected(pid, pkgs) {
 
     var sql = "update players set 	isConnected=1,lastTime='" + tm + "',lastDate=" + curDate + " where id=" + pid;
     con.query(sql, function (err, result) {
-        if (err)
-        {
+        if (err) {
         } //console.log(sql);
     });
 
@@ -369,7 +368,7 @@ function GetNotifications() {
         }
 
         var query = "SELECT notification.id,notification.appId,notification.title,notification.message,notification.url,notification.timeToLive,notification.dateStartSend,notification.timeStartSend,notification.sound, notification.smalIcon, notification.largeIcon, notification.bigPicture, notification.ledColor, notification.accentColor, notification.gId, notification.priority, apps.pkgNameAndroid, apps.pkgNameIos, notification.kind, notification.IsStop, notification.lastUpdateTime, notification.bigText, notification.summary, notification.budget, notification.isTest, notification.playerId FROM notification  inner join apps on notification.appId = apps.id where dateStartSend>=" + curDatev + " and notification.isSend = 0;";
-       // console.log(query);
+        // console.log(query);
         con.query(query, function (err, result, fields) {
             if (err) throw err;
             //console.log(result.length);
@@ -408,7 +407,7 @@ function GetNotifications() {
                 con.query(queryad, function (errad, resultad, fieldsad) {
                     if (errad) throw errad;
 
-                    
+
 
                     resultad.forEach((rowad) => {
                         additionalData.push({ "dtKey": rowad.dtKey, "dtValue": rowad.dtValue });
@@ -420,7 +419,7 @@ function GetNotifications() {
                 con.query(queryad, function (errad, resultad, fieldsad) {
                     if (errad) throw errad;
 
-                    
+
 
                     resultad.forEach((rowad) => {
                         btns.push({ "id": rowad.id, "nId": rowad.nId, "btnText": rowad.btnText, "url": rowad.url, "icon": rowad.icon });
@@ -430,7 +429,7 @@ function GetNotifications() {
 
 
                 var timeToSend = timeStartSend + timeToLive;
-               // console.log(timeToSend + " " + timeStartSend + " " + timeToLive);
+                // console.log(timeToSend + " " + timeStartSend + " " + timeToLive);
                 var sendH = Math.floor(timeToSend / 60);
                 var sendM = Math.floor(timeToSend % 60);
                 var Days = 0;
@@ -442,30 +441,36 @@ function GetNotifications() {
                 else {
                     HAfter = sendH;
                 }
+
+                var yy = dateStartSend.substring(0, 4);
+                var mm = dateStartSend.substring(4, 2);
+                var dd = dateStartSend.substring(6, 2);
+
+
                 var curDateEnd = "";
                 if (Days > 0) {
-                    dayOfMounth += Days;
-                    if (dayOfMounth > 29 && mounth == 12 && y % 4 != 3) {
-                        dayOfMounth = dayOfMounth - 29;
-                        mounth = 1;
-                        y++;
+                    dd += Days;
+                    if (dd > 29 && mm == 12 && y % 4 != 3) {
+                        dd = dd - 29;
+                        mm = 1;
+                        yy++;
                     }
-                    else if (dayOfMounth > 30 && mounth == 12 && y % 4 == 3) {
-                        dayOfMounth = dayOfMounth - 30;
-                        mounth = 1;
-                        y++;
+                    else if (dd > 30 && mm == 12 && y % 4 == 3) {
+                        dd = dd - 30;
+                        mm = 1;
+                        yy++;
                     }
-                    else if (dayOfMounth > 31 && mounth <= 6) {
-                        dayOfMounth = dayOfMounth - 31;
-                        mounth++;
+                    else if (dd > 31 && mm <= 6) {
+                        dd = dd - 31;
+                        mm++;
                     }
-                    else if (dayOfMounth > 30 && mounth > 6) {
-                        dayOfMounth = dayOfMounth - 30;
-                        mounth++;
+                    else if (dd > 30 && mm > 6) {
+                        dd = dd - 30;
+                        mm++;
                     }
                 }
 
-                var curDateEnd = y + "" + mounth + "" + dayOfMounth;
+                var curDateEnd = yy + "" + mm + "" + dd;
 
                 var hcur = d.getHours();
 
@@ -499,7 +504,7 @@ function GetNotifications() {
                     }
                 }
                 else {
-                    console.log(row.id+" "+curDatev +" "+ curDateEnd +" "+ hcur +" "+ HAfter);
+                    console.log(row.id + " " + curDatev + " " + curDateEnd + " " + hcur + " " + HAfter);
                     if (curDatev <= curDateEnd && hcur <= HAfter) {
                         if (IsStop == 0) {
                             if (Players[pkgNameAndroid] != undefined) {
@@ -523,7 +528,7 @@ function GetNotifications() {
                                             }
                                             else {
                                                 //console.log("insert");
-                                                var query3 = "insert into nodeDelivery (nid,playerId,count) values (" + noti.id + "," + itemp.playerId+",0);";
+                                                var query3 = "insert into nodeDelivery (nid,playerId,count) values (" + noti.id + "," + itemp.playerId + ",0);";
                                                 con.query(query3, function (err, resultDelivery, fields) {
                                                 });
                                                 itemp.socket.write(JSON.stringify(noti) + "\n");
@@ -568,7 +573,7 @@ function GetNotifications() {
         });
     }
     catch (e) {
-       // console.log("10: " + e.message);
+        // console.log("10: " + e.message);
     }
 }
 
