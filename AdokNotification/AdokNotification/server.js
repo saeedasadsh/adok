@@ -119,7 +119,7 @@ try {
                     socket.write(JSON.stringify(data) + "\n");
                 }
                 else if (knd == "Deliver") {
-                    console.log("Delivered: " + playerId);
+                    //console.log("Delivered: " + playerId);
                     var nid = dt.nid;
                     var query = "SELECT id,count from nodeDelivery where nid=" + nid + " and playerId=" + playerId + ";";
                     con.query(query, function (err, resultDelivery, fields) {
@@ -202,7 +202,9 @@ function PlayerConnected(pid, pkgs) {
 
     var sql = "update players set 	isConnected=1,lastTime='" + tm + "',lastDate=" + curDate + " where id=" + pid;
     con.query(sql, function (err, result) {
-        if (err) console.log(sql);
+        if (err)
+        {
+        } //console.log(sql);
     });
 
     var pkgEx = pkgs;
@@ -213,7 +215,7 @@ function PlayerConnected(pid, pkgs) {
             var sql2 = "select id from playerNotifConnect where  playerId=" + pid + " and pkgName='" + pkName + "'";
             con.query(sql2, function (err, result2) {
                 if (err) {
-                    console.log(sql2);
+                    //console.log(sql2);
                 }
                 else {
                     if (result2.length > 0) {
@@ -222,7 +224,7 @@ function PlayerConnected(pid, pkgs) {
                             sql3 = "update playerNotifConnect set time='" + tm + "',date=" + curDate + "  where id=" + id;
                             con.query(sql3, function (err, result3) {
                                 if (err) {
-                                    console.log(sql3);
+                                    //console.log(sql3);
                                 }
                             });
                         });
@@ -232,7 +234,7 @@ function PlayerConnected(pid, pkgs) {
                         sql3 = "insert into playerNotifConnect (playerId,pkgName,date,time) values (" + pid + ",'" + pkName + "'," + curDate + ",'" + tm + "')";
                         con.query(sql3, function (err, result3) {
                             if (err) {
-                                console.log(sql3);
+                                //console.log(sql3);
                             }
                         });
                     }
@@ -318,6 +320,28 @@ function GetNotifications() {
         y = dateHijri[0];
         m = dateHijri[1];
         day = dateHijri[2];
+        day -= 3;
+        if (day < 1) {
+            m--;
+            if (m < 1) {
+                m = 12;
+                if (y % 4 == 3) {
+                    day = 30 + day + 1;
+                    y--;
+                }
+                else {
+                    day = 29 + day + 1;
+                }
+            }
+            else if (m <= 6) {
+                day = 31 + day + 1;
+            }
+            else {
+                day = 30 + day + 1;
+            }
+        }
+
+
         var n = d.getTime();
         var mounth = "";
         var dayOfMounth = "";
@@ -350,7 +374,7 @@ function GetNotifications() {
         var query = "SELECT notification.id,notification.appId,notification.title,notification.message,notification.url,notification.timeToLive,notification.dateStartSend,notification.timeStartSend,notification.sound, notification.smalIcon, notification.largeIcon, notification.bigPicture, notification.ledColor, notification.accentColor, notification.gId, notification.priority, apps.pkgNameAndroid, apps.pkgNameIos, notification.kind, notification.IsStop, notification.lastUpdateTime, notification.bigText, notification.summary, notification.budget, notification.isTest, notification.playerId FROM notification  inner join apps on notification.appId = apps.id where dateStartSend>=" + curDate + " and notification.isSend = 0;";
         con.query(query, function (err, result, fields) {
             if (err) throw err;
-            console.log(result.length);
+            //console.log(result.length);
             result.forEach((row) => {
                 var id = row.id;
                 var appId = row.appId;
@@ -408,7 +432,7 @@ function GetNotifications() {
 
 
                 var timeToSend = timeStartSend + timeToLive;
-                console.log(timeToSend + " " + timeStartSend + " " + timeToLive);
+               // console.log(timeToSend + " " + timeStartSend + " " + timeToLive);
                 var sendH = Math.floor(timeToSend / 60);
                 var sendM = Math.floor(timeToSend % 60);
                 var Days = 0;
@@ -477,7 +501,7 @@ function GetNotifications() {
                     }
                 }
                 else {
-                    console.log(curDate +" "+ curDateEnd +" "+ hcur +" "+ HAfter);
+                   // console.log(curDate +" "+ curDateEnd +" "+ hcur +" "+ HAfter);
                     if (curDate <= curDateEnd && hcur <= HAfter) {
                         if (IsStop == 0) {
                             if (Players[pkgNameAndroid] != undefined) {
@@ -489,18 +513,18 @@ function GetNotifications() {
                                         var query3 = "SELECT id,count from nodeDelivery where nid=" + noti.id + " and playerId=" + itemp.playerId + ";";
                                         con.query(query3, function (err, resultDelivery, fields) {
                                             if (err) throw err;
-                                            console.log(resultDelivery.length);
+                                            //console.log(resultDelivery.length);
                                             if (resultDelivery.length > 0) {
                                                 resultDelivery.forEach((rowDelivery) => {
                                                     var cn = rowDelivery.count;
-                                                    console.log(cn);
+                                                    //console.log(cn);
                                                     if (cn <= 5) {
                                                         itemp.socket.write(JSON.stringify(noti) + "\n");
                                                     }
                                                 });
                                             }
                                             else {
-                                                console.log("insert");
+                                                //console.log("insert");
                                                 var query3 = "insert into nodeDelivery (nid,playerId,count) values (" + noti.id + "," + itemp.playerId+",0);";
                                                 con.query(query3, function (err, resultDelivery, fields) {
                                                 });
@@ -546,7 +570,7 @@ function GetNotifications() {
         });
     }
     catch (e) {
-        console.log("10: " + e.message);
+       // console.log("10: " + e.message);
     }
 }
 
