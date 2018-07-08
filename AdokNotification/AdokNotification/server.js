@@ -17,15 +17,6 @@ con.connect((err) => {
     console.log('Connection established');
 });
 
-//con.end((err) => {
-//    // The connection is terminated gracefully
-//    // Ensures all previously enqueued queries are still
-//    // before sending a COM_QUIT packet to the MySQL server.
-//    console.log('Connection closed');
-//});
-
-
-
 var server = net.createServer();
 var StringDecoder = require('string_decoder').StringDecoder;
 
@@ -54,7 +45,7 @@ var Players = [];
 try {
     var decoder = new StringDecoder('utf8');
     server.on('connection', function (socket) {
-        //console.log('CONNECTED: ' + socket.remoteAddress + ':' + socket.remotePort);
+        console.log('CONNECTED: ' + socket.remoteAddress + ':' + socket.remotePort);
         var myId = -1;
         var pkgs = [];
         socket.on('data', function (data) {
@@ -73,7 +64,7 @@ try {
                 var knd = dt.kind;
                 var added = 0;
                 myId = playerId;
-                console.log('CONNECTED: playerId: ' + myId);
+                console.log('data recieve playerId: ' + myId);
                 var myData = {
                     playerId: playerId, phoneNo: phoneNo, socket: socket, pkgs: pkgs, alive: 0
                 };
