@@ -57,11 +57,11 @@ var Players = [];
                     if (i == 0) {
                         i++;
                         query += " id=" + player.playerId;
-                        query += " id<>" + player.playerId;
+                        query2 += " id<>" + player.playerId;
                     }
                     else {
                         query += " or id=" + player.playerId;
-                        query += " and id<>" + player.playerId;
+                        query2 += " and id<>" + player.playerId;
                     }
 
                 }
