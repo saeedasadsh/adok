@@ -54,7 +54,7 @@ var Players = [];
 try {
     var decoder = new StringDecoder('utf8');
     server.on('connection', function (socket) {
-        console.log('CONNECTED: ' + socket.remoteAddress + ':' + socket.remotePort);
+        //console.log('CONNECTED: ' + socket.remoteAddress + ':' + socket.remotePort);
         var myId = -1;
         var pkgs = [];
         socket.on('data', function (data) {
@@ -73,6 +73,7 @@ try {
                 var knd = dt.kind;
                 var added = 0;
                 myId = playerId;
+                console.log('CONNECTED: playerId: ' + myId);
                 var myData = {
                     playerId: playerId, phoneNo: phoneNo, socket: socket, pkgs: pkgs, alive: 0
                 };
