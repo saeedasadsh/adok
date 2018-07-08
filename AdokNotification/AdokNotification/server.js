@@ -106,10 +106,15 @@ try {
                     for (var j = 0; j < pkgs.length; j++) {
                         if (Players[pkgs[j]] != undefined) {
                             if (Players[pkgs[j]].players[playerId] != undefined) {
+
                                 var d = new Date();
-                                var n = d.getTime();
-                                var res = n - Players[pkgs[j]].players[playerId].alive;
-                                Players[pkgs[j]].players[playerId].alive = n;
+                                var localTime = d.getTime();
+                                var localOffset = d.getTimezoneOffset() * 60000;
+                                var utc = localTime + localOffset;
+                                var offset = 3.8;
+                                var teh = utc + (3600000 * offset);
+                                nd = new Date(teh);
+                                Players[pkgs[j]].players[playerId].alive = nd;
                             }
                         }
                     }
