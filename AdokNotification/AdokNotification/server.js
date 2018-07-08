@@ -67,9 +67,6 @@ var Players = [];
                 }
             }
 
-            console.log(query);
-            console.log(query2);
-
             if (i > 0)
             {
                 con.query(query, function (errcn, rescn, fieldscn) { });
