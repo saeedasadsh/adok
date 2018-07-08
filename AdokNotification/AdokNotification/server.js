@@ -106,15 +106,7 @@ try {
                     for (var j = 0; j < pkgs.length; j++) {
                         if (Players[pkgs[j]] != undefined) {
                             if (Players[pkgs[j]].players[playerId] != undefined) {
-
-                                var d = new Date();
-                                var localTime = d.getTime();
-                                var localOffset = d.getTimezoneOffset() * 60000;
-                                var utc = localTime + localOffset;
-                                var offset = 3.8;
-                                var teh = utc + (3600000 * offset);
-                                nd = new Date(teh);
-                                Players[pkgs[j]].players[playerId].alive = nd;
+                                Players[pkgs[j]].players[playerId].alive = Date.now();
                             }
                         }
                     }
@@ -370,7 +362,7 @@ function GetNotifications() {
         for (var eachItem in Players) {
             for (var eachPlayer in Players[eachItem].players) {
                 var player = Players[eachItem].players[eachPlayer];
-                var dif = nd - player.alive;
+                var dif = Date.now()- player.alive;
                 console.log("dif: " + dif);
                 if (dif > 150000) {
                     PlayerDisonnected(player.playerId);
