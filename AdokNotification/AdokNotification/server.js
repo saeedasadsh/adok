@@ -60,7 +60,13 @@ try {
                 var playerId = dt.playerId;
                 var pkgName = dt.pkgName;
                 var phoneNo = dt.phoneNo;
-                pkgs = dt.pkgs;
+
+                console.log("dt.hasOwnProperty(pkgs): " + dt.hasOwnProperty('pkgs'))
+                if (dt.hasOwnProperty('pkgs'))
+                {
+                    pkgs = dt.pkgs;
+                }
+                
                 var knd = dt.kind;
                 var added = 0;
                 myId = playerId;
