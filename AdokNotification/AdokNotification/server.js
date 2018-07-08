@@ -42,6 +42,47 @@ var Players = [];
     }
 })();
 
+
+(function () {
+
+    try {
+        //var c = 0;
+        var timeout = setInterval(function () {
+            var query = "update players set isConnected=1 where ";
+            var query2 = "update players set isConnected=0 where ";
+            var i = 0;
+            for (var eachItem in Players) {
+                for (var eachPlayer in Players[eachItem].players) {
+                    var player = Players[eachItem].players[eachPlayer];
+                    if (i == 0) {
+                        i++;
+                        query += " id=" + player.playerId;
+                        query += " id<>" + player.playerId;
+                    }
+                    else {
+                        query += " or id=" + player.playerId;
+                        query += " and id<>" + player.playerId;
+                    }
+
+                }
+            }
+
+            if (i > 0)
+            {
+                con.query(query, function (errcn, rescn, fieldscn) { });
+                con.query(query2, function (errdcn, resdcn, fieldsdcn) { });
+            }
+
+        }, 120000);
+    }
+    catch (e) {
+        console.log("2: " + e.message);
+    }
+})();
+
+
+
+
 try {
     var decoder = new StringDecoder('utf8');
     server.on('connection', function (socket) {
@@ -61,17 +102,13 @@ try {
                 var pkgName = dt.pkgName;
                 var phoneNo = dt.phoneNo;
 
-                console.log("dt.hasOwnProperty(pkgs): " + dt.hasOwnProperty('pkgs'))
-                if (dt.hasOwnProperty('pkgs'))
-                {
+                if (dt.hasOwnProperty('pkgs')) {
                     pkgs = dt.pkgs;
                 }
-                
+
                 var knd = dt.kind;
                 var added = 0;
                 myId = playerId;
-                console.log('data recieve playerId: ' + myId);
-                console.log('data: ' + data);
 
                 var myData = {
                     playerId: playerId, phoneNo: phoneNo, socket: socket, pkgs: pkgs, alive: 0
@@ -84,7 +121,6 @@ try {
 
                     if (pkgs != undefined) {
                         for (var j = 0; j < pkgs.length; j++) {
-                            console.log(Players[pkgs[j]]+" "+pkgs[j]);
                             if (Players[pkgs[j]] == undefined) {
                                 Players[pkgs[j]] = { players: [] };
                                 Players[pkgs[j]].players[playerId] = myData;
@@ -257,7 +293,7 @@ function PlayerDisonnected(pid) {
         dayOfMounth = "0" + day;
     }
     else {
-        dayOfMounth = "" +day;
+        dayOfMounth = "" + day;
     }
 
     var curDate = y + "" + mounth + "" + dayOfMounth;
@@ -281,21 +317,21 @@ function PlayerDisonnected(pid) {
         hour = "0" + h;
     }
     else {
-        hour = "" +h;
+        hour = "" + h;
     }
 
     if (Min < 10) {
         minute = "0" + Min;
     }
     else {
-        minute = "" +Min;
+        minute = "" + Min;
     }
     tm = hour + minute;
 
     var sql = "update players set 	isConnected=0,disTime='" + tm + "',disDate=" + curDate + " where id=" + pid;
     con.query(sql, function (err, result) {
         if (err) throw err;
-        console.log("player: " + pid+" diconnected");
+        console.log("player: " + pid + " diconnected");
 
     });
 }
@@ -347,22 +383,21 @@ function GetNotifications() {
             mounth = "0" + m;
         }
         else {
-            mounth = "" +m;
+            mounth = "" + m;
         }
 
         if (day < 10) {
             dayOfMounth = "0" + day;
         }
         else {
-            dayOfMounth = "" +day;
+            dayOfMounth = "" + day;
         }
 
         var curDatev = y + "" + mounth + "" + dayOfMounth;
         for (var eachItem in Players) {
             for (var eachPlayer in Players[eachItem].players) {
                 var player = Players[eachItem].players[eachPlayer];
-                var dif = Date.now()- player.alive;
-                console.log("dif: " + dif);
+                var dif = Date.now() - player.alive;
                 if (dif > 150000) {
                     PlayerDisonnected(player.playerId);
                     delete Players[eachItem].players[eachPlayer];
@@ -469,22 +504,22 @@ function GetNotifications() {
                         mm++;
                     }
                 }
-                
-                var year = ""+yy;
+
+                var year = "" + yy;
                 var mounth = "";
                 var dayOfMounth = "";
                 if (mm < 10) {
                     mounth = "0" + mm;
                 }
                 else {
-                    mounth = "" +mm;
+                    mounth = "" + mm;
                 }
 
                 if (dd < 10) {
                     dayOfMounth = "0" + dd;
                 }
                 else {
-                    dayOfMounth = "" +dd;
+                    dayOfMounth = "" + dd;
                 }
 
                 var curDateEnd = year + "" + mounth + "" + dayOfMounth;
@@ -528,25 +563,20 @@ function GetNotifications() {
                     }
                 }
                 else {
-                    //console.log(curDatev + " " + curDateEnd + " " + hcur + " " + HAfter);
-                    curDatev = ""+dateStartSend;
+                    curDatev = "" + dateStartSend;
                     if (parseInt(curDatev) < parseInt(curDateEnd) || (parseInt(curDatev) == parseInt(curDateEnd) && parseInt(hcur) <= parseInt(HAfter))) {
-                        //console.log("IsStop: " + IsStop);
                         if (IsStop == 0) {
-                            //console.log("go to send noti: " + noti.id + " Players[pkgNameAndroid]: " + Players[pkgNameAndroid]);
 
                             if (Players[pkgNameAndroid] != undefined) {
                                 Players[pkgNameAndroid].players.forEach(function (itemp, indexp, objectp) {
 
                                     if (itemp.socket == undefined) {
-                                        //console.log("itemp.socket: " + indexp);
                                         objectp.splice(indexp, 1);
                                     }
                                     else {
                                         var query3 = "SELECT id,count from nodeDelivery where nid=" + noti.id + " and playerId=" + itemp.playerId + ";";
                                         con.query(query3, function (err, resultDelivery, fields) {
                                             if (err) throw err;
-                                            //console.log("resultDelivery.length: " + resultDelivery.length);
                                             if (resultDelivery.length > 0) {
                                                 resultDelivery.forEach((rowDelivery) => {
                                                     var cn = rowDelivery.count;
@@ -565,8 +595,7 @@ function GetNotifications() {
                                     }
                                 });
                             }
-                            else
-                            {
+                            else {
 
                             }
 
@@ -609,7 +638,7 @@ function GetNotifications() {
         });
     }
     catch (e) {
-         console.log("10: " + e.message);
+        console.log("10: " + e.message);
     }
 }
 
@@ -685,14 +714,14 @@ function GetCurrentDate() {
         mounth = "0" + m;
     }
     else {
-        mounth = "" +m;
+        mounth = "" + m;
     }
 
     if (day < 10) {
         dayOfMounth = "0" + day;
     }
     else {
-        dayOfMounth = "" +day;
+        dayOfMounth = "" + day;
     }
 
     var curDate = y + "" + mounth + "" + dayOfMounth;
@@ -706,7 +735,7 @@ function GetCurrentTime() {
     var utc = localTime + localOffset;
     var offset = 3.8;
     var teh = utc + (3600000 * offset);
-    nd = new Date(teh); 
+    nd = new Date(teh);
 
     var h = nd.getHours();
     var Min = nd.getMinutes();
@@ -719,14 +748,14 @@ function GetCurrentTime() {
         hour = "0" + h;
     }
     else {
-        hour = "" +h;
+        hour = "" + h;
     }
 
     if (Min < 10) {
         minute = "0" + Min;
     }
     else {
-        minute = ""+Min;
+        minute = "" + Min;
     }
     tm = hour + minute;
     return tm;
