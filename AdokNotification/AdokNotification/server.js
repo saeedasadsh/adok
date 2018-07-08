@@ -34,10 +34,7 @@ var _ip = "188.253.2.147";
 
 var _port = 3010;
 
-//var Notifications = [];
 var Players = [];
-//var delivery = [];
-//var testNoti = [];
 
 (function () {
 
@@ -87,6 +84,7 @@ try {
 
                     if (pkgs != undefined) {
                         for (var j = 0; j < pkgs.length; j++) {
+                            console.log(Players[pkgs[j]]+" "+pkgs[j]);
                             if (Players[pkgs[j]] == undefined) {
                                 Players[pkgs[j]] = { players: [] };
                                 Players[pkgs[j]].players[playerId] = myData;
