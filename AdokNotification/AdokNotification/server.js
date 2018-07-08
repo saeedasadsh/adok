@@ -298,7 +298,7 @@ function PlayerDisonnected(pid) {
     var sql = "update players set 	isConnected=0,disTime='" + tm + "',disDate=" + curDate + " where id=" + pid;
     con.query(sql, function (err, result) {
         if (err) throw err;
-        console.log("player diconnected");
+        console.log("player: " + pid+" diconnected");
 
     });
 }
