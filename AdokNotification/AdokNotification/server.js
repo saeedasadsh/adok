@@ -65,6 +65,8 @@ try {
                 var added = 0;
                 myId = playerId;
                 console.log('data recieve playerId: ' + myId);
+                console.log('data: ' + data);
+
                 var myData = {
                     playerId: playerId, phoneNo: phoneNo, socket: socket, pkgs: pkgs, alive: 0
                 };
