@@ -593,6 +593,7 @@ function GetNotifications() {
                                                 var query3 = "insert into nodeDelivery (nid,playerId,count) values (" + noti.id + "," + itemp.playerId + ",0);";
                                                 con.query(query3, function (err, resultDelivery, fields) {
                                                 });
+                                                console.log("send not");
                                                 itemp.socket.write(JSON.stringify(noti) + "\n");
                                             }
                                         });
