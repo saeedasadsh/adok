@@ -564,9 +564,9 @@ function GetNotifications() {
                 }
                 else {
                     curDatev = "" + dateStartSend;
-                    console.log("gotoSend");
+                    //console.log("gotoSend");
                     if (parseInt(curDatev) < parseInt(curDateEnd) || (parseInt(curDatev) == parseInt(curDateEnd) && parseInt(hcur) <= parseInt(HAfter))) {
-                        console.log("canSend");
+                        //console.log("canSend");
 
                         if (IsStop == 0) {
 
@@ -593,7 +593,7 @@ function GetNotifications() {
                                                 var query3 = "insert into nodeDelivery (nid,playerId,count) values (" + noti.id + "," + itemp.playerId + ",0);";
                                                 con.query(query3, function (err, resultDelivery, fields) {
                                                 });
-                                                console.log("send not");
+                                                //console.log("send not");
                                                 itemp.socket.write(JSON.stringify(noti) + "\n");
                                             }
                                         });
