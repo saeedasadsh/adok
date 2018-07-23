@@ -564,7 +564,10 @@ function GetNotifications() {
                 }
                 else {
                     curDatev = "" + dateStartSend;
+                    console.log("gotoSend");
                     if (parseInt(curDatev) < parseInt(curDateEnd) || (parseInt(curDatev) == parseInt(curDateEnd) && parseInt(hcur) <= parseInt(HAfter))) {
+                        console.log("canSend");
+
                         if (IsStop == 0) {
 
                             if (Players[pkgNameAndroid] != undefined) {
@@ -577,13 +580,14 @@ function GetNotifications() {
                                         var query3 = "SELECT id,count from nodeDelivery where nid=" + noti.id + " and playerId=" + itemp.playerId + ";";
                                         con.query(query3, function (err, resultDelivery, fields) {
                                             if (err) throw err;
+                                            console.log("resultDelivery.length " + resultDelivery.length);
                                             if (resultDelivery.length > 0) {
-                                                resultDelivery.forEach((rowDelivery) => {
-                                                    var cn = rowDelivery.count;
-                                                    if (cn <= 5) {
-                                                        itemp.socket.write(JSON.stringify(noti) + "\n");
-                                                    }
-                                                });
+                                                //resultDelivery.forEach((rowDelivery) => {
+                                                //    var cn = rowDelivery.count;
+                                                //    if (cn <= 5) {
+                                                //        itemp.socket.write(JSON.stringify(noti) + "\n");
+                                                //    }
+                                                //});
                                             }
                                             else {
                                                 var query3 = "insert into nodeDelivery (nid,playerId,count) values (" + noti.id + "," + itemp.playerId + ",0);";
